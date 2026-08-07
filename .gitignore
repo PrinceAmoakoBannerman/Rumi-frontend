@@ -1,6 +1,5 @@
 node_modules/
 .claude/
-.figma/
 CLAUDE.md
 dist/
 build/
