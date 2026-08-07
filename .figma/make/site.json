@@ -1,0 +1,11 @@
+{
+  "title": "RUMI",
+  "description": "A luxury skincare e-commerce platform offering personalized product recommendations, seamless shopping, and rich content for beauty enthusiasts.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
