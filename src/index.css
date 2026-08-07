@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --color-ivory: #FAF7F2;
+  --color-gold: #D4B483;
+  --color-gold-dark: #B8965E;
+  --color-gold-light: #E8D5B0;
+  --color-charcoal: #2A2A2A;
+  --color-charcoal-light: #4A4A4A;
+  --color-cream: #F5EFE6;
+  --color-cream-dark: #EDE4D6;
+  --color-dark-bg: #1C1916;
+  --color-dark-card: #252018;
+  --color-dark-border: #3A3328;
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: #FAF7F2;
+  color: #2A2A2A;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark {
+  background-color: #1C1916;
+  color: #FAF7F2;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #D4B483; border-radius: 3px; }
+
+/* Swiper overrides */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #D4B483 !important;
+}
+.swiper-pagination-bullet-active {
+  background: #D4B483 !important;
+}
+
+/* Glassmorphism */
+.glass {
+  background: rgba(250, 247, 242, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 180, 131, 0.2);
+}
+
+.glass-dark {
+  background: rgba(28, 25, 22, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 180, 131, 0.15);
+}
+
+/* Gold gradient text */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #D4B483 0%, #B8965E 50%, #E8D5B0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Loading skeleton */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #F5EFE6 25%, #EDE4D6 50%, #F5EFE6 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Star rating */
+.star-filled { color: #D4B483; }
+.star-empty { color: #D4B483; opacity: 0.3; }
