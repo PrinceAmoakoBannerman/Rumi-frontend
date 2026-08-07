@@ -120,7 +120,7 @@ export default function Navbar() {
               </button>
               <button
                 onClick={toggleDarkMode}
-                className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-[#D4B483]/10 transition-colors hidden sm:flex"
+                className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-[#D4B483]/10 transition-colors"
                 aria-label="Toggle dark mode"
               >
                 {darkMode ? <FiSun size={18} className="text-[#FAF7F2]" /> : <FiMoon size={18} className="text-[#2A2A2A]" />}
