@@ -34,6 +34,26 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Carousels let their slides spill past the viewport so hover shadows are not
+   clipped, which otherwise lets the page scroll sideways on phones.
+   `clip` stops that without creating a scroll container, so the sticky
+   checkout summary keeps working; `hidden` is the fallback for old browsers. */
+html, body {
+  overflow-x: hidden;
+  overflow-x: clip;
+  /* Stop the page rescaling when the on-screen keyboard or rotation changes */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* iOS Safari zooms the whole page when a field under 16px gets focus, and the
+   page stays zoomed while you scroll. Keeping mobile fields at 16px stops it. */
+@media (max-width: 767px) {
+  input, select, textarea {
+    font-size: 16px;
+  }
+}
+
 body {
   font-family: var(--font-body);
   background-color: #FAF7F2;

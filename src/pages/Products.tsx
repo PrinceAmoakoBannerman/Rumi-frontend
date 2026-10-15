@@ -56,7 +56,7 @@ export default function Products() {
   }, [activeCategory, sort, priceMax, searchQuery])
 
   return (
-    <div className={`min-h-screen pt-[148px] pb-24 px-6 lg:px-12 ${darkMode ? 'bg-[#1C1916]' : 'bg-white'}`}>
+    <div className={`min-h-screen pt-[196px] pb-24 px-6 lg:px-12 ${darkMode ? 'bg-[#1C1916]' : 'bg-white'}`}>
       <div className="max-w-[1400px] mx-auto">
         {/* Header */}
         <motion.div

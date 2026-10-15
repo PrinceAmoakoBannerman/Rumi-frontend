@@ -75,7 +75,7 @@ export default function SaleClearance() {
             900: { slidesPerView: 3 },
             1200: { slidesPerView: 5 },
           }}
-          className="!overflow-visible"
+          className="md:!overflow-visible"
         >
           {onSale.map(product => (
             <SwiperSlide key={product.id}>

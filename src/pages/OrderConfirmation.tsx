@@ -23,7 +23,7 @@ export default function OrderConfirmation() {
   if (!state) return null
 
   return (
-    <div className={`min-h-screen pt-[164px] pb-24 px-6 flex items-center justify-center ${darkMode ? 'bg-[#1C1916]' : 'bg-[#FAF7F2]'}`}>
+    <div className={`min-h-screen pt-[212px] pb-24 px-6 flex items-center justify-center ${darkMode ? 'bg-[#1C1916]' : 'bg-[#FAF7F2]'}`}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
