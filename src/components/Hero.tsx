@@ -12,8 +12,7 @@ import { useApp } from '../contexts/AppContext'
 const slides = [
   {
     eyebrow: 'Now In Stock',
-    line1: 'Authentic Korean',
-    line2: 'Skincare',
+    alt: 'The Anua skincare range — toners, serums, cleansers and sunscreens',
     desc: 'The full Anua range — toners, serums, cleansers and sunscreens — ready to ship anywhere in Ghana.',
     image: '/hero/anua-range.jpg',
     cta: 'Shop Anua',
@@ -21,8 +20,7 @@ const slides = [
   },
   {
     eyebrow: 'Build Your Routine',
-    line1: 'Every Step,',
-    line2: 'Covered',
+    alt: 'Anua cleansing oil, cleansing foam, toner, lotion and serum lined up',
     desc: 'From first cleanse to final sunscreen, find the pieces that fit the routine you already have.',
     image: '/hero/anua-routine.jpg',
     cta: 'Shop All Products',
@@ -63,7 +61,7 @@ export default function Hero() {
       />
       <div className="absolute bottom-24 right-[5%] w-24 h-24 rounded-full bg-[#D3839E]/10 pointer-events-none hidden lg:block" />
 
-      <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 pt-[212px] pb-14">
+      <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 pt-[190px] pb-10">
         <Swiper
           modules={[Pagination, Autoplay]}
           onSwiper={s => { swiperRef.current = s }}
@@ -75,25 +73,17 @@ export default function Hero() {
             <SwiperSlide key={i}>
               {/* Copy sits beside the photo, so the line-up is shown whole
                   instead of being cropped to a letterbox. */}
-              <div className="grid lg:grid-cols-[1fr_1.1fr] gap-10 lg:gap-16 items-center [&>*]:min-w-0">
+              <div className="grid lg:grid-cols-[1fr_1.15fr] gap-8 lg:gap-14 items-center [&>*]:min-w-0">
                 <div className="order-2 lg:order-1 text-center lg:text-left">
-                  <p className="text-[#D3839E] text-xs tracking-[0.35em] uppercase font-medium mb-4">
+                  <h1 className="text-[#D3839E] text-xs tracking-[0.35em] uppercase font-medium mb-4">
                     {slide.eyebrow}
-                  </p>
-                  <h1
-                    style={{ fontFamily: 'var(--font-display)' }}
-                    className={`text-4xl sm:text-5xl lg:text-6xl font-medium leading-[1.08] mb-5 ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`}
-                  >
-                    {slide.line1}
-                    <br />
-                    <span className="text-blush-gradient">{slide.line2}</span>
                   </h1>
-                  <p className={`text-sm sm:text-base leading-relaxed max-w-md mx-auto lg:mx-0 mb-8 ${darkMode ? 'text-[#FAF7F2]/70' : 'text-[#4A4A4A]'}`}>
+                  <p className={`text-base sm:text-lg leading-relaxed max-w-md mx-auto lg:mx-0 mb-7 ${darkMode ? 'text-[#FAF7F2]/75' : 'text-[#4A4A4A]'}`}>
                     {slide.desc}
                   </p>
                   <Link
                     to={slide.to}
-                    className="inline-block bg-[#2A2A2A] text-white px-9 py-4 rounded-full text-xs tracking-[0.2em] uppercase font-semibold hover:bg-[#B85E75] transition-colors duration-300"
+                    className="inline-block bg-[#2A2A2A] text-white px-8 py-3.5 rounded-full text-xs tracking-[0.2em] uppercase font-semibold hover:bg-[#B85E75] transition-colors duration-300"
                   >
                     {slide.cta}
                   </Link>
@@ -112,8 +102,8 @@ export default function Hero() {
                   >
                     <img
                       src={slide.image}
-                      alt={`${slide.line1} ${slide.line2}`}
-                      className="block h-[320px] sm:h-[400px] lg:h-[460px] w-auto max-w-full object-contain"
+                      alt={slide.alt}
+                      className="block h-[250px] sm:h-[320px] lg:h-[400px] w-auto max-w-full object-contain"
                     />
                   </motion.div>
                 </div>
@@ -123,7 +113,7 @@ export default function Hero() {
         </Swiper>
 
         {/* Carousel controls */}
-        <div className="flex items-center justify-between mt-8">
+        <div className="flex items-center justify-between mt-6">
           <div className="hero-pagination flex items-center gap-2" />
           <div className="flex items-center gap-3">
             <button
