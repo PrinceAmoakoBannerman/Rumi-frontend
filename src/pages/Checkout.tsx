@@ -22,11 +22,11 @@ interface FieldProps extends InputHTMLAttributes<HTMLInputElement> {
 
 function Field({ label, darkMode, wrapperClassName, ...props }: FieldProps) {
   return (
-    <label className={`flex flex-col gap-1.5 ${wrapperClassName || ''}`}>
+    <label className={`flex flex-col gap-1.5 min-w-0 ${wrapperClassName || ''}`}>
       <span className={`text-[10px] tracking-[0.15em] uppercase font-medium ${darkMode ? 'text-[#FAF7F2]/50' : 'text-[#4A4A4A]/70'}`}>{label}</span>
       <input
         {...props}
-        className={`bg-transparent border-b text-sm py-2 outline-none focus:border-[#D3839E] transition-colors ${darkMode ? 'border-[#3A3328] text-[#FAF7F2] placeholder-[#FAF7F2]/20' : 'border-[#EDE4D6] text-[#2A2A2A] placeholder-[#4A4A4A]/30'}`}
+        className={`w-full min-w-0 bg-transparent border-b text-sm py-2 outline-none focus:border-[#D3839E] transition-colors ${darkMode ? 'border-[#3A3328] text-[#FAF7F2] placeholder-[#FAF7F2]/20' : 'border-[#EDE4D6] text-[#2A2A2A] placeholder-[#4A4A4A]/30'}`}
       />
     </label>
   )
@@ -34,12 +34,12 @@ function Field({ label, darkMode, wrapperClassName, ...props }: FieldProps) {
 
 function SelectField({ label, darkMode, wrapperClassName, options, required }: { label: string; darkMode: boolean; wrapperClassName?: string; options: string[]; required?: boolean }) {
   return (
-    <label className={`flex flex-col gap-1.5 ${wrapperClassName || ''}`}>
+    <label className={`flex flex-col gap-1.5 min-w-0 ${wrapperClassName || ''}`}>
       <span className={`text-[10px] tracking-[0.15em] uppercase font-medium ${darkMode ? 'text-[#FAF7F2]/50' : 'text-[#4A4A4A]/70'}`}>{label}</span>
       <select
         required={required}
         defaultValue=""
-        className={`bg-transparent border-b text-sm py-2 outline-none focus:border-[#D3839E] transition-colors ${darkMode ? 'border-[#3A3328] text-[#FAF7F2]' : 'border-[#EDE4D6] text-[#2A2A2A]'}`}
+        className={`w-full min-w-0 bg-transparent border-b text-sm py-2 outline-none focus:border-[#D3839E] transition-colors ${darkMode ? 'border-[#3A3328] text-[#FAF7F2]' : 'border-[#EDE4D6] text-[#2A2A2A]'}`}
       >
         <option value="" disabled>Select…</option>
         {options.map(o => <option key={o} value={o}>{o}</option>)}
@@ -98,7 +98,7 @@ export default function Checkout() {
           Checkout
         </h1>
 
-        <form onSubmit={handleSubmit} className="grid lg:grid-cols-[1fr_400px] gap-8 items-start">
+        <form onSubmit={handleSubmit} className="grid lg:grid-cols-[1fr_400px] gap-8 items-start [&>*]:min-w-0">
           <div className="flex flex-col gap-8">
             <Section title="Contact" darkMode={darkMode}>
               <div className="grid sm:grid-cols-2 gap-5">
@@ -121,7 +121,7 @@ export default function Checkout() {
                 <button
                   type="button"
                   onClick={() => setPaymentMethod('momo')}
-                  className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl border text-xs tracking-[0.1em] uppercase font-medium transition-colors ${
+                  className={`flex-1 min-w-0 flex items-center justify-center gap-2 py-3 rounded-xl border text-[11px] sm:text-xs tracking-[0.1em] uppercase font-medium transition-colors ${
                     paymentMethod === 'momo'
                       ? 'bg-[#D3839E] border-[#D3839E] text-white'
                       : darkMode ? 'border-[#3A3328] text-[#FAF7F2]/70' : 'border-[#EDE4D6] text-[#4A4A4A]'
@@ -132,7 +132,7 @@ export default function Checkout() {
                 <button
                   type="button"
                   onClick={() => setPaymentMethod('card')}
-                  className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl border text-xs tracking-[0.1em] uppercase font-medium transition-colors ${
+                  className={`flex-1 min-w-0 flex items-center justify-center gap-2 py-3 rounded-xl border text-[11px] sm:text-xs tracking-[0.1em] uppercase font-medium transition-colors ${
                     paymentMethod === 'card'
                       ? 'bg-[#D3839E] border-[#D3839E] text-white'
                       : darkMode ? 'border-[#3A3328] text-[#FAF7F2]/70' : 'border-[#EDE4D6] text-[#4A4A4A]'
