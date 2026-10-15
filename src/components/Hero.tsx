@@ -61,7 +61,7 @@ export default function Hero() {
       />
       <div className="absolute bottom-24 right-[5%] w-24 h-24 rounded-full bg-[#D3839E]/10 pointer-events-none hidden lg:block" />
 
-      <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 pt-[190px] pb-10">
+      <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 pt-[184px] pb-8">
         <Swiper
           modules={[Pagination, Autoplay]}
           onSwiper={s => { swiperRef.current = s }}
@@ -73,7 +73,7 @@ export default function Hero() {
             <SwiperSlide key={i}>
               {/* Copy sits beside the photo, so the line-up is shown whole
                   instead of being cropped to a letterbox. */}
-              <div className="grid lg:grid-cols-[1fr_1.15fr] gap-8 lg:gap-14 items-center [&>*]:min-w-0">
+              <div className="grid lg:grid-cols-[0.85fr_1.3fr] gap-8 lg:gap-12 items-center [&>*]:min-w-0">
                 <div className="order-2 lg:order-1 text-center lg:text-left">
                   <h1 className="text-[#D3839E] text-xs tracking-[0.35em] uppercase font-medium mb-4">
                     {slide.eyebrow}
@@ -103,7 +103,7 @@ export default function Hero() {
                     <img
                       src={slide.image}
                       alt={slide.alt}
-                      className="block h-[250px] sm:h-[320px] lg:h-[400px] w-auto max-w-full object-contain"
+                      className="block h-[300px] sm:h-[420px] lg:h-[540px] w-auto max-w-full object-contain"
                     />
                   </motion.div>
                 </div>
@@ -113,7 +113,7 @@ export default function Hero() {
         </Swiper>
 
         {/* Carousel controls */}
-        <div className="flex items-center justify-between mt-6">
+        <div className="flex items-center justify-between mt-5">
           <div className="hero-pagination flex items-center gap-2" />
           <div className="flex items-center gap-3">
             <button
