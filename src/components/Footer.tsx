@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { FiInstagram, FiYoutube, FiFacebook } from 'react-icons/fi'
 import { useApp } from '../contexts/AppContext'
+import logo from '../assets/logo.png'
 
 export default function Footer() {
   const { darkMode } = useApp()
@@ -11,12 +12,17 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-10 mb-14">
           {/* Brand */}
           <div className="col-span-2 lg:col-span-2">
-            <div className="mb-5">
-              <p style={{ fontFamily: 'var(--font-display)' }} className="text-2xl font-semibold tracking-[0.15em] text-white">RUMI</p>
-              <p className="text-[9px] tracking-[0.35em] uppercase text-[#D4B483] font-medium">Skincare</p>
+            <div className="flex items-center gap-2.5 mb-5">
+              <span className="h-10 w-10 rounded-full bg-white flex items-center justify-center overflow-hidden shrink-0">
+                <img src={logo} alt="GLOWWITHRUMI" className="h-8 w-8 object-contain" />
+              </span>
+              <span className="flex flex-col leading-none">
+                <span style={{ fontFamily: 'var(--font-display)' }} className="text-lg font-semibold tracking-[0.08em] text-white">GLOWWITHRUMI</span>
+                <span className="text-[9px] tracking-[0.35em] uppercase text-[#D3839E] font-medium">Skincare &amp; Beauty</span>
+              </span>
             </div>
             <p className="text-white/50 text-sm leading-relaxed max-w-xs mb-6">
-              Luxury skincare formulated with nature&apos;s finest ingredients and the most advanced scientific research. Because your skin deserves the extraordinary.
+              Your skincare destination — from our signature Rumi essentials to carefully selected Korean and international beauty products. Nationwide delivery across Ghana, with personalised recommendations to help you shop with confidence.
             </p>
             <div className="flex gap-3">
               {[
@@ -36,7 +42,7 @@ export default function Footer() {
                   key={s.label}
                   href="#"
                   aria-label={s.label}
-                  className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:text-[#D4B483] hover:border-[#D4B483]/50 transition-all duration-200"
+                  className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:text-[#D3839E] hover:border-[#D3839E]/50 transition-all duration-200"
                 >
                   {s.icon}
                 </a>
@@ -46,7 +52,7 @@ export default function Footer() {
 
           {/* Company */}
           <div>
-            <p className="text-[10px] tracking-[0.25em] uppercase font-semibold text-[#D4B483] mb-5">Company</p>
+            <p className="text-[10px] tracking-[0.25em] uppercase font-semibold text-[#D3839E] mb-5">Company</p>
             <ul className="flex flex-col gap-3">
               {[
                 { label: 'About Us', path: '/about' },
@@ -63,7 +69,7 @@ export default function Footer() {
 
           {/* Support */}
           <div>
-            <p className="text-[10px] tracking-[0.25em] uppercase font-semibold text-[#D4B483] mb-5">Support</p>
+            <p className="text-[10px] tracking-[0.25em] uppercase font-semibold text-[#D3839E] mb-5">Support</p>
             <ul className="flex flex-col gap-3">
               {['Shipping', 'Returns', 'FAQs', 'Track Order'].map(l => (
                 <li key={l}>
@@ -75,7 +81,7 @@ export default function Footer() {
 
           {/* Legal */}
           <div>
-            <p className="text-[10px] tracking-[0.25em] uppercase font-semibold text-[#D4B483] mb-5">Legal</p>
+            <p className="text-[10px] tracking-[0.25em] uppercase font-semibold text-[#D3839E] mb-5">Legal</p>
             <ul className="flex flex-col gap-3">
               {['Privacy Policy', 'Terms & Conditions', 'Cookie Policy'].map(l => (
                 <li key={l}>
@@ -88,7 +94,7 @@ export default function Footer() {
 
         <div className={`pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4`}>
           <p className="text-white/30 text-xs">
-            © 2026 RUMI Skincare. All rights reserved.
+            © 2026 GLOWWITHRUMI. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
             {['Visa', 'Mastercard', 'PayPal', 'Apple Pay'].map(p => (

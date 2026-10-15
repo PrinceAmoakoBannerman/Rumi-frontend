@@ -1,7 +1,9 @@
 import Hero from '../components/Hero'
-import FeaturedCollections from '../components/FeaturedCollections'
+import Welcome from '../components/Welcome'
+import NewArrivals from '../components/NewArrivals'
+import SaleClearance from '../components/SaleClearance'
 import BestSellers from '../components/BestSellers'
-import Ingredients from '../components/Ingredients'
+import BrandShowcase from '../components/BrandShowcase'
 import Testimonials from '../components/Testimonials'
 import SkinQuiz from '../components/SkinQuiz'
 import Blog from '../components/Blog'
@@ -11,9 +13,11 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      <FeaturedCollections />
+      <Welcome />
+      <NewArrivals />
+      <SaleClearance />
       <BestSellers />
-      <Ingredients />
+      <BrandShowcase />
       <Testimonials />
       <SkinQuiz />
       <Blog />

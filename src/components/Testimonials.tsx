@@ -10,6 +10,9 @@ import { useApp } from '../contexts/AppContext'
 export default function Testimonials() {
   const { darkMode } = useApp()
 
+  // Hidden until real customer reviews are added — see data/products.ts
+  if (testimonials.length === 0) return null
+
   return (
     <section id="testimonials" className={`py-24 px-6 lg:px-12 overflow-hidden ${darkMode ? 'bg-[#252018]' : 'bg-[#F5EFE6]'}`}>
       <div className="max-w-[1400px] mx-auto">
@@ -19,7 +22,7 @@ export default function Testimonials() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <p className="text-[#D4B483] text-xs tracking-[0.35em] uppercase font-medium mb-4">Real Results</p>
+          <p className="text-[#D3839E] text-xs tracking-[0.35em] uppercase font-medium mb-4">Real Results</p>
           <h2
             style={{ fontFamily: 'var(--font-display)' }}
             className={`text-4xl md:text-5xl font-medium ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`}
@@ -52,7 +55,7 @@ export default function Testimonials() {
                 {/* Stars */}
                 <div className="flex gap-0.5">
                   {[...Array(t.rating)].map((_, s) => (
-                    <span key={s} className="text-[#D4B483] text-base">★</span>
+                    <span key={s} className="text-[#D3839E] text-base">★</span>
                   ))}
                 </div>
 
@@ -62,7 +65,7 @@ export default function Testimonials() {
                 </p>
 
                 {/* Product tag */}
-                <div className={`text-[10px] tracking-[0.2em] uppercase text-[#D4B483] font-medium px-3 py-1.5 rounded-full self-start border border-[#D4B483]/30`}>
+                <div className={`text-[10px] tracking-[0.2em] uppercase text-[#D3839E] font-medium px-3 py-1.5 rounded-full self-start border border-[#D3839E]/30`}>
                   {t.product}
                 </div>
 
@@ -71,7 +74,7 @@ export default function Testimonials() {
                   <img
                     src={t.image}
                     alt={t.name}
-                    className="w-11 h-11 rounded-full object-cover border-2 border-[#D4B483]/30"
+                    className="w-11 h-11 rounded-full object-cover border-2 border-[#D3839E]/30"
                   />
                   <div>
                     <p className={`font-medium text-sm ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`}>{t.name}</p>
@@ -99,7 +102,7 @@ export default function Testimonials() {
             <div key={item.label} className="text-center">
               <p
                 style={{ fontFamily: 'var(--font-display)' }}
-                className="text-3xl font-medium text-[#D4B483]"
+                className="text-3xl font-medium text-[#D3839E]"
               >
                 {item.stat}
               </p>

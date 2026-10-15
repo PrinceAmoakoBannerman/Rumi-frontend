@@ -11,9 +11,14 @@ export interface Review {
 export interface Product {
   id: number
   name: string
+  brand: string
   category: string
+  /** 0 means the price has not been set yet — the UI shows "Price on request". */
   price: number
   originalPrice?: number
+  /** Units currently in stock. */
+  stock: number
+  size?: string
   rating: number
   reviewCount: number
   image: string
@@ -120,8 +125,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const toggleDarkMode = () => setDarkMode(d => !d)
 
   const COUPONS: Record<string, number> = {
-    RUMI10: 10,
-    RUMI20: 20,
+    GLOW10: 10,
+    GLOW20: 20,
     WELCOME15: 15,
   }
 

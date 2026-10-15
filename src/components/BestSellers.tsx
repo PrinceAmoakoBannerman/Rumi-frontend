@@ -19,11 +19,11 @@ export default function BestSellers() {
     <section className={`relative py-24 overflow-hidden ${darkMode ? 'bg-[#1C1916]' : 'bg-white'}`}>
       {/* Monogram badge */}
       <div
-        className={`hidden sm:flex absolute bottom-8 right-6 lg:right-12 w-16 h-16 rounded-full border items-center justify-center ${darkMode ? 'border-[#D4B483]/30' : 'border-[#D4B483]/40'}`}
+        className={`hidden sm:flex absolute bottom-8 right-6 lg:right-12 w-16 h-16 rounded-full border items-center justify-center ${darkMode ? 'border-[#D3839E]/30' : 'border-[#D3839E]/40'}`}
       >
         <span
           style={{ fontFamily: 'var(--font-display)' }}
-          className="text-xl text-[#D4B483]"
+          className="text-xl text-[#D3839E]"
         >
           R
         </span>
@@ -38,7 +38,7 @@ export default function BestSellers() {
           className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6"
         >
           <div>
-            <p className="text-[#D4B483] text-xs tracking-[0.35em] uppercase font-medium mb-3">Customer Favourites</p>
+            <p className="text-[#D3839E] text-xs tracking-[0.35em] uppercase font-medium mb-3">Customer Favourites</p>
             <h2
               style={{ fontFamily: 'var(--font-display)' }}
               className={`text-4xl md:text-5xl font-medium ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`}
@@ -49,13 +49,13 @@ export default function BestSellers() {
           <div className="flex items-center gap-3">
             <button
               ref={prevRef}
-              className={`w-11 h-11 rounded-full border flex items-center justify-center transition-all duration-200 hover:bg-[#D4B483] hover:border-[#D4B483] hover:text-white ${darkMode ? 'border-[#3A3328] text-[#FAF7F2]' : 'border-[#2A2A2A]/20 text-[#2A2A2A]'}`}
+              className={`w-11 h-11 rounded-full border flex items-center justify-center transition-all duration-200 hover:bg-[#D3839E] hover:border-[#D3839E] hover:text-white ${darkMode ? 'border-[#3A3328] text-[#FAF7F2]' : 'border-[#2A2A2A]/20 text-[#2A2A2A]'}`}
             >
               <FiArrowLeft size={16} />
             </button>
             <button
               ref={nextRef}
-              className={`w-11 h-11 rounded-full border flex items-center justify-center transition-all duration-200 hover:bg-[#D4B483] hover:border-[#D4B483] hover:text-white ${darkMode ? 'border-[#3A3328] text-[#FAF7F2]' : 'border-[#2A2A2A]/20 text-[#2A2A2A]'}`}
+              className={`w-11 h-11 rounded-full border flex items-center justify-center transition-all duration-200 hover:bg-[#D3839E] hover:border-[#D3839E] hover:text-white ${darkMode ? 'border-[#3A3328] text-[#FAF7F2]' : 'border-[#2A2A2A]/20 text-[#2A2A2A]'}`}
             >
               <FiArrowRight size={16} />
             </button>
@@ -77,7 +77,7 @@ export default function BestSellers() {
           breakpoints={{
             540: { slidesPerView: 2 },
             900: { slidesPerView: 3 },
-            1200: { slidesPerView: 4 },
+            1200: { slidesPerView: 5 },
           }}
           className="!overflow-visible"
         >

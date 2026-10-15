@@ -68,7 +68,7 @@ export default function Ingredients() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <p className="text-[#D4B483] text-xs tracking-[0.35em] uppercase font-medium mb-4">What&apos;s Inside</p>
+          <p className="text-[#D3839E] text-xs tracking-[0.35em] uppercase font-medium mb-4">What&apos;s Inside</p>
           <h2
             style={{ fontFamily: 'var(--font-display)' }}
             className={`text-4xl md:text-5xl font-medium ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`}
@@ -76,7 +76,7 @@ export default function Ingredients() {
             Power Ingredients
           </h2>
           <p className={`mt-4 text-sm max-w-md mx-auto leading-relaxed ${darkMode ? 'text-[#FAF7F2]/60' : 'text-[#4A4A4A]'}`}>
-            Every RUMI formula is built around clinically proven actives at concentrations that make a real difference.
+            From our signature Rumi formulas to every curated brand we stock, we choose ingredients at concentrations that make a real difference.
           </p>
         </motion.div>
 
@@ -90,10 +90,10 @@ export default function Ingredients() {
                 whileTap={{ scale: 0.98 }}
                 className={`text-left p-5 rounded-2xl border transition-all duration-300 ${
                   active === i
-                    ? 'border-[#D4B483] shadow-lg'
+                    ? 'border-[#D3839E] shadow-lg'
                     : darkMode
-                    ? 'border-[#3A3328] hover:border-[#D4B483]/40'
-                    : 'border-[#F5EFE6] hover:border-[#D4B483]/40'
+                    ? 'border-[#3A3328] hover:border-[#D3839E]/40'
+                    : 'border-[#F5EFE6] hover:border-[#D3839E]/40'
                 }`}
                 style={{
                   background: active === i
@@ -102,20 +102,20 @@ export default function Ingredients() {
                 }}
               >
                 <div className="flex items-center gap-4">
-                  <span className="text-2xl w-10 h-10 flex items-center justify-center rounded-full bg-[#D4B483]/10">
+                  <span className="text-2xl w-10 h-10 flex items-center justify-center rounded-full bg-[#D3839E]/10">
                     {ing.icon}
                   </span>
                   <div>
                     <p className={`font-semibold text-sm ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`} style={{ fontFamily: 'var(--font-display)' }}>
                       {ing.name}
                     </p>
-                    <p className="text-[10px] tracking-[0.2em] uppercase text-[#D4B483] font-medium">{ing.role}</p>
+                    <p className="text-[10px] tracking-[0.2em] uppercase text-[#D3839E] font-medium">{ing.role}</p>
                   </div>
                   {active === i && (
                     <motion.span
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
-                      className="ml-auto w-2 h-2 rounded-full bg-[#D4B483]"
+                      className="ml-auto w-2 h-2 rounded-full bg-[#D3839E]"
                     />
                   )}
                 </div>
@@ -151,7 +151,7 @@ export default function Ingredients() {
                       >
                         {ingredients[active].name}
                       </h3>
-                      <p className="text-[10px] tracking-[0.25em] uppercase text-[#D4B483] font-medium">
+                      <p className="text-[10px] tracking-[0.25em] uppercase text-[#D3839E] font-medium">
                         {ingredients[active].role}
                       </p>
                     </div>
@@ -162,7 +162,7 @@ export default function Ingredients() {
                   <div className="grid grid-cols-2 gap-2">
                     {ingredients[active].benefits.map(b => (
                       <div key={b} className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#D4B483] flex-shrink-0" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#D3839E] flex-shrink-0" />
                         <span className={`text-xs ${darkMode ? 'text-[#FAF7F2]/60' : 'text-[#4A4A4A]'}`}>{b}</span>
                       </div>
                     ))}

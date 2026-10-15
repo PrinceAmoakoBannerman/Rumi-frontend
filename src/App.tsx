@@ -1,9 +1,12 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { AppProvider } from './contexts/AppContext'
 import Navbar from './components/Navbar'
+import AnnouncementBar from './components/AnnouncementBar'
 import Cart from './components/Cart'
 import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
+import WhatsAppButton from './components/WhatsAppButton'
+import MobileBottomNav from './components/MobileBottomNav'
 import Home from './pages/Home'
 import Products from './pages/Products'
 import ProductDetail from './pages/ProductDetail'
@@ -17,6 +20,7 @@ export default function App() {
     <AppProvider>
       <BrowserRouter>
         <ScrollToTop />
+        <AnnouncementBar />
         <Navbar />
         <Cart />
         <Routes>
@@ -29,6 +33,8 @@ export default function App() {
           <Route path="/contact" element={<Contact />} />
         </Routes>
         <Footer />
+        <WhatsAppButton />
+        <MobileBottomNav />
       </BrowserRouter>
     </AppProvider>
   )

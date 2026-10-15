@@ -59,7 +59,7 @@ export default function Hero() {
       {!darkMode && (
         <div
           className="absolute inset-0"
-          style={{ background: 'linear-gradient(160deg, #FBF8F4 0%, #F5EFE6 42%, #F0DFC4 78%, #E8CFA0 100%)' }}
+          style={{ background: 'linear-gradient(160deg, #FBF8F4 0%, #F5EFE6 42%, #F0C4D3 78%, #E8A0B8 100%)' }}
         />
       )}
 
@@ -67,15 +67,15 @@ export default function Hero() {
       <motion.div
         animate={{ scale: [1, 1.06, 1], opacity: [0.3, 0.5, 0.3] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-24 left-[6%] w-72 h-72 rounded-full border border-[#D4B483]/25 pointer-events-none"
+        className="absolute top-24 left-[6%] w-72 h-72 rounded-full border border-[#D3839E]/25 pointer-events-none"
       />
-      <div className="absolute top-40 left-[10%] w-40 h-40 rounded-full border border-dashed border-[#D4B483]/30 pointer-events-none" />
-      <div className="absolute bottom-16 right-[8%] w-24 h-24 rounded-full bg-[#D4B483]/10 pointer-events-none" />
-      <div className="absolute top-1/3 right-[14%] flex items-center justify-center w-14 h-14 rounded-full border border-[#D4B483]/40 pointer-events-none">
-        <span className="text-[#D4B483] text-base">✦</span>
+      <div className="absolute top-40 left-[10%] w-40 h-40 rounded-full border border-dashed border-[#D3839E]/30 pointer-events-none" />
+      <div className="absolute bottom-16 right-[8%] w-24 h-24 rounded-full bg-[#D3839E]/10 pointer-events-none" />
+      <div className="absolute top-1/3 right-[14%] flex items-center justify-center w-14 h-14 rounded-full border border-[#D3839E]/40 pointer-events-none">
+        <span className="text-[#D3839E] text-base">✦</span>
       </div>
 
-      <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 pt-32 pb-8">
+      <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 pt-[164px] pb-8">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           onSwiper={s => { swiperRef.current = s }}
@@ -94,7 +94,7 @@ export default function Hero() {
             <SwiperSlide key={i}>
               <div className="grid md:grid-cols-[1fr_auto] gap-6 items-start mb-6">
                 <div className="order-2 md:order-1 max-w-md text-center md:text-left mx-auto md:mx-0">
-                  <p className="text-[#D4B483] text-xs tracking-[0.35em] uppercase font-medium mb-4">
+                  <p className="text-[#D3839E] text-xs tracking-[0.35em] uppercase font-medium mb-4">
                     {slide.eyebrow}
                   </p>
                   <p className={`text-sm leading-relaxed ${darkMode ? 'text-[#FAF7F2]/70' : 'text-[#4A4A4A]'}`}>
@@ -107,7 +107,7 @@ export default function Hero() {
                 >
                   {slide.line1}
                   <br />
-                  <span className="text-gold-gradient">{slide.line2}</span>
+                  <span className="text-blush-gradient">{slide.line2}</span>
                 </h1>
               </div>
 
@@ -118,14 +118,14 @@ export default function Hero() {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.6 }}
                   src={slide.image}
-                  alt={`RUMI — ${slide.line1} ${slide.line2}`}
+                  alt={`GLOWWITHRUMI — ${slide.line1} ${slide.line2}`}
                   className="w-full max-w-2xl aspect-[16/9] object-cover rounded-[2rem] shadow-2xl"
-                  style={{ boxShadow: '0 40px 100px rgba(212,180,131,0.25)' }}
+                  style={{ boxShadow: '0 40px 100px rgba(211,131,158,0.25)' }}
                 />
 
                 <Link
                   to="/products"
-                  className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white text-[#2A2A2A] px-8 py-4 rounded-xl text-xs tracking-[0.2em] uppercase font-semibold shadow-xl hover:bg-[#D4B483] hover:text-white transition-colors duration-300"
+                  className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white text-[#2A2A2A] px-8 py-4 rounded-xl text-xs tracking-[0.2em] uppercase font-semibold shadow-xl hover:bg-[#D3839E] hover:text-white transition-colors duration-300"
                 >
                   {slide.cta}
                 </Link>
@@ -171,7 +171,7 @@ export default function Hero() {
           opacity: 1;
         }
         .hero-pagination .swiper-pagination-bullet-active {
-          background: #D4B483 !important;
+          background: #D3839E !important;
         }
       `}</style>
     </section>
