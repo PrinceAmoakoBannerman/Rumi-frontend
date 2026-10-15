@@ -66,7 +66,7 @@ export default function Cart() {
                   <p className={`text-sm ${darkMode ? 'text-[#FAF7F2]/40' : 'text-[#4A4A4A]/60'}`}>Your cart is empty</p>
                   <button
                     onClick={() => setCartOpen(false)}
-                    className="text-[#D4B483] text-xs tracking-widest uppercase font-medium hover:underline"
+                    className="text-[#D3839E] text-xs tracking-widest uppercase font-medium hover:underline"
                   >
                     Continue Shopping
                   </button>
@@ -89,7 +89,7 @@ export default function Cart() {
                       />
                     </Link>
                     <div className="flex-1 min-w-0">
-                      <p className={`text-[10px] tracking-widest uppercase text-[#D4B483] font-medium mb-0.5`}>
+                      <p className={`text-[10px] tracking-widest uppercase text-[#D3839E] font-medium mb-0.5`}>
                         {item.product.category}
                       </p>
                       <p
@@ -98,14 +98,14 @@ export default function Cart() {
                       >
                         {item.product.name}
                       </p>
-                      <p className="text-[#D4B483] font-semibold text-sm mt-1">
+                      <p className="text-[#D3839E] font-semibold text-sm mt-1">
                         {formatPrice(item.product.price * item.quantity)}
                       </p>
                       <div className="flex items-center gap-3 mt-2">
                         <div className={`flex items-center rounded-full border overflow-hidden ${darkMode ? 'border-[#3A3328]' : 'border-[#EDE4D6]'}`}>
                           <button
                             onClick={() => updateQty(item.product.id, item.quantity - 1)}
-                            className={`w-7 h-7 flex items-center justify-center hover:bg-[#D4B483]/10 transition-colors ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`}
+                            className={`w-7 h-7 flex items-center justify-center hover:bg-[#D3839E]/10 transition-colors ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`}
                           >
                             <FiMinus size={11} />
                           </button>
@@ -114,7 +114,7 @@ export default function Cart() {
                           </span>
                           <button
                             onClick={() => updateQty(item.product.id, item.quantity + 1)}
-                            className={`w-7 h-7 flex items-center justify-center hover:bg-[#D4B483]/10 transition-colors ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`}
+                            className={`w-7 h-7 flex items-center justify-center hover:bg-[#D3839E]/10 transition-colors ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`}
                           >
                             <FiPlus size={11} />
                           </button>
@@ -139,7 +139,7 @@ export default function Cart() {
                 {/* Coupon */}
                 <div className="flex gap-2">
                   <div className={`flex-1 flex items-center gap-2 border rounded-full px-4 ${darkMode ? 'border-[#3A3328] bg-[#252018]' : 'border-[#EDE4D6] bg-white'} ${couponError ? 'border-red-400/50' : ''}`}>
-                    <FiTag size={13} className="text-[#D4B483]" />
+                    <FiTag size={13} className="text-[#D3839E]" />
                     <input
                       value={couponInput}
                       onChange={e => { setCouponInput(e.target.value); setCouponError(false) }}
@@ -151,13 +151,13 @@ export default function Cart() {
                   {!coupon && (
                     <button
                       onClick={handleCoupon}
-                      className="bg-[#2A2A2A] text-white text-xs px-4 py-2.5 rounded-full hover:bg-[#D4B483] transition-colors"
+                      className="bg-[#2A2A2A] text-white text-xs px-4 py-2.5 rounded-full hover:bg-[#D3839E] transition-colors"
                     >
                       Apply
                     </button>
                   )}
                 </div>
-                {couponError && <p className="text-red-400 text-xs px-1">Invalid coupon code. Try RUMI10 or WELCOME15.</p>}
+                {couponError && <p className="text-red-400 text-xs px-1">Invalid coupon code. Try GLOW10 or WELCOME15.</p>}
 
                 {/* Totals */}
                 <div className={`space-y-2 text-sm ${darkMode ? 'text-[#FAF7F2]/70' : 'text-[#4A4A4A]'}`}>
@@ -166,7 +166,7 @@ export default function Cart() {
                     <span>{formatPrice(cartTotal)}</span>
                   </div>
                   {discount > 0 && (
-                    <div className="flex justify-between text-[#D4B483]">
+                    <div className="flex justify-between text-[#D3839E]">
                       <span>Discount ({discount}%)</span>
                       <span>-{formatPrice(discountAmount)}</span>
                     </div>
@@ -184,7 +184,7 @@ export default function Cart() {
                 <Link to="/checkout" onClick={() => setCartOpen(false)}>
                   <motion.button
                     whileTap={{ scale: 0.98 }}
-                    className="w-full bg-[#D4B483] hover:bg-[#B8965E] text-white text-xs tracking-[0.2em] uppercase font-semibold py-4 rounded-full transition-colors"
+                    className="w-full bg-[#D3839E] hover:bg-[#B85E75] text-white text-xs tracking-[0.2em] uppercase font-semibold py-4 rounded-full transition-colors"
                   >
                     Checkout — {formatPrice(finalTotal)}
                   </motion.button>

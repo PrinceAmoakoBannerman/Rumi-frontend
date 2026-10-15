@@ -19,14 +19,14 @@ export default function Contact() {
   }
 
   return (
-    <div className={`min-h-screen pt-32 pb-24 px-6 lg:px-12 ${darkMode ? 'bg-[#1C1916]' : 'bg-[#FAF7F2]'}`}>
+    <div className={`min-h-screen pt-[164px] pb-24 px-6 lg:px-12 ${darkMode ? 'bg-[#1C1916]' : 'bg-[#FAF7F2]'}`}>
       <div className="max-w-[1100px] mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-16"
         >
-          <p className="text-[#D4B483] text-xs tracking-[0.35em] uppercase font-medium mb-4">Get In Touch</p>
+          <p className="text-[#D3839E] text-xs tracking-[0.35em] uppercase font-medium mb-4">Get In Touch</p>
           <h1
             style={{ fontFamily: 'var(--font-display)' }}
             className={`text-4xl md:text-5xl font-medium mb-4 ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`}
@@ -50,8 +50,8 @@ export default function Contact() {
                 key={item.label}
                 className={`flex items-start gap-4 p-5 rounded-2xl border ${darkMode ? 'bg-[#252018] border-[#3A3328]' : 'bg-white border-[#F5EFE6]'}`}
               >
-                <div className="w-10 h-10 rounded-full bg-[#D4B483]/10 flex items-center justify-center flex-shrink-0">
-                  <item.icon size={16} className="text-[#D4B483]" />
+                <div className="w-10 h-10 rounded-full bg-[#D3839E]/10 flex items-center justify-center flex-shrink-0">
+                  <item.icon size={16} className="text-[#D3839E]" />
                 </div>
                 <div>
                   <p className={`text-[10px] tracking-[0.2em] uppercase font-medium mb-1 ${darkMode ? 'text-[#FAF7F2]/50' : 'text-[#4A4A4A]/70'}`}>
@@ -83,7 +83,7 @@ export default function Contact() {
                   animate={{ opacity: 1 }}
                   className="flex flex-col items-center justify-center text-center py-16 gap-4"
                 >
-                  <div className="w-14 h-14 rounded-full bg-[#D4B483] flex items-center justify-center">
+                  <div className="w-14 h-14 rounded-full bg-[#D3839E] flex items-center justify-center">
                     <FiCheck size={22} className="text-white" />
                   </div>
                   <h3
@@ -97,7 +97,7 @@ export default function Contact() {
                   </p>
                   <button
                     onClick={() => setSent(false)}
-                    className="text-[#D4B483] text-xs tracking-widest uppercase font-medium hover:underline mt-2"
+                    className="text-[#D3839E] text-xs tracking-widest uppercase font-medium hover:underline mt-2"
                   >
                     Send another message
                   </button>
@@ -109,7 +109,7 @@ export default function Contact() {
                       <span className={`text-[10px] tracking-[0.15em] uppercase font-medium ${darkMode ? 'text-[#FAF7F2]/50' : 'text-[#4A4A4A]/70'}`}>Name</span>
                       <input
                         required
-                        className={`bg-transparent border-b text-sm py-2 outline-none focus:border-[#D4B483] transition-colors ${darkMode ? 'border-[#3A3328] text-[#FAF7F2]' : 'border-[#EDE4D6] text-[#2A2A2A]'}`}
+                        className={`bg-transparent border-b text-sm py-2 outline-none focus:border-[#D3839E] transition-colors ${darkMode ? 'border-[#3A3328] text-[#FAF7F2]' : 'border-[#EDE4D6] text-[#2A2A2A]'}`}
                       />
                     </label>
                     <label className="flex flex-col gap-1.5">
@@ -117,7 +117,7 @@ export default function Contact() {
                       <input
                         type="email"
                         required
-                        className={`bg-transparent border-b text-sm py-2 outline-none focus:border-[#D4B483] transition-colors ${darkMode ? 'border-[#3A3328] text-[#FAF7F2]' : 'border-[#EDE4D6] text-[#2A2A2A]'}`}
+                        className={`bg-transparent border-b text-sm py-2 outline-none focus:border-[#D3839E] transition-colors ${darkMode ? 'border-[#3A3328] text-[#FAF7F2]' : 'border-[#EDE4D6] text-[#2A2A2A]'}`}
                       />
                     </label>
                   </div>
@@ -125,7 +125,7 @@ export default function Contact() {
                     <span className={`text-[10px] tracking-[0.15em] uppercase font-medium ${darkMode ? 'text-[#FAF7F2]/50' : 'text-[#4A4A4A]/70'}`}>Subject</span>
                     <input
                       required
-                      className={`bg-transparent border-b text-sm py-2 outline-none focus:border-[#D4B483] transition-colors ${darkMode ? 'border-[#3A3328] text-[#FAF7F2]' : 'border-[#EDE4D6] text-[#2A2A2A]'}`}
+                      className={`bg-transparent border-b text-sm py-2 outline-none focus:border-[#D3839E] transition-colors ${darkMode ? 'border-[#3A3328] text-[#FAF7F2]' : 'border-[#EDE4D6] text-[#2A2A2A]'}`}
                     />
                   </label>
                   <label className="flex flex-col gap-1.5">
@@ -133,13 +133,13 @@ export default function Contact() {
                     <textarea
                       required
                       rows={5}
-                      className={`bg-transparent border-b text-sm py-2 outline-none focus:border-[#D4B483] transition-colors resize-none ${darkMode ? 'border-[#3A3328] text-[#FAF7F2]' : 'border-[#EDE4D6] text-[#2A2A2A]'}`}
+                      className={`bg-transparent border-b text-sm py-2 outline-none focus:border-[#D3839E] transition-colors resize-none ${darkMode ? 'border-[#3A3328] text-[#FAF7F2]' : 'border-[#EDE4D6] text-[#2A2A2A]'}`}
                     />
                   </label>
                   <motion.button
                     type="submit"
                     whileTap={{ scale: 0.98 }}
-                    className="mt-2 bg-[#D4B483] hover:bg-[#B8965E] text-white text-xs tracking-[0.2em] uppercase font-semibold py-4 rounded-full transition-colors"
+                    className="mt-2 bg-[#D3839E] hover:bg-[#B85E75] text-white text-xs tracking-[0.2em] uppercase font-semibold py-4 rounded-full transition-colors"
                   >
                     Send Message
                   </motion.button>

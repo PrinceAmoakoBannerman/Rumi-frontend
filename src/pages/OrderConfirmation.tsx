@@ -23,7 +23,7 @@ export default function OrderConfirmation() {
   if (!state) return null
 
   return (
-    <div className={`min-h-screen pt-32 pb-24 px-6 flex items-center justify-center ${darkMode ? 'bg-[#1C1916]' : 'bg-[#FAF7F2]'}`}>
+    <div className={`min-h-screen pt-[164px] pb-24 px-6 flex items-center justify-center ${darkMode ? 'bg-[#1C1916]' : 'bg-[#FAF7F2]'}`}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -35,12 +35,12 @@ export default function OrderConfirmation() {
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.15, type: 'spring', stiffness: 200 }}
-          className="w-16 h-16 rounded-full bg-[#D4B483] flex items-center justify-center mx-auto mb-6"
+          className="w-16 h-16 rounded-full bg-[#D3839E] flex items-center justify-center mx-auto mb-6"
         >
           <FiCheck size={28} className="text-white" />
         </motion.div>
 
-        <p className="text-[#D4B483] text-xs tracking-[0.35em] uppercase font-medium mb-3">Order Confirmed</p>
+        <p className="text-[#D3839E] text-xs tracking-[0.35em] uppercase font-medium mb-3">Order Confirmed</p>
         <h1
           style={{ fontFamily: 'var(--font-display)' }}
           className={`text-3xl font-medium mb-4 ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`}
@@ -58,7 +58,7 @@ export default function OrderConfirmation() {
           </div>
           <div className="flex justify-between items-center">
             <span className={`text-xs tracking-[0.15em] uppercase ${darkMode ? 'text-[#FAF7F2]/50' : 'text-[#4A4A4A]/70'}`}>Total Paid</span>
-            <span className="text-sm font-semibold text-[#D4B483]">{formatPrice(state.total)}</span>
+            <span className="text-sm font-semibold text-[#D3839E]">{formatPrice(state.total)}</span>
           </div>
           <div className="flex justify-between items-center">
             <span className={`text-xs tracking-[0.15em] uppercase ${darkMode ? 'text-[#FAF7F2]/50' : 'text-[#4A4A4A]/70'}`}>Estimated Delivery</span>
@@ -74,7 +74,7 @@ export default function OrderConfirmation() {
         <div className="flex flex-col sm:flex-row gap-3">
           <Link
             to="/products"
-            className="flex-1 bg-[#2A2A2A] hover:bg-[#D4B483] text-white text-xs tracking-[0.2em] uppercase font-semibold py-4 rounded-full transition-all duration-300"
+            className="flex-1 bg-[#2A2A2A] hover:bg-[#D3839E] text-white text-xs tracking-[0.2em] uppercase font-semibold py-4 rounded-full transition-all duration-300"
           >
             Continue Shopping
           </Link>

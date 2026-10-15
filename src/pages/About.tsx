@@ -4,17 +4,17 @@ import { FiArrowRight } from 'react-icons/fi'
 import { useApp } from '../contexts/AppContext'
 
 const values = [
-  { icon: '✦', title: 'Cruelty-Free', text: 'Never tested on animals — every formula is vetted through in-vitro and clinical human trials only.' },
-  { icon: '🔬', title: 'Dermatologist-Tested', text: 'Every product is clinically evaluated before it reaches you, so results are backed by evidence, not hype.' },
-  { icon: '🌿', title: 'Organic Ingredients', text: 'We source the highest grade botanicals and actives, formulated at concentrations that actually work.' },
-  { icon: '🌍', title: 'Worldwide Delivery', text: 'From our lab to your door in over 50 countries, with free shipping on every order over 1,280 GH₵.' },
+  { icon: '✦', title: 'Cruelty-Free', text: 'We only carry brands and formulas that are never tested on animals.' },
+  { icon: '🔬', title: 'Chosen for Results', text: 'Every product we stock is chosen for real, visible results — backed by reviews, not hype.' },
+  { icon: '🌿', title: 'Carefully Curated', text: 'From our own signature Rumi line to trusted Korean and international favorites, every brand is handpicked.' },
+  { icon: '🇬🇭', title: 'Nationwide Delivery', text: 'From our store to your door anywhere in Ghana, with fast and reliable delivery nationwide.' },
 ]
 
 const stats = [
   { stat: '2,400+', label: 'Verified Reviews' },
   { stat: '4.9/5', label: 'Average Rating' },
   { stat: '96%', label: 'Would Recommend' },
-  { stat: '50+', label: 'Countries Served' },
+  { stat: '16', label: 'Regions Covered' },
 ]
 
 export default function About() {
@@ -23,15 +23,15 @@ export default function About() {
   return (
     <div className={darkMode ? 'bg-[#1C1916]' : 'bg-[#FAF7F2]'}>
       {/* Hero */}
-      <section className="relative overflow-hidden pt-40 pb-24 px-6 lg:px-12">
+      <section className="relative overflow-hidden pt-[196px] pb-24 px-6 lg:px-12">
         {!darkMode && (
           <div
             className="absolute inset-0"
-            style={{ background: 'linear-gradient(160deg, #FBF8F4 0%, #F5EFE6 50%, #F0DFC4 100%)' }}
+            style={{ background: 'linear-gradient(160deg, #FBF8F4 0%, #F5EFE6 50%, #F0C4D3 100%)' }}
           />
         )}
-        <div className="absolute top-24 right-[8%] w-64 h-64 rounded-full border border-[#D4B483]/20 pointer-events-none" />
-        <div className="absolute bottom-10 left-[6%] w-40 h-40 rounded-full border border-dashed border-[#D4B483]/25 pointer-events-none" />
+        <div className="absolute top-24 right-[8%] w-64 h-64 rounded-full border border-[#D3839E]/20 pointer-events-none" />
+        <div className="absolute bottom-10 left-[6%] w-40 h-40 rounded-full border border-dashed border-[#D3839E]/25 pointer-events-none" />
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -39,15 +39,15 @@ export default function About() {
           transition={{ duration: 0.6 }}
           className="relative max-w-2xl mx-auto text-center"
         >
-          <p className="text-[#D4B483] text-xs tracking-[0.35em] uppercase font-medium mb-5">Our Story</p>
+          <p className="text-[#D3839E] text-xs tracking-[0.35em] uppercase font-medium mb-5">Our Story</p>
           <h1
             style={{ fontFamily: 'var(--font-display)' }}
             className={`text-4xl md:text-5xl lg:text-6xl font-medium leading-[1.1] mb-6 ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`}
           >
-            Where Science Meets <span className="text-gold-gradient">Ritual</span>
+            Skincare That <span className="text-blush-gradient">Fits You</span>
           </h1>
           <p className={`text-base leading-relaxed ${darkMode ? 'text-[#FAF7F2]/70' : 'text-[#4A4A4A]'}`}>
-            RUMI was founded on a simple belief: skincare should be both a science and a ceremony. Every formula we make sits at that intersection — clinically proven, ethically sourced, and beautiful enough to slow you down for five minutes a day.
+            GLOWWITHRUMI was founded on a simple belief: finding skincare you can trust shouldn&apos;t be complicated. From our signature Rumi skincare products to carefully selected Korean and international beauty essentials, every item we carry is chosen with your skin — and your routine — in mind.
           </p>
         </motion.div>
       </section>
@@ -62,7 +62,7 @@ export default function About() {
           >
             <img
               src="https://images.unsplash.com/photo-1785581778868-79100f7fe56c?w=900&h=900&fit=crop&auto=format"
-              alt="RUMI skincare formulation on marble"
+              alt="GLOWWITHRUMI skincare essentials"
               className="w-full aspect-square object-cover rounded-3xl shadow-xl"
             />
           </motion.div>
@@ -71,26 +71,26 @@ export default function About() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <p className="text-[#D4B483] text-xs tracking-[0.35em] uppercase font-medium mb-4">Since 2019</p>
+            <p className="text-[#D3839E] text-xs tracking-[0.35em] uppercase font-medium mb-4">Our Journey</p>
             <h2
               style={{ fontFamily: 'var(--font-display)' }}
               className={`text-3xl md:text-4xl font-medium mb-6 ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`}
             >
-              Built by a small team obsessed with results
+              A skincare destination built on trust
             </h2>
             <div className={`flex flex-col gap-4 text-sm leading-relaxed ${darkMode ? 'text-[#FAF7F2]/70' : 'text-[#4A4A4A]'}`}>
               <p>
-                RUMI began in a small formulation lab with one question: why does luxury skincare so rarely deliver on its promises? We set out to build a line where every active is dosed at a clinically effective concentration — never diluted for shelf appeal.
+                GLOWWITHRUMI began with a simple question: how do we make it easier to find skincare and beauty products you can actually trust? We started with our own Rumi skincare line, then grew into a curated selection of Korean and international beauty essentials — so you can shop for everything you need in one place.
               </p>
               <p>
-                Today our formulas are developed alongside dermatologists and independently tested before launch. No filler ingredients, no exaggerated claims — just skincare that works, packaged the way it deserves to be.
+                Every product on our shelves is chosen for real results, not hype. From personalised recommendations to nationwide delivery across Ghana, we&apos;re here to support you from your first order to your last empty bottle.
               </p>
             </div>
             <Link to="/products">
               <motion.button
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
-                className="mt-8 bg-[#2A2A2A] text-white px-8 py-4 text-xs tracking-[0.2em] uppercase font-semibold rounded-full hover:bg-[#D4B483] transition-all duration-300 flex items-center gap-2"
+                className="mt-8 bg-[#2A2A2A] text-white px-8 py-4 text-xs tracking-[0.2em] uppercase font-semibold rounded-full hover:bg-[#D3839E] transition-all duration-300 flex items-center gap-2"
               >
                 Shop the Collection
                 <FiArrowRight size={14} />
@@ -109,7 +109,7 @@ export default function About() {
             viewport={{ once: true }}
             className="text-center mb-14"
           >
-            <p className="text-[#D4B483] text-xs tracking-[0.35em] uppercase font-medium mb-4">What We Stand For</p>
+            <p className="text-[#D3839E] text-xs tracking-[0.35em] uppercase font-medium mb-4">What We Stand For</p>
             <h2
               style={{ fontFamily: 'var(--font-display)' }}
               className={`text-3xl md:text-4xl font-medium ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`}
@@ -152,7 +152,7 @@ export default function About() {
         >
           {stats.map(item => (
             <div key={item.label} className="text-center">
-              <p style={{ fontFamily: 'var(--font-display)' }} className="text-4xl font-medium text-[#D4B483]">
+              <p style={{ fontFamily: 'var(--font-display)' }} className="text-4xl font-medium text-[#D3839E]">
                 {item.stat}
               </p>
               <p className={`text-xs tracking-[0.12em] uppercase mt-1 ${darkMode ? 'text-[#FAF7F2]/50' : 'text-[#4A4A4A]'}`}>

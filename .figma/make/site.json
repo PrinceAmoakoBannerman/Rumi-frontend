@@ -1,8 +1,11 @@
 {
-  "title": "RUMI",
-  "description": "A luxury skincare e-commerce platform offering personalized product recommendations, seamless shopping, and rich content for beauty enthusiasts.",
+  "title": "GLOWWITHRUMI",
+  "description": "GLOWWITHRUMI is Ghana's skincare and beauty destination, offering signature Rumi skincare products alongside curated Korean and international beauty essentials, with nationwide delivery and personalised recommendations.",
   "robots": {
     "index": false
+  },
+  "icons": {
+    "icon": "/favicon.png"
   },
   "accessibility": {
     "addBypassLinks": false,

@@ -26,11 +26,11 @@ const steps = [
 ]
 
 const concernMap: Record<string, string[]> = {
-  Hydration: ['Cleansers', 'Moisturizers'],
-  'Anti-aging': ['Anti-aging', 'Serums'],
+  Hydration: ['Moisturizers', 'Toners'],
+  'Anti-aging': ['Serums', 'Moisturizers'],
   Brightening: ['Serums', 'Sunscreens'],
-  'Acne & pores': ['Cleansers', 'Serums'],
-  'Uneven tone': ['Serums', 'Moisturizers'],
+  'Acne & pores': ['Cleansers', 'Toners'],
+  'Uneven tone': ['Serums', 'Toners'],
 }
 
 export default function SkinQuiz() {
@@ -62,8 +62,8 @@ export default function SkinQuiz() {
   return (
     <section id="quiz" className={`py-24 px-6 lg:px-12 relative overflow-hidden ${darkMode ? 'bg-[#1C1916]' : 'bg-[#FAF7F2]'}`}>
       {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-[#D4B483]/5 translate-x-1/2 -translate-y-1/2 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-[#D4B483]/5 -translate-x-1/2 translate-y-1/2 pointer-events-none" />
+      <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-[#D3839E]/5 translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-[#D3839E]/5 -translate-x-1/2 translate-y-1/2 pointer-events-none" />
 
       <div className="max-w-3xl mx-auto relative">
         <motion.div
@@ -72,7 +72,7 @@ export default function SkinQuiz() {
           viewport={{ once: true }}
           className="text-center mb-14"
         >
-          <p className="text-[#D4B483] text-xs tracking-[0.35em] uppercase font-medium mb-4">Personalized for You</p>
+          <p className="text-[#D3839E] text-xs tracking-[0.35em] uppercase font-medium mb-4">Personalized for You</p>
           <h2
             style={{ fontFamily: 'var(--font-display)' }}
             className={`text-4xl md:text-5xl font-medium ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`}
@@ -80,7 +80,7 @@ export default function SkinQuiz() {
             Skin Analysis
           </h2>
           <p className={`mt-4 text-sm max-w-sm mx-auto leading-relaxed ${darkMode ? 'text-[#FAF7F2]/60' : 'text-[#4A4A4A]'}`}>
-            Answer 4 quick questions and we&apos;ll recommend your ideal RUMI routine.
+            Answer 4 quick questions and we&apos;ll recommend your ideal GLOWWITHRUMI routine.
           </p>
         </motion.div>
 
@@ -100,12 +100,12 @@ export default function SkinQuiz() {
                     <div
                       key={i}
                       className="flex-1 h-1 rounded-full transition-all duration-500"
-                      style={{ background: i <= step ? '#D4B483' : darkMode ? '#3A3328' : '#F5EFE6' }}
+                      style={{ background: i <= step ? '#D3839E' : darkMode ? '#3A3328' : '#F5EFE6' }}
                     />
                   ))}
                 </div>
 
-                <p className={`text-xs tracking-[0.2em] uppercase text-[#D4B483] font-medium mb-3`}>
+                <p className={`text-xs tracking-[0.2em] uppercase text-[#D3839E] font-medium mb-3`}>
                   Question {step + 1} of {steps.length}
                 </p>
                 <h3
@@ -122,7 +122,7 @@ export default function SkinQuiz() {
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.97 }}
                       onClick={() => handleAnswer(opt)}
-                      className={`px-6 py-3 rounded-full border text-sm font-medium transition-all duration-200 hover:bg-[#D4B483] hover:border-[#D4B483] hover:text-white ${darkMode ? 'border-[#3A3328] text-[#FAF7F2]' : 'border-[#D4B483]/30 text-[#2A2A2A]'}`}
+                      className={`px-6 py-3 rounded-full border text-sm font-medium transition-all duration-200 hover:bg-[#D3839E] hover:border-[#D3839E] hover:text-white ${darkMode ? 'border-[#3A3328] text-[#FAF7F2]' : 'border-[#D3839E]/30 text-[#2A2A2A]'}`}
                     >
                       {opt}
                     </motion.button>
@@ -145,7 +145,7 @@ export default function SkinQuiz() {
                     Your Personalized Routine
                   </h3>
                   <p className={`text-sm ${darkMode ? 'text-[#FAF7F2]/60' : 'text-[#4A4A4A]'}`}>
-                    Based on your answers, we recommend these products for <strong className="text-[#D4B483]">{concern.toLowerCase()}</strong>.
+                    Based on your answers, we recommend these products for <strong className="text-[#D3839E]">{concern.toLowerCase()}</strong>.
                   </p>
                 </div>
 
@@ -161,7 +161,7 @@ export default function SkinQuiz() {
                           <p className={`text-xs font-medium line-clamp-2 ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`} style={{ fontFamily: 'var(--font-display)' }}>
                             {p.name}
                           </p>
-                          <p className="text-[#D4B483] text-sm font-semibold mt-1">{formatPrice(p.price)}</p>
+                          <p className="text-[#D3839E] text-sm font-semibold mt-1">{formatPrice(p.price)}</p>
                         </div>
                       </motion.div>
                     </Link>
@@ -172,14 +172,14 @@ export default function SkinQuiz() {
                   <Link to="/products">
                     <motion.button
                       whileTap={{ scale: 0.97 }}
-                      className="bg-[#D4B483] text-white px-8 py-3 rounded-full text-xs tracking-widest uppercase font-semibold hover:bg-[#B8965E] transition-colors flex items-center gap-2"
+                      className="bg-[#D3839E] text-white px-8 py-3 rounded-full text-xs tracking-widest uppercase font-semibold hover:bg-[#B85E75] transition-colors flex items-center gap-2"
                     >
                       Shop All <FiArrowRight size={13} />
                     </motion.button>
                   </Link>
                   <button
                     onClick={reset}
-                    className={`px-6 py-3 rounded-full text-xs tracking-widest uppercase font-medium border transition-colors flex items-center gap-2 ${darkMode ? 'border-[#3A3328] text-[#FAF7F2]/60 hover:text-[#FAF7F2]' : 'border-[#D4B483]/30 text-[#4A4A4A] hover:text-[#2A2A2A]'}`}
+                    className={`px-6 py-3 rounded-full text-xs tracking-widest uppercase font-medium border transition-colors flex items-center gap-2 ${darkMode ? 'border-[#3A3328] text-[#FAF7F2]/60 hover:text-[#FAF7F2]' : 'border-[#D3839E]/30 text-[#4A4A4A] hover:text-[#2A2A2A]'}`}
                   >
                     <FiRefreshCw size={12} />
                     Retake

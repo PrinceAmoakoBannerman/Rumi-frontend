@@ -26,7 +26,7 @@ function Field({ label, darkMode, wrapperClassName, ...props }: FieldProps) {
       <span className={`text-[10px] tracking-[0.15em] uppercase font-medium ${darkMode ? 'text-[#FAF7F2]/50' : 'text-[#4A4A4A]/70'}`}>{label}</span>
       <input
         {...props}
-        className={`bg-transparent border-b text-sm py-2 outline-none focus:border-[#D4B483] transition-colors ${darkMode ? 'border-[#3A3328] text-[#FAF7F2] placeholder-[#FAF7F2]/20' : 'border-[#EDE4D6] text-[#2A2A2A] placeholder-[#4A4A4A]/30'}`}
+        className={`bg-transparent border-b text-sm py-2 outline-none focus:border-[#D3839E] transition-colors ${darkMode ? 'border-[#3A3328] text-[#FAF7F2] placeholder-[#FAF7F2]/20' : 'border-[#EDE4D6] text-[#2A2A2A] placeholder-[#4A4A4A]/30'}`}
       />
     </label>
   )
@@ -39,7 +39,7 @@ function SelectField({ label, darkMode, wrapperClassName, options, required }: {
       <select
         required={required}
         defaultValue=""
-        className={`bg-transparent border-b text-sm py-2 outline-none focus:border-[#D4B483] transition-colors ${darkMode ? 'border-[#3A3328] text-[#FAF7F2]' : 'border-[#EDE4D6] text-[#2A2A2A]'}`}
+        className={`bg-transparent border-b text-sm py-2 outline-none focus:border-[#D3839E] transition-colors ${darkMode ? 'border-[#3A3328] text-[#FAF7F2]' : 'border-[#EDE4D6] text-[#2A2A2A]'}`}
       >
         <option value="" disabled>Select…</option>
         {options.map(o => <option key={o} value={o}>{o}</option>)}
@@ -69,10 +69,10 @@ export default function Checkout() {
 
   if (cartItems.length === 0) {
     return (
-      <div className={`min-h-screen pt-40 pb-24 px-6 text-center flex flex-col items-center gap-4 ${darkMode ? 'bg-[#1C1916]' : 'bg-[#FAF7F2]'}`}>
+      <div className={`min-h-screen pt-[196px] pb-24 px-6 text-center flex flex-col items-center gap-4 ${darkMode ? 'bg-[#1C1916]' : 'bg-[#FAF7F2]'}`}>
         <span className="text-5xl opacity-30">🛍️</span>
         <p className={darkMode ? 'text-[#FAF7F2]/60' : 'text-[#4A4A4A]'}>Your cart is empty — add something before checking out.</p>
-        <Link to="/products" className="text-[#D4B483] text-xs tracking-widest uppercase font-medium hover:underline">
+        <Link to="/products" className="text-[#D3839E] text-xs tracking-widest uppercase font-medium hover:underline">
           Continue Shopping
         </Link>
       </div>
@@ -81,16 +81,16 @@ export default function Checkout() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    const orderNumber = `RUMI-${Math.floor(100000 + Math.random() * 900000)}`
+    const orderNumber = `GWR-${Math.floor(100000 + Math.random() * 900000)}`
     const total = finalTotal
     clearCart()
     navigate('/order-confirmation', { state: { orderNumber, total } })
   }
 
   return (
-    <div className={`min-h-screen pt-28 pb-24 px-6 lg:px-12 ${darkMode ? 'bg-[#1C1916]' : 'bg-[#FAF7F2]'}`}>
+    <div className={`min-h-screen pt-[148px] pb-24 px-6 lg:px-12 ${darkMode ? 'bg-[#1C1916]' : 'bg-[#FAF7F2]'}`}>
       <div className="max-w-[1200px] mx-auto">
-        <p className="text-[#D4B483] text-xs tracking-[0.35em] uppercase font-medium mb-3">Secure Checkout</p>
+        <p className="text-[#D3839E] text-xs tracking-[0.35em] uppercase font-medium mb-3">Secure Checkout</p>
         <h1
           style={{ fontFamily: 'var(--font-display)' }}
           className={`text-4xl md:text-5xl font-medium mb-12 ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`}
@@ -123,7 +123,7 @@ export default function Checkout() {
                   onClick={() => setPaymentMethod('momo')}
                   className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl border text-xs tracking-[0.1em] uppercase font-medium transition-colors ${
                     paymentMethod === 'momo'
-                      ? 'bg-[#D4B483] border-[#D4B483] text-white'
+                      ? 'bg-[#D3839E] border-[#D3839E] text-white'
                       : darkMode ? 'border-[#3A3328] text-[#FAF7F2]/70' : 'border-[#EDE4D6] text-[#4A4A4A]'
                   }`}
                 >
@@ -134,7 +134,7 @@ export default function Checkout() {
                   onClick={() => setPaymentMethod('card')}
                   className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl border text-xs tracking-[0.1em] uppercase font-medium transition-colors ${
                     paymentMethod === 'card'
-                      ? 'bg-[#D4B483] border-[#D4B483] text-white'
+                      ? 'bg-[#D3839E] border-[#D3839E] text-white'
                       : darkMode ? 'border-[#3A3328] text-[#FAF7F2]/70' : 'border-[#EDE4D6] text-[#4A4A4A]'
                   }`}
                 >
@@ -168,7 +168,7 @@ export default function Checkout() {
                   <img src={item.product.image} alt={item.product.name} className="w-14 h-14 rounded-xl object-cover flex-shrink-0" />
                   <div className="flex-1 min-w-0">
                     <p className={`text-sm truncate ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`}>{item.product.name}</p>
-                    <p className="text-xs text-[#D4B483]">Qty {item.quantity}</p>
+                    <p className="text-xs text-[#D3839E]">Qty {item.quantity}</p>
                   </div>
                   <p className={`text-sm font-medium whitespace-nowrap ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`}>
                     {formatPrice(item.product.price * item.quantity)}
@@ -183,7 +183,7 @@ export default function Checkout() {
                 <span>{formatPrice(cartTotal)}</span>
               </div>
               {discount > 0 && (
-                <div className="flex justify-between text-[#D4B483]">
+                <div className="flex justify-between text-[#D3839E]">
                   <span>Discount ({discount}%)</span>
                   <span>-{formatPrice(discountAmount)}</span>
                 </div>
@@ -201,7 +201,7 @@ export default function Checkout() {
             <motion.button
               type="submit"
               whileTap={{ scale: 0.98 }}
-              className="w-full mt-6 bg-[#D4B483] hover:bg-[#B8965E] text-white text-xs tracking-[0.2em] uppercase font-semibold py-4 rounded-full transition-colors flex items-center justify-center gap-2"
+              className="w-full mt-6 bg-[#D3839E] hover:bg-[#B85E75] text-white text-xs tracking-[0.2em] uppercase font-semibold py-4 rounded-full transition-colors flex items-center justify-center gap-2"
             >
               <FiCheck size={14} /> Place Order
             </motion.button>
