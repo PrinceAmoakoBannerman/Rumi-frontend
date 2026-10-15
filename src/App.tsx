@@ -6,7 +6,6 @@ import SearchBar from './components/SearchBar'
 import Cart from './components/Cart'
 import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
-import WhatsAppButton from './components/WhatsAppButton'
 import MobileBottomNav from './components/MobileBottomNav'
 import Home from './pages/Home'
 import Products from './pages/Products'
@@ -35,7 +34,6 @@ export default function App() {
           <Route path="/contact" element={<Contact />} />
         </Routes>
         <Footer />
-        <WhatsAppButton />
         <MobileBottomNav />
       </BrowserRouter>
     </AppProvider>
