@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FiSearch, FiUser, FiHeart, FiShoppingBag, FiMenu, FiX, FiMoon, FiSun } from 'react-icons/fi'
+import { FiUser, FiHeart, FiShoppingBag, FiMenu, FiX, FiHome, FiGrid, FiSearch, FiMail } from 'react-icons/fi'
 import { useApp } from '../contexts/AppContext'
 import { formatPrice } from '../lib/currency'
 import logo from '../assets/logo.png'
@@ -12,8 +12,18 @@ const navLinks = [
   { label: 'Journal', path: '/#blog' },
 ]
 
+const drawerLinks = [
+  { label: 'Home', path: '/', icon: <FiHome size={16} /> },
+  { label: 'Shop', path: '/products', icon: <FiGrid size={16} /> },
+  { label: 'Skin Quiz', path: '/#quiz', icon: null },
+  { label: 'Journal', path: '/#blog', icon: null },
+  { label: 'Wishlist', path: '/products', icon: <FiHeart size={16} /> },
+  { label: 'Contact', path: '/contact', icon: <FiMail size={16} /> },
+  { label: 'About Us', path: '/about', icon: null },
+]
+
 export default function Navbar() {
-  const { cartCount, cartTotal, wishlist, setCartOpen, searchOpen, setSearchOpen, searchQuery, setSearchQuery, darkMode, toggleDarkMode } = useApp()
+  const { cartCount, cartTotal, wishlist, setCartOpen, searchQuery, setSearchQuery } = useApp()
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const navigate = useNavigate()
@@ -24,12 +34,17 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const handleSearch = (e: React.FormEvent) => {
+  // Lock background scrolling while the drawer is open
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [mobileOpen])
+
+  const handleDrawerSearch = (e: React.FormEvent) => {
     e.preventDefault()
-    if (searchQuery.trim()) {
-      navigate(`/products?q=${encodeURIComponent(searchQuery.trim())}`)
-      setSearchOpen(false)
-    }
+    const q = searchQuery.trim()
+    setMobileOpen(false)
+    navigate(q ? `/products?q=${encodeURIComponent(q)}` : '/products')
   }
 
   // The logo artwork has a solid white background, so the bar stays white in
@@ -40,7 +55,7 @@ export default function Navbar() {
     <>
       <motion.nav
         className={`fixed top-9 left-0 right-0 z-50 bg-white transition-shadow duration-300 ${
-          scrolled ? 'shadow-md' : 'shadow-sm'
+          scrolled ? 'shadow-md' : ''
         }`}
         initial={{ y: -80 }}
         animate={{ y: 0 }}
@@ -89,16 +104,6 @@ export default function Navbar() {
             {/* Right — actions */}
             <div className="flex items-center justify-end gap-0.5">
               <button
-                onClick={() => setSearchOpen(!searchOpen)}
-                className="flex items-center gap-2 h-10 px-2.5 rounded-full hover:bg-[#D3839E]/10 transition-colors"
-                aria-label="Search"
-              >
-                <FiSearch size={18} className={iconColor} />
-                <span className={`hidden xl:inline text-xs tracking-[0.12em] uppercase font-medium ${iconColor}`}>
-                  Search
-                </span>
-              </button>
-              <button
                 className="w-10 h-10 items-center justify-center rounded-full hover:bg-[#D3839E]/10 transition-colors hidden sm:flex"
                 aria-label="Account"
               >
@@ -128,92 +133,78 @@ export default function Navbar() {
                     </span>
                   )}
                 </span>
-                <span className={`hidden xl:inline text-xs font-medium tabular-nums ${iconColor}`}>
+                <span className={`hidden lg:inline text-xs font-medium tabular-nums ${iconColor}`}>
                   {formatPrice(cartTotal)}
                 </span>
-              </button>
-              <button
-                onClick={toggleDarkMode}
-                className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-[#D3839E]/10 transition-colors"
-                aria-label="Toggle dark mode"
-              >
-                {darkMode ? <FiSun size={18} className={iconColor} /> : <FiMoon size={18} className={iconColor} />}
               </button>
             </div>
           </div>
         </div>
       </motion.nav>
 
-      {/* Search overlay */}
-      <AnimatePresence>
-        {searchOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="fixed top-[116px] left-0 right-0 z-40 px-6 py-6 bg-white shadow-md"
-          >
-            <form onSubmit={handleSearch} className="max-w-2xl mx-auto flex gap-3">
-              <input
-                autoFocus
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-                placeholder="Search by product or brand — Anua, COSRX, sunscreen..."
-                className="flex-1 bg-transparent border-b-2 border-[#D3839E] text-base px-3 py-2 outline-none placeholder-[#D3839E]/50 text-[#2A2A2A]"
-              />
-              <button
-                type="submit"
-                className="bg-[#D3839E] text-white px-6 py-2 text-sm tracking-widest uppercase font-medium hover:bg-[#B85E75] transition-colors rounded"
-              >
-                Search
-              </button>
-            </form>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Mobile menu */}
+      {/* Mobile drawer */}
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div
-            initial={{ x: '-100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '-100%' }}
-            transition={{ type: 'tween', duration: 0.35 }}
-            className={`fixed inset-y-0 left-0 z-50 w-80 max-w-[85vw] ${darkMode ? 'bg-[#1C1916]' : 'bg-[#FAF7F2]'} shadow-2xl flex flex-col pt-24 px-8`}
-          >
-            <button
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               onClick={() => setMobileOpen(false)}
-              className="absolute top-6 right-6"
-              aria-label="Close menu"
+              className="fixed inset-0 z-50 bg-black/40 lg:hidden"
+            />
+            <motion.div
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ type: 'tween', duration: 0.3 }}
+              className="fixed inset-y-0 left-0 z-50 w-[78%] max-w-sm bg-white shadow-2xl flex flex-col lg:hidden"
             >
-              <FiX size={24} className={darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'} />
-            </button>
-            <div className="flex flex-col gap-6">
-              {navLinks.map((link, i) => (
-                <motion.div
-                  key={link.label}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.06 }}
+              <div className="flex justify-end px-5 py-4 border-b border-[#EDE4D6]">
+                <button
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-2 text-sm font-medium text-[#2A2A2A]"
+                  aria-label="Close menu"
                 >
+                  <FiX size={20} />
+                  Close
+                </button>
+              </div>
+
+              <form onSubmit={handleDrawerSearch} className="flex items-center gap-2 px-5 py-3 border-b border-[#EDE4D6]">
+                <input
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                  placeholder="Search"
+                  aria-label="Search for products"
+                  className="flex-1 min-w-0 bg-transparent text-[#2A2A2A] placeholder-[#4A4A4A]/45 outline-none"
+                />
+                {searchQuery && (
+                  <button type="button" onClick={() => setSearchQuery('')} aria-label="Clear search">
+                    <FiX size={16} className="text-[#4A4A4A]/60" />
+                  </button>
+                )}
+                <span className="w-px h-5 bg-[#EDE4D6]" />
+                <button type="submit" aria-label="Search">
+                  <FiSearch size={18} className="text-[#2A2A2A]" />
+                </button>
+              </form>
+
+              <nav className="flex flex-col">
+                {drawerLinks.map(link => (
                   <Link
+                    key={link.label}
                     to={link.path}
                     onClick={() => setMobileOpen(false)}
-                    className={`text-sm tracking-[0.15em] uppercase font-medium hover:text-[#D3839E] transition-colors ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`}
+                    className="flex items-center gap-3 px-5 py-4 border-b border-[#EDE4D6] text-sm tracking-[0.1em] uppercase font-medium text-[#2A2A2A] active:bg-[#D3839E]/10 transition-colors"
                   >
+                    {link.icon}
                     {link.label}
                   </Link>
-                </motion.div>
-              ))}
-            </div>
-            <div className="mt-auto pb-10 flex items-center gap-4">
-              <button onClick={toggleDarkMode} className="flex items-center gap-2 text-xs text-[#D3839E]">
-                {darkMode ? <FiSun size={16} /> : <FiMoon size={16} />}
-                {darkMode ? 'Light mode' : 'Dark mode'}
-              </button>
-            </div>
-          </motion.div>
+                ))}
+              </nav>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>

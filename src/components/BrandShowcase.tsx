@@ -74,7 +74,7 @@ export default function BrandShowcase() {
             freeMode
             speed={2600}
             autoplay={{ delay: 0, disableOnInteraction: false, pauseOnMouseEnter: true }}
-            className="!overflow-visible"
+            className="md:!overflow-visible"
           >
             {brands.map(brand => (
               <SwiperSlide key={brand}>

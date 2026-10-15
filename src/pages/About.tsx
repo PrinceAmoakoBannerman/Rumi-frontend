@@ -23,7 +23,7 @@ export default function About() {
   return (
     <div className={darkMode ? 'bg-[#1C1916]' : 'bg-[#FAF7F2]'}>
       {/* Hero */}
-      <section className="relative overflow-hidden pt-[196px] pb-24 px-6 lg:px-12">
+      <section className="relative overflow-hidden pt-[244px] pb-24 px-6 lg:px-12">
         {!darkMode && (
           <div
             className="absolute inset-0"

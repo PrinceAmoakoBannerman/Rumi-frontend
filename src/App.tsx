@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { AppProvider } from './contexts/AppContext'
 import Navbar from './components/Navbar'
 import AnnouncementBar from './components/AnnouncementBar'
+import SearchBar from './components/SearchBar'
 import Cart from './components/Cart'
 import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
@@ -22,6 +23,7 @@ export default function App() {
         <ScrollToTop />
         <AnnouncementBar />
         <Navbar />
+        <SearchBar />
         <Cart />
         <Routes>
           <Route path="/" element={<Home />} />

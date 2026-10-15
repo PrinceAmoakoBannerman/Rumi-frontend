@@ -73,7 +73,7 @@ export default function ProductDetail() {
   }
 
   return (
-    <div className={`min-h-screen pt-[132px] pb-24 ${darkMode ? 'bg-[#1C1916]' : 'bg-white'}`}>
+    <div className={`min-h-screen pt-[180px] pb-24 ${darkMode ? 'bg-[#1C1916]' : 'bg-white'}`}>
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 mb-10 text-xs">
@@ -85,7 +85,9 @@ export default function ProductDetail() {
         </div>
 
         {/* Main grid */}
-        <div className="grid lg:grid-cols-2 gap-12 xl:gap-20">
+        {/* min-w-0 on the children: grid items default to min-width:auto and
+            otherwise refuse to shrink below their content, overflowing phones */}
+        <div className="grid lg:grid-cols-2 gap-12 xl:gap-20 [&>*]:min-w-0">
           {/* Gallery */}
           <div>
             {/* Main image */}

@@ -79,7 +79,7 @@ export default function BestSellers() {
             900: { slidesPerView: 3 },
             1200: { slidesPerView: 5 },
           }}
-          className="!overflow-visible"
+          className="md:!overflow-visible"
         >
           {bestsellers.map(product => (
             <SwiperSlide key={product.id}>

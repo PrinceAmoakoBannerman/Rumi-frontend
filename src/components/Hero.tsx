@@ -75,7 +75,7 @@ export default function Hero() {
         <span className="text-[#D3839E] text-base">✦</span>
       </div>
 
-      <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 pt-[164px] pb-8">
+      <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 pt-[212px] pb-8">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           onSwiper={s => { swiperRef.current = s }}

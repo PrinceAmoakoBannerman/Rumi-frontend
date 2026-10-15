@@ -69,7 +69,7 @@ export default function Checkout() {
 
   if (cartItems.length === 0) {
     return (
-      <div className={`min-h-screen pt-[196px] pb-24 px-6 text-center flex flex-col items-center gap-4 ${darkMode ? 'bg-[#1C1916]' : 'bg-[#FAF7F2]'}`}>
+      <div className={`min-h-screen pt-[244px] pb-24 px-6 text-center flex flex-col items-center gap-4 ${darkMode ? 'bg-[#1C1916]' : 'bg-[#FAF7F2]'}`}>
         <span className="text-5xl opacity-30">🛍️</span>
         <p className={darkMode ? 'text-[#FAF7F2]/60' : 'text-[#4A4A4A]'}>Your cart is empty — add something before checking out.</p>
         <Link to="/products" className="text-[#D3839E] text-xs tracking-widest uppercase font-medium hover:underline">
@@ -88,7 +88,7 @@ export default function Checkout() {
   }
 
   return (
-    <div className={`min-h-screen pt-[148px] pb-24 px-6 lg:px-12 ${darkMode ? 'bg-[#1C1916]' : 'bg-[#FAF7F2]'}`}>
+    <div className={`min-h-screen pt-[196px] pb-24 px-6 lg:px-12 ${darkMode ? 'bg-[#1C1916]' : 'bg-[#FAF7F2]'}`}>
       <div className="max-w-[1200px] mx-auto">
         <p className="text-[#D3839E] text-xs tracking-[0.35em] uppercase font-medium mb-3">Secure Checkout</p>
         <h1
