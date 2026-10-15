@@ -233,7 +233,7 @@ export default function ProductDetail() {
 
             {/* Trust signals */}
             <div className={`flex flex-wrap gap-4 text-xs ${darkMode ? 'text-[#FAF7F2]/40' : 'text-[#4A4A4A]/60'}`}>
-              {['✓ 100% authentic products', '✓ Nationwide delivery in Ghana', '✓ WhatsApp support before you buy'].map(t => (
+              {['✓ 100% authentic products', '✓ Nationwide delivery in Ghana', '✓ Personalised recommendations'].map(t => (
                 <span key={t}>{t}</span>
               ))}
             </div>

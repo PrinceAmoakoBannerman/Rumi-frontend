@@ -12,7 +12,7 @@ export const store = {
   announcements: [
     'Nationwide delivery across Ghana 🇬🇭',
     'Free delivery on orders over 500 GH₵',
-    'Need help choosing? Message us on WhatsApp',
+    'Personalised skincare recommendations',
   ],
 }
 
