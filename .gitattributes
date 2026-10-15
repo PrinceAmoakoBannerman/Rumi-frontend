@@ -4,15 +4,15 @@
 # ---------------------------------------------------------------------------
 # Images & Graphics
 # ---------------------------------------------------------------------------
-*.png                filter=lfs diff=lfs merge=lfs -text
-*.jpg                filter=lfs diff=lfs merge=lfs -text
-*.jpeg               filter=lfs diff=lfs merge=lfs -text
-*.gif                filter=lfs diff=lfs merge=lfs -text
-*.bmp                filter=lfs diff=lfs merge=lfs -text
-*.tiff               filter=lfs diff=lfs merge=lfs -text
-*.tif                filter=lfs diff=lfs merge=lfs -text
-*.ico                filter=lfs diff=lfs merge=lfs -text
-*.webp               filter=lfs diff=lfs merge=lfs -text
+# *.png                filter=lfs diff=lfs merge=lfs -text   # served directly by the web app - must not be LFS
+# *.jpg                filter=lfs diff=lfs merge=lfs -text   # served directly by the web app - must not be LFS
+# *.jpeg               filter=lfs diff=lfs merge=lfs -text   # served directly by the web app - must not be LFS
+# *.gif                filter=lfs diff=lfs merge=lfs -text   # served directly by the web app - must not be LFS
+# *.bmp                filter=lfs diff=lfs merge=lfs -text   # served directly by the web app - must not be LFS
+# *.tiff               filter=lfs diff=lfs merge=lfs -text   # served directly by the web app - must not be LFS
+# *.tif                filter=lfs diff=lfs merge=lfs -text   # served directly by the web app - must not be LFS
+# *.ico                filter=lfs diff=lfs merge=lfs -text   # served directly by the web app - must not be LFS
+# *.webp               filter=lfs diff=lfs merge=lfs -text   # served directly by the web app - must not be LFS
 *.psd                filter=lfs diff=lfs merge=lfs -text
 *.ai                 filter=lfs diff=lfs merge=lfs -text
 *.sketch             filter=lfs diff=lfs merge=lfs -text
@@ -75,11 +75,11 @@
 *.docx               filter=lfs diff=lfs merge=lfs -text
 *.xlsx               filter=lfs diff=lfs merge=lfs -text
 *.pptx               filter=lfs diff=lfs merge=lfs -text
-*.ttf                filter=lfs diff=lfs merge=lfs -text
-*.otf                filter=lfs diff=lfs merge=lfs -text
-*.woff               filter=lfs diff=lfs merge=lfs -text
-*.woff2              filter=lfs diff=lfs merge=lfs -text
-*.eot                filter=lfs diff=lfs merge=lfs -text
+# *.ttf                filter=lfs diff=lfs merge=lfs -text   # served directly by the web app - must not be LFS
+# *.otf                filter=lfs diff=lfs merge=lfs -text   # served directly by the web app - must not be LFS
+# *.woff               filter=lfs diff=lfs merge=lfs -text   # served directly by the web app - must not be LFS
+# *.woff2              filter=lfs diff=lfs merge=lfs -text   # served directly by the web app - must not be LFS
+# *.eot                filter=lfs diff=lfs merge=lfs -text   # served directly by the web app - must not be LFS
 
 # ---------------------------------------------------------------------------
 # Data & Machine Learning
