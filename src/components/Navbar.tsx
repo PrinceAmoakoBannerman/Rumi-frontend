@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiUser, FiHeart, FiShoppingBag, FiMenu, FiX, FiHome, FiGrid, FiSearch, FiMail } from 'react-icons/fi'
 import { useApp } from '../contexts/AppContext'
-import { formatPrice } from '../lib/currency'
+import { formatPrice, formatProductPrice, PLACEHOLDER_IMAGE } from '../lib/currency'
+import { searchProducts, categoryTiles } from '../lib/search'
 import logo from '../assets/logo.png'
 
 const navLinks = [
@@ -40,11 +41,19 @@ export default function Navbar() {
     return () => { document.body.style.overflow = '' }
   }, [mobileOpen])
 
+  // Same live suggestions as the search row under the navbar, so the drawer
+  // answers as you type instead of only on submit.
+  const drawerSuggestions = useMemo(() => searchProducts(searchQuery, 5), [searchQuery])
+
+  const closeAndGo = (to: string) => {
+    setMobileOpen(false)
+    navigate(to)
+  }
+
   const handleDrawerSearch = (e: React.FormEvent) => {
     e.preventDefault()
     const q = searchQuery.trim()
-    setMobileOpen(false)
-    navigate(q ? `/products?q=${encodeURIComponent(q)}` : '/products')
+    closeAndGo(q ? `/products?q=${encodeURIComponent(q)}` : '/products')
   }
 
   // The logo artwork has a solid white background, so the bar stays white in
@@ -190,19 +199,88 @@ export default function Navbar() {
                 </button>
               </form>
 
-              <nav className="flex flex-col">
-                {drawerLinks.map(link => (
-                  <Link
-                    key={link.label}
-                    to={link.path}
-                    onClick={() => setMobileOpen(false)}
-                    className="flex items-center gap-3 px-5 py-4 border-b border-[#EDE4D6] text-sm tracking-[0.1em] uppercase font-medium text-[#2A2A2A] active:bg-[#D3839E]/10 transition-colors"
-                  >
-                    {link.icon}
-                    {link.label}
-                  </Link>
-                ))}
-              </nav>
+              <div className="flex-1 overflow-y-auto overscroll-contain">
+                {/* Live matches, shown as soon as the query is worth searching */}
+                {searchQuery.trim().length >= 2 && (
+                  <div className="border-b-4 border-[#F5EFE6]">
+                    {drawerSuggestions.length === 0 ? (
+                      <p className="px-5 py-4 text-sm text-[#4A4A4A]/70">
+                        Nothing matches &ldquo;{searchQuery.trim()}&rdquo;.
+                      </p>
+                    ) : (
+                      <>
+                        {drawerSuggestions.map(p => (
+                          <button
+                            key={p.id}
+                            type="button"
+                            onClick={() => closeAndGo(`/products/${p.id}`)}
+                            className="w-full flex items-center gap-3 px-5 py-2.5 border-b border-[#EDE4D6] text-left active:bg-[#D3839E]/10 transition-colors"
+                          >
+                            <img
+                              src={p.image}
+                              alt=""
+                              loading="lazy"
+                              onError={e => { (e.currentTarget as HTMLImageElement).src = PLACEHOLDER_IMAGE }}
+                              className="w-10 h-10 shrink-0 rounded-lg bg-white object-contain"
+                            />
+                            <span className="min-w-0 flex-1">
+                              <span className="block text-sm text-[#2A2A2A] truncate">{p.name}</span>
+                              <span className="block text-xs text-[#4A4A4A]/60">{formatProductPrice(p.price)}</span>
+                            </span>
+                          </button>
+                        ))}
+                        <button
+                          type="button"
+                          onClick={handleDrawerSearch}
+                          className="w-full text-left px-5 py-3 text-xs tracking-[0.15em] uppercase font-medium text-[#D3839E] active:bg-[#D3839E]/10"
+                        >
+                          See all results
+                        </button>
+                      </>
+                    )}
+                  </div>
+                )}
+
+                {/* Browse by category — each tile carries a real product shot
+                    from inside that category and opens it pre-filtered. */}
+                <nav className="flex flex-col">
+                  {categoryTiles.map(tile => (
+                    <Link
+                      key={tile.category}
+                      to={`/products?category=${encodeURIComponent(tile.category)}`}
+                      onClick={() => setMobileOpen(false)}
+                      className="flex items-center justify-between gap-3 pl-5 pr-4 py-2 border-b border-[#EDE4D6] bg-[#FAF7F2] active:bg-[#D3839E]/10 transition-colors"
+                    >
+                      <span className="text-sm tracking-[0.06em] uppercase font-medium text-[#2A2A2A]">
+                        {tile.label}
+                      </span>
+                      <span className="w-14 h-14 shrink-0 rounded-full bg-white overflow-hidden flex items-center justify-center">
+                        <img
+                          src={tile.image}
+                          alt=""
+                          aria-hidden="true"
+                          loading="lazy"
+                          className="w-full h-full object-contain p-1"
+                        />
+                      </span>
+                    </Link>
+                  ))}
+                </nav>
+
+                <nav className="flex flex-col">
+                  {drawerLinks.map(link => (
+                    <Link
+                      key={link.label}
+                      to={link.path}
+                      onClick={() => setMobileOpen(false)}
+                      className="flex items-center gap-3 px-5 py-4 border-b border-[#EDE4D6] text-sm tracking-[0.1em] uppercase font-medium text-[#2A2A2A] active:bg-[#D3839E]/10 transition-colors"
+                    >
+                      {link.icon}
+                      {link.label}
+                    </Link>
+                  ))}
+                </nav>
+              </div>
             </motion.div>
           </>
         )}

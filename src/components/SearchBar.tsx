@@ -2,10 +2,8 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FiSearch, FiX } from 'react-icons/fi'
 import { useApp } from '../contexts/AppContext'
-import { products } from '../data/products'
+import { searchProducts } from '../lib/search'
 import { formatProductPrice, PLACEHOLDER_IMAGE } from '../lib/currency'
-
-const MAX_SUGGESTIONS = 6
 
 /** Always-visible search row, sitting directly under the navbar. */
 export default function SearchBar() {
@@ -17,23 +15,7 @@ export default function SearchBar() {
 
   const query = searchQuery.trim().toLowerCase()
 
-  const suggestions = useMemo(() => {
-    if (query.length < 2) return []
-    // Rank name matches above brand and category ones, so typing a product
-    // name does not get buried under everything else by the same brand.
-    const scored = products
-      .map(p => {
-        const name = p.name.toLowerCase()
-        if (name.startsWith(query)) return { p, score: 0 }
-        if (name.includes(query)) return { p, score: 1 }
-        if (p.brand.toLowerCase().includes(query)) return { p, score: 2 }
-        if (p.category.toLowerCase().includes(query)) return { p, score: 3 }
-        return null
-      })
-      .filter(r => r !== null)
-    scored.sort((a, b) => a.score - b.score)
-    return scored.slice(0, MAX_SUGGESTIONS).map(r => r.p)
-  }, [query])
+  const suggestions = useMemo(() => searchProducts(query), [query])
 
   // Reset the highlight whenever the list itself changes.
   useEffect(() => { setActive(-1) }, [query])
