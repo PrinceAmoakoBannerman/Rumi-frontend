@@ -524,18 +524,18 @@ export const products: Product[] = [
   {
     // TODO — stock: the owner's list cut this entry off before the quantity.
     id: 62,
-    name: 'Medicube Zero Pore Peeling Pads',
+    name: 'Medicube Zero Pore Pad',
     brand: 'Medicube',
     category: 'Toners',
     price: 0,
     stock: 0,
-    size: '8 pads',
+    size: '155g / 70 pads',
     rating: 0,
     reviewCount: 0,
     image: '/products/medicube-zero-pore-pads.png',
-    description: 'Single-use peeling pads that sweep away dead skin and clear congestion from pores, leaving skin smoother and visibly tighter.',
-    ingredients: ['AHA', 'BHA', 'PHA', 'Niacinamide', 'Panthenol'],
-    usage: 'Wipe one pad over clean, dry skin, avoiding the eye area. Rinse after a minute. Use two to three times weekly.',
+    description: 'Exfoliating toner pads that sweep away dead skin and clear congestion from pores, leaving skin smoother and visibly tighter. A tub of 70 keeps a routine going for weeks.',
+    ingredients: ['AHA', 'BHA', 'Panthenol', 'Allantoin', 'Sodium Hyaluronate'],
+    usage: 'Wipe one pad over clean, dry skin, avoiding the eye area. Use two to three times weekly, building up as tolerated.',
   },
 
   // ─── SKIN1004 ──────────────────────────────────────────────────────────
