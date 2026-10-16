@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useSearchParams } from 'react-router-dom'
 import { FiFilter, FiX } from 'react-icons/fi'
@@ -33,6 +33,12 @@ export default function Products() {
   const [priceMax, setPriceMax] = useState(priceCeiling)
   const [filterOpen, setFilterOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState(queryParam)
+
+  // Searching again from the bar at the top of the site only changes the URL.
+  // Without this the page would keep showing the first search it was opened
+  // with, which made the search bar look broken once you were already here.
+  useEffect(() => { setSearchQuery(queryParam) }, [queryParam])
+  useEffect(() => { setActiveCategory(catParam || 'All') }, [catParam])
 
   const filtered = useMemo(() => {
     let result = [...products]

@@ -18,12 +18,14 @@ function PostCard({ post, compact = false }: { post: Post; compact?: boolean }) 
         darkMode ? 'bg-[#1C1916] border-[#3A3328]' : 'bg-white border-[#EDE4D6]'
       }`}
     >
-      <div className={`overflow-hidden ${compact ? 'aspect-[16/9]' : 'aspect-[16/10]'}`}>
+      {/* The artwork is one of our own product shots, which sits on pure
+          white — so it is contained rather than cropped to fill. */}
+      <div className={`overflow-hidden bg-white ${compact ? 'aspect-[16/9]' : 'aspect-[16/10]'}`}>
         <img
           src={post.image}
           alt={post.title}
           loading="lazy"
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          className="w-full h-full object-contain p-4 transition-transform duration-700 group-hover:scale-105"
         />
       </div>
       <div className={compact ? 'p-5' : 'p-6'}>
