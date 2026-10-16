@@ -2,6 +2,12 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FiArrowRight } from 'react-icons/fi'
 import { useApp } from '../contexts/AppContext'
+import { products } from '../data/products'
+
+// Four shelf favourites, looked up from the catalogue so the names and links
+// stay correct if a product is renamed or removed.
+const shelfIds = [1, 7, 10, 41]
+const shelf = shelfIds.map(id => products.find(p => p.id === id)).filter(p => p !== undefined)
 
 const values = [
   { icon: '✦', title: 'Cruelty-Free', text: 'We only carry brands and formulas that are never tested on animals.' },
@@ -60,11 +66,25 @@ export default function About() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <img
-              src="https://images.unsplash.com/photo-1785581778868-79100f7fe56c?w=900&h=900&fit=crop&auto=format"
-              alt="GLOWWITHRUMI skincare essentials"
-              className="w-full aspect-square object-cover rounded-3xl shadow-xl"
-            />
+            {/* Four shelf favourites from our own catalogue, rather than a
+                stock photo — each one links through to its product page. */}
+            <div className="w-full aspect-square rounded-3xl shadow-xl bg-white p-4 grid grid-cols-2 gap-4">
+              {shelf.map(item => (
+                <Link
+                  key={item.id}
+                  to={`/products/${item.id}`}
+                  aria-label={item.name}
+                  className="group rounded-2xl bg-white overflow-hidden flex items-center justify-center"
+                >
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    loading="lazy"
+                    className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
+                  />
+                </Link>
+              ))}
+            </div>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, x: 20 }}

@@ -818,7 +818,7 @@ export const products: Product[] = [
     size: '30ml',
     rating: 0,
     reviewCount: 0,
-    image: '/products/ordinary-mandelic-acid.jpg',
+    image: '/products/ordinary-mandelic-acid.png',
     description: 'A gentler acid exfoliant using large-molecule mandelic acid, making it a safer choice for sensitive or deeper skin tones prone to post-inflammatory marks.',
     ingredients: ['Mandelic Acid 10%', 'Hyaluronic Acid', 'Tasmanian Pepperberry'],
     usage: 'Apply a few drops at night after cleansing. Start twice weekly. Follow with sunscreen each morning.',
@@ -1025,7 +1025,7 @@ export const blogPosts = [
     author: 'GLOWWITHRUMI',
     date: 'October 2026',
     readTime: '6 min read',
-    image: 'https://images.unsplash.com/photo-1772987714654-2df39af2c658?w=800&h=500&fit=crop&auto=format',
+    image: '/products/acwell-toner-large.png',
     excerpt: 'Cleanser, toner, essence, serum, moisturiser, sunscreen — we break down what each step actually does, and which ones you can skip when you are starting out.',
   },
   {
@@ -1035,7 +1035,7 @@ export const blogPosts = [
     author: 'GLOWWITHRUMI',
     date: 'October 2026',
     readTime: '7 min read',
-    image: 'https://images.unsplash.com/photo-1620916297397-a4a5402a3c6c?w=800&h=500&fit=crop&auto=format',
+    image: '/products/anua-niacinamide-dark-spot-serum.png',
     excerpt: 'Three of the most popular brightening ingredients we stock, and how to choose between them based on the kind of pigmentation you are dealing with.',
   },
   {
@@ -1045,7 +1045,7 @@ export const blogPosts = [
     author: 'GLOWWITHRUMI',
     date: 'October 2026',
     readTime: '5 min read',
-    image: 'https://images.unsplash.com/photo-1594332322527-08753d4473c1?w=800&h=500&fit=crop&auto=format',
+    image: '/products/anua-zero-white-cast-sunscreen.png',
     excerpt: 'Daily SPF is non-negotiable for protecting your brightening results — and the newest Korean formulas finally work beautifully on deeper skin tones.',
   },
 ]
