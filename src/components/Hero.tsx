@@ -1,18 +1,17 @@
-import { useRef, useState } from 'react'
+
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination, Autoplay } from 'swiper/modules'
-import type { Swiper as SwiperType } from 'swiper'
 import 'swiper/css'
 import 'swiper/css/pagination'
-import { FiArrowLeft, FiArrowRight, FiPlay, FiPause } from 'react-icons/fi'
 import { useApp } from '../contexts/AppContext'
 
 const slides = [
   {
     eyebrow: 'Now In Stock',
     alt: 'The Anua skincare range — toners, serums, cleansers and sunscreens',
+    focus: 'center',
     desc: 'The full Anua range — toners, serums, cleansers and sunscreens — ready to ship anywhere in Ghana.',
     image: '/hero/anua-range.jpg',
     cta: 'Shop Anua',
@@ -21,6 +20,7 @@ const slides = [
   {
     eyebrow: 'Build Your Routine',
     alt: 'Anua cleansing oil, cleansing foam, toner, lotion and serum lined up',
+    focus: 'top',
     desc: 'From first cleanse to final sunscreen, find the pieces that fit the routine you already have.',
     image: '/hero/anua-routine.jpg',
     cta: 'Shop All Products',
@@ -30,19 +30,6 @@ const slides = [
 
 export default function Hero() {
   const { darkMode } = useApp()
-  const swiperRef = useRef<SwiperType | null>(null)
-  const [playing, setPlaying] = useState(true)
-
-  const togglePlay = () => {
-    if (!swiperRef.current) return
-    if (playing) {
-      swiperRef.current.autoplay.stop()
-    } else {
-      swiperRef.current.autoplay.start()
-    }
-    setPlaying(p => !p)
-  }
-
   return (
     <section className={`relative overflow-hidden ${darkMode ? 'bg-[#1C1916]' : ''}`}>
       {/* Soft blush backdrop — kept light so the product shots stay the focus */}
@@ -64,7 +51,6 @@ export default function Hero() {
       <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 pt-[184px] pb-8">
         <Swiper
           modules={[Pagination, Autoplay]}
-          onSwiper={s => { swiperRef.current = s }}
           pagination={{ el: '.hero-pagination', clickable: true }}
           autoplay={{ delay: 6000, disableOnInteraction: false }}
           loop
@@ -90,20 +76,21 @@ export default function Hero() {
                 </div>
 
                 <div className="order-1 lg:order-2 flex justify-center">
-                  {/* Frame hugs the photo: the two shots have different aspect
-                      ratios, so a fixed box would letterbox one of them. */}
+                  {/* Both shots share one square frame and fill it, so the
+                      carousel keeps a steady size as it swipes. */}
                   <motion.div
                     key={slide.image}
                     initial={{ opacity: 0, scale: 0.97 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.6 }}
-                    className="rounded-[2rem] overflow-hidden bg-white inline-block"
+                    className="rounded-[2rem] overflow-hidden bg-white w-full max-w-[300px] sm:max-w-[420px] lg:max-w-[540px] aspect-square"
                     style={{ boxShadow: '0 30px 80px rgba(184,94,117,0.18)' }}
                   >
                     <img
                       src={slide.image}
                       alt={slide.alt}
-                      className="block h-[300px] sm:h-[420px] lg:h-[540px] w-auto max-w-full object-contain"
+                      className="w-full h-full object-cover"
+                      style={{ objectPosition: slide.focus }}
                     />
                   </motion.div>
                 </div>
@@ -112,33 +99,8 @@ export default function Hero() {
           ))}
         </Swiper>
 
-        {/* Carousel controls */}
-        <div className="flex items-center justify-between mt-5">
-          <div className="hero-pagination flex items-center gap-2" />
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => swiperRef.current?.slidePrev()}
-              aria-label="Previous slide"
-              className={`w-10 h-10 rounded-full border flex items-center justify-center transition-colors ${darkMode ? 'border-[#3A3328] text-[#FAF7F2] hover:bg-[#252018]' : 'border-[#2A2A2A]/15 text-[#2A2A2A] hover:bg-white'}`}
-            >
-              <FiArrowLeft size={15} />
-            </button>
-            <button
-              onClick={togglePlay}
-              aria-label={playing ? 'Pause autoplay' : 'Play autoplay'}
-              className={`w-10 h-10 rounded-full border flex items-center justify-center transition-colors ${darkMode ? 'border-[#3A3328] text-[#FAF7F2] hover:bg-[#252018]' : 'border-[#2A2A2A]/15 text-[#2A2A2A] hover:bg-white'}`}
-            >
-              {playing ? <FiPause size={14} /> : <FiPlay size={14} />}
-            </button>
-            <button
-              onClick={() => swiperRef.current?.slideNext()}
-              aria-label="Next slide"
-              className={`w-10 h-10 rounded-full border flex items-center justify-center transition-colors ${darkMode ? 'border-[#3A3328] text-[#FAF7F2] hover:bg-[#252018]' : 'border-[#2A2A2A]/15 text-[#2A2A2A] hover:bg-white'}`}
-            >
-              <FiArrowRight size={15} />
-            </button>
-          </div>
-        </div>
+        {/* Dots only — the carousel advances on its own and can be swiped */}
+        <div className="hero-pagination flex items-center justify-center gap-2 mt-6" />
       </div>
 
       <style>{`
