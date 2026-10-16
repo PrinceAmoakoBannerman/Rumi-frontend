@@ -28,10 +28,13 @@ export { brandList as brands } from './products'
  * To add one: drop the file in `public/brands/` and map the brand name to it.
  */
 export const brandLogos: Record<string, string> = {
+  'Acwell': '/brands/acwell.png',
   'Anua': '/brands/anua.png',
+  'APLB': '/brands/aplb.png',
   'Beauty of Joseon': '/brands/beauty-of-joseon.png',
   'Celimax': '/brands/celimax.jpg',
   'COSRX': '/brands/cosrx.png',
+  'Haruharu Wonder': '/brands/haruharu-wonder.png',
   'Isntree': '/brands/isntree.png',
   'K Secret': '/brands/k-secret.png',
   'Medicube': '/brands/medicube.svg',
@@ -40,6 +43,9 @@ export const brandLogos: Record<string, string> = {
   'Numbuzin': '/brands/numbuzin.jpg',
   'Purito': '/brands/purito.png',
   'SKIN1004': '/brands/skin1004.png',
+  'Some By Mi': '/brands/some-by-mi.png',
+  'The Ordinary': '/brands/the-ordinary.svg',
   'TONYMOLY': '/brands/tonymoly.png',
-  // Still needed: Acwell, Some By Mi, The Ordinary, Haruharu Wonder, Jumiso, APLB, Nineless
+  // Still needed: Jumiso and Nineless — neither brand has a live official
+  // site (both domains are parked), and no retailer publishes their mark.
 }
