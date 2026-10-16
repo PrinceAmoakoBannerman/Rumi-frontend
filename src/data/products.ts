@@ -145,7 +145,7 @@ export const products: Product[] = [
     category: 'Toners',
     price: 0,
     stock: 10,
-    size: 'Small',
+    size: '150ml',
     rating: 0,
     reviewCount: 0,
     image: '/products/acwell-toner-small.png',

@@ -29,7 +29,6 @@ export { brandList as brands } from './products'
  */
 export const brandLogos: Record<string, string> = {
   'Anua': '/brands/anua.png',
-  'Acwell': '/brands/acwell.png',
   'Beauty of Joseon': '/brands/beauty-of-joseon.png',
   'Celimax': '/brands/celimax.jpg',
   'COSRX': '/brands/cosrx.png',
@@ -42,5 +41,5 @@ export const brandLogos: Record<string, string> = {
   'Purito': '/brands/purito.png',
   'SKIN1004': '/brands/skin1004.png',
   'TONYMOLY': '/brands/tonymoly.png',
-  // Still needed: Some By Mi, The Ordinary, Haruharu Wonder, Jumiso, APLB, Nineless
+  // Still needed: Acwell, Some By Mi, The Ordinary, Haruharu Wonder, Jumiso, APLB, Nineless
 }
