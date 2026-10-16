@@ -6,7 +6,6 @@ import SearchBar from './components/SearchBar'
 import Cart from './components/Cart'
 import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
-import MobileBottomNav from './components/MobileBottomNav'
 import Home from './pages/Home'
 import Products from './pages/Products'
 import ProductDetail from './pages/ProductDetail'
@@ -34,7 +33,6 @@ export default function App() {
           <Route path="/contact" element={<Contact />} />
         </Routes>
         <Footer />
-        <MobileBottomNav />
       </BrowserRouter>
     </AppProvider>
   )
