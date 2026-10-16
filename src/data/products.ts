@@ -781,7 +781,7 @@ export const products: Product[] = [
     category: 'Toners',
     price: 0,
     stock: 12,
-    // TODO: confirm the bottle size stocked - TONYMOLY sells this in 100ml and 500ml.
+    size: '100ml',
     rating: 0,
     reviewCount: 0,
     image: '/products/tonymoly-wonder-ceramide-mochi-toner.png',
@@ -859,17 +859,17 @@ export const products: Product[] = [
   // ─── APLB ──────────────────────────────────────────────────────────────
   {
     id: 53,
-    name: 'APLB Moisturizer',
+    name: 'APLB Glutathione Niacinamide Facial Cream',
     brand: 'APLB',
     category: 'Moisturizers',
     price: 0,
     stock: 20,
-    size: '60ml',
+    size: '55ml',
     rating: 0,
     reviewCount: 0,
-    image: '/products/aplb-moisturizer.jpg',
-    description: 'A everyday moisturiser that hydrates and supports the skin barrier, layering easily over serums without feeling heavy.',
-    ingredients: ['Hyaluronic Acid', 'Ceramides', 'Panthenol', 'Glycerin', 'Squalane'],
+    image: '/products/aplb-glutathione-niacinamide-facial-cream.png',
+    description: "A brightening face cream built on APLB's Lipo Gluta Niac Cen complex at 24.8% — glutathione and niacinamide to even tone, with centella to calm and support the barrier.",
+    ingredients: ['Glutathione 1,000ppm', 'Niacinamide 20,000ppm', 'Centella Asiatica Extract 22.7%', 'Hyaluronic Acid', 'Glycerin'],
     usage: 'Apply to clean skin as the final hydrating step, morning and evening.',
   },
   {
