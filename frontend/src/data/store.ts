@@ -4,9 +4,17 @@ export const store = {
   name: 'GLOWWITHRUMI',
   tagline: 'Skincare & Beauty',
 
-  // TODO: replace with the real GLOWWITHRUMI WhatsApp number (international format, digits only).
-  whatsappNumber: '233000000000',
+  // As the owner gave it. Note this is 11 digits — Ghana mobile numbers are
+  // normally 10 (0XX XXX XXXX) — so it is worth checking before launch.
+  phoneLocal: '05494469052',
+  // Same number in international form for wa.me: leading 0 swapped for 233.
+  whatsappNumber: '2335494469052',
   whatsappGreeting: 'Hello GLOWWITHRUMI! I would like to ask about a product.',
+
+  address: 'Grace Nkansah Apartment, Dome, Accra',
+
+  // TODO: replace with the real GLOWWITHRUMI address for customer email.
+  email: 'hello@rumiskincare.com',
 
   // Rotating messages in the announcement bar at the very top of the site.
   announcements: [

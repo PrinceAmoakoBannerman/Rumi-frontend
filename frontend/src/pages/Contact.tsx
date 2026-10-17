@@ -2,11 +2,13 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiMail, FiPhone, FiMapPin, FiCheck } from 'react-icons/fi'
 import { useApp } from '../contexts/AppContext'
+import { store, whatsappLink } from '../data/store'
 
+// Read from data/store.ts so the details live in one place.
 const info = [
-  { icon: FiMail, label: 'Email', value: 'hello@rumiskincare.com' },
-  { icon: FiPhone, label: 'Phone', value: '+233 24 000 0000' },
-  { icon: FiMapPin, label: 'Studio', value: 'Airport Residential Area, Accra, Ghana' },
+  { icon: FiMail, label: 'Email', value: store.email, href: `mailto:${store.email}` },
+  { icon: FiPhone, label: 'WhatsApp', value: store.phoneLocal, href: whatsappLink },
+  { icon: FiMapPin, label: 'Find Us', value: store.address, href: undefined },
 ]
 
 export default function Contact() {
@@ -57,7 +59,18 @@ export default function Contact() {
                   <p className={`text-[10px] tracking-[0.2em] uppercase font-medium mb-1 ${darkMode ? 'text-[#FAF7F2]/50' : 'text-[#4A4A4A]/70'}`}>
                     {item.label}
                   </p>
-                  <p className={`text-sm font-medium ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`}>{item.value}</p>
+                  {item.href ? (
+                    <a
+                      href={item.href}
+                      target={item.href.startsWith('http') ? '_blank' : undefined}
+                      rel={item.href.startsWith('http') ? 'noreferrer' : undefined}
+                      className={`text-sm font-medium hover:text-[#D3839E] transition-colors ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`}
+                    >
+                      {item.value}
+                    </a>
+                  ) : (
+                    <p className={`text-sm font-medium ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`}>{item.value}</p>
+                  )}
                 </div>
               </div>
             ))}
