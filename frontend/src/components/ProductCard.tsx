@@ -32,7 +32,7 @@ export default function ProductCard({ product, layout = 'grid' }: Props) {
       {/* Image — product alone on pure white */}
       <div className="relative bg-white rounded-xl overflow-hidden">
         <Link to={`/products/${product.id}`} className="block">
-          <div className="relative aspect-square p-3">
+          <div className="relative aspect-square p-1">
             {!imageLoaded && <div className="skeleton absolute inset-0" />}
             <img
               src={imageSrc}
