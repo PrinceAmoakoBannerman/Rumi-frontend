@@ -34,7 +34,10 @@ export const brandLogos: Record<string, string> = {
   'Beauty of Joseon': '/brands/beauty-of-joseon.png',
   'Celimax': '/brands/celimax.jpg',
   'COSRX': '/brands/cosrx.png',
+  'EOS': '/brands/eos.png',
+  'Eucerin': '/brands/eucerin.svg',
   'Haruharu Wonder': '/brands/haruharu-wonder.png',
+  'Jergens': '/brands/jergens.svg',
   'Isntree': '/brands/isntree.png',
   'K Secret': '/brands/k-secret.png',
   'Medicube': '/brands/medicube.svg',
@@ -46,6 +49,7 @@ export const brandLogos: Record<string, string> = {
   'Some By Mi': '/brands/some-by-mi.png',
   'The Ordinary': '/brands/the-ordinary.svg',
   'TONYMOLY': '/brands/tonymoly.png',
-  // Still needed: Jumiso and Nineless — neither brand has a live official
-  // site (both domains are parked), and no retailer publishes their mark.
+  // Still needed. Jumiso and Nineless have no live official site (both domains
+  // are parked) and no retailer publishes their mark. La Roche-Posay's site
+  // renders its logo too late to scrape, so that one needs supplying by hand.
 }

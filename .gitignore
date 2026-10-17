@@ -1,13 +1,27 @@
-node_modules/
-dist/
-build/
-.cache/
-.env*
-.vite/
-vite.config.*.timestamp-*
-*.tsbuildinfo
-*-debug.log*
-logs/
-*.log
-.tmp-*
+# Repo-root ignores for the frontend/ + backend/ split.
+# The React app keeps its own rules in frontend/.gitignore.
+
+# Python / Django
+backend/venv/
+backend/.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+db.sqlite3
+db.sqlite3-journal
+/backend/media/
+/backend/staticfiles/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Editors / OS
+.DS_Store
+Thumbs.db
+
+# Scratch
 .tmp/
+.tmp-*
+*.log
