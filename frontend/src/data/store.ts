@@ -1,6 +1,6 @@
 // Central store settings — edit these values to update them across the whole site.
 
-export const store = {
+export let store = {
   name: 'GLOWWITHRUMI',
   tagline: 'Skincare & Beauty',
 
@@ -24,7 +24,7 @@ export const store = {
   ],
 }
 
-export const whatsappLink = `https://wa.me/${store.whatsappNumber}?text=${encodeURIComponent(store.whatsappGreeting)}`
+export let whatsappLink = `https://wa.me/${store.whatsappNumber}?text=${encodeURIComponent(store.whatsappGreeting)}`
 
 // Brands are derived from the catalogue itself — add a product with a new
 // brand in data/products.ts and it appears here automatically.
@@ -35,7 +35,7 @@ export { brandList as brands } from './products'
  * A brand with no entry here falls back to its name set in the display font.
  * To add one: drop the file in `public/brands/` and map the brand name to it.
  */
-export const brandLogos: Record<string, string> = {
+export let brandLogos: Record<string, string> = {
   'Acwell': '/brands/acwell.png',
   'Anua': '/brands/anua.png',
   'APLB': '/brands/aplb.png',
@@ -60,4 +60,22 @@ export const brandLogos: Record<string, string> = {
   // Still needed. Jumiso and Nineless have no live official site (both domains
   // are parked) and no retailer publishes their mark. La Roche-Posay's site
   // renders its logo too late to scrape, so that one needs supplying by hand.
+}
+
+
+/**
+ * Replace the bundled shop details with whatever the admin holds.
+ * Live bindings again, so importers see the new values without changing.
+ */
+export function applyStore(next: {
+  settings?: Partial<typeof store>
+  brandLogos?: Record<string, string>
+}) {
+  if (next.settings) {
+    store = { ...store, ...next.settings }
+    whatsappLink = `https://wa.me/${store.whatsappNumber}?text=${encodeURIComponent(store.whatsappGreeting)}`
+  }
+  if (next.brandLogos && Object.keys(next.brandLogos).length) {
+    brandLogos = next.brandLogos
+  }
 }

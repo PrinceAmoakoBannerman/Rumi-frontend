@@ -10,7 +10,7 @@ import type { Product } from '../contexts/AppContext'
  * the `public/products/` folder. Drop a photo in using exactly that filename
  * and it appears on the site; until then a placeholder is shown.
  */
-export const products: Product[] = [
+export let products: Product[] = [
   // ─── ANUA ──────────────────────────────────────────────────────────────
   {
     id: 1,
@@ -1201,9 +1201,9 @@ export const products: Product[] = [
   },
 ]
 
-export const categories = ['All', 'Serums', 'Toners', 'Cleansers', 'Sunscreens', 'Moisturizers', 'Masks', 'Body']
+export let categories: string[] = ['All', 'Serums', 'Toners', 'Cleansers', 'Sunscreens', 'Moisturizers', 'Masks', 'Body']
 
-export const brandList = [...new Set(products.map(p => p.brand))].sort()
+export let brandList: string[] = [...new Set(products.map(p => p.brand))].sort()
 
 // TODO — replace with real customer reviews before launch. These are placeholders
 // so the section renders; publishing invented testimonials would mislead shoppers.
@@ -1217,7 +1217,18 @@ export const testimonials: {
   product: string
 }[] = []
 
-export const blogPosts = [
+export interface BlogPost {
+  id: number
+  title: string
+  category: string
+  author: string
+  date: string
+  readTime: string
+  image: string
+  excerpt: string
+}
+
+export let blogPosts: BlogPost[] = [
   {
     id: 1,
     title: 'Building a Korean Skincare Routine: The Order That Actually Matters',
@@ -1249,3 +1260,22 @@ export const blogPosts = [
     excerpt: 'Daily SPF is non-negotiable for protecting your brightening results — and the newest Korean formulas finally work beautifully on deeper skin tones.',
   },
 ]
+
+
+/**
+ * Swap the bundled catalogue for whatever the admin currently holds.
+ *
+ * These are `let` bindings rather than `const` so that reassigning them here
+ * updates every module that imported them — ES modules share live bindings.
+ * That is what lets the fourteen files reading `products` stay untouched.
+ */
+export function applyCatalogue(next: {
+  products: Product[]
+  categories: string[]
+  blogPosts: BlogPost[]
+}) {
+  products = next.products
+  categories = next.categories
+  blogPosts = next.blogPosts
+  brandList = [...new Set(products.map(p => p.brand))].sort()
+}

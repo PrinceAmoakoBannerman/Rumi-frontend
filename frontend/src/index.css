@@ -7,6 +7,9 @@
   --color-rose-deep: #B85E75;
   --color-blush-light: #E8B0C3;
   --color-charcoal: #2A2A2A;
+  /* Prices sit in a blue-black rather than the body charcoal, so the
+     number is the first thing the eye lands on in a card. */
+  --color-price: #141E33;
   --color-charcoal-light: #4A4A4A;
   --color-cream: #F5EFE6;
   --color-cream-dark: #EDE4D6;

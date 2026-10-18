@@ -155,7 +155,10 @@ export default function ProductDetail() {
 
             {/* Price */}
             <div className="flex items-baseline gap-3">
-              <span className={`text-3xl font-semibold ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`}>
+              <span
+                className="text-3xl font-semibold"
+                style={{ color: darkMode ? '#FAF7F2' : 'var(--color-price)' }}
+              >
                 {formatProductPrice(product.price)}
               </span>
               {product.originalPrice && product.price > 0 && (
@@ -268,14 +271,62 @@ export default function ProductDetail() {
                     <p className={`text-sm leading-relaxed ${darkMode ? 'text-[#FAF7F2]/70' : 'text-[#4A4A4A]'}`}>{product.description}</p>
                   )}
                   {activeTab === 'Ingredients' && (
-                    <ul className="flex flex-col gap-2">
-                      {product.ingredients.map((ing, i) => (
-                        <li key={i} className="flex items-center gap-3">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#D3839E] flex-shrink-0" />
-                          <span className={`text-sm ${darkMode ? 'text-[#FAF7F2]/70' : 'text-[#4A4A4A]'}`}>{ing}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <div className="flex flex-col gap-7">
+                      {product.ingredients.length > 0 && (
+                        <div>
+                          <h3
+                            style={{ fontFamily: 'var(--font-display)' }}
+                            className={`text-base font-medium mb-3 ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`}
+                          >
+                            Key ingredients
+                          </h3>
+                          <ul className="flex flex-col gap-2">
+                            {product.ingredients.map((ing, i) => (
+                              <li key={i} className="flex items-center gap-3">
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#D3839E] flex-shrink-0" />
+                                <span className={`text-sm ${darkMode ? 'text-[#FAF7F2]/70' : 'text-[#4A4A4A]'}`}>{ing}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+
+                      {/* The complete INCI list, set as a paragraph the way a
+                          pack prints it rather than broken into bullets. */}
+                      {product.ingredientsText && (
+                        <div>
+                          <h3
+                            style={{ fontFamily: 'var(--font-display)' }}
+                            className={`text-base font-medium mb-3 ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`}
+                          >
+                            Full ingredients
+                          </h3>
+                          {product.ingredientsText
+                            .split(/\n\s*\n/)
+                            .filter(block => block.trim())
+                            .map((block, i) => (
+                              <p
+                                key={i}
+                                className={`text-sm leading-[1.85] mb-3 last:mb-0 ${
+                                  darkMode ? 'text-[#FAF7F2]/70' : 'text-[#4A4A4A]'
+                                }`}
+                              >
+                                {block.trim()}
+                              </p>
+                            ))}
+                          <p className={`text-xs mt-5 ${darkMode ? 'text-[#FAF7F2]/40' : 'text-[#4A4A4A]/55'}`}>
+                            Ingredients are subject to change at the manufacturer&apos;s discretion.
+                            For the most complete and up-to-date list, refer to the product packaging.
+                          </p>
+                        </div>
+                      )}
+
+                      {product.ingredients.length === 0 && !product.ingredientsText && (
+                        <p className={`text-sm ${darkMode ? 'text-[#FAF7F2]/60' : 'text-[#4A4A4A]/70'}`}>
+                          The ingredients for this product have not been listed yet.
+                        </p>
+                      )}
+                    </div>
                   )}
                   {activeTab === 'Usage' && (
                     <p className={`text-sm leading-relaxed ${darkMode ? 'text-[#FAF7F2]/70' : 'text-[#4A4A4A]'}`}>{product.usage}</p>

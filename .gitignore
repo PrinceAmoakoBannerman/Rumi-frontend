@@ -17,6 +17,8 @@ db.sqlite3-journal
 .env.*
 !.env.example
 
+# Tooling config, not project code (frontend/.gitignore does the same)
+
 # Editors / OS
 .DS_Store
 Thumbs.db
@@ -25,3 +27,14 @@ Thumbs.db
 .tmp/
 .tmp-*
 *.log
+
+# Database dumps. A dumpdata export carries the admin account's password
+# hash, so it must never be published - these are one-off migration
+# artefacts, not part of the project.
+backend/seed/*_dump.json
+backend/seed/dump_err.txt
+*.sql
+*.dump
+
+# collectstatic output, rebuilt on every deploy
+backend/staticfiles/

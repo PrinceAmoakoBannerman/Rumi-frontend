@@ -9,7 +9,55 @@
   </head>
   <body>
     <!-- figma:body-start -->
-    <div id="root"></div>
+    <!--
+      The catalogue is fetched before the first render, so #root is empty for a
+      moment. This placeholder fills that gap and is replaced the instant React
+      mounts; without it the shop opens on a blank white page.
+    -->
+    <div id="root">
+      <div
+        style="
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 18px;
+          background: #faf7f2;
+          font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+        "
+      >
+        <div
+          style="
+            width: 34px;
+            height: 34px;
+            border: 3px solid #ede4d6;
+            border-top-color: #d3839e;
+            border-radius: 50%;
+            animation: gwr-spin 0.8s linear infinite;
+          "
+        ></div>
+        <p
+          style="
+            margin: 0;
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: #d3839e;
+            font-weight: 600;
+          "
+        >
+          Glowwithrumi
+        </p>
+        <style>
+          @keyframes gwr-spin {
+            to {
+              transform: rotate(360deg);
+            }
+          }
+        </style>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
     <!-- figma:body-end -->
   </body>

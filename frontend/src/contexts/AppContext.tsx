@@ -26,6 +26,8 @@ export interface Product {
   badge?: string
   description: string
   ingredients: string[]
+  /** The complete INCI list, as printed on the pack. Optional. */
+  ingredientsText?: string
   usage: string
   isNew?: boolean
   isBestseller?: boolean

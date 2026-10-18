@@ -96,7 +96,10 @@ export default function ProductCard({ product, layout = 'grid' }: Props) {
               {formatPrice(product.originalPrice)}
             </span>
           )}
-          <span className={`text-sm sm:text-base font-semibold whitespace-nowrap ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`}>
+          <span
+            className="text-sm sm:text-base font-semibold whitespace-nowrap"
+            style={{ color: darkMode ? '#FAF7F2' : 'var(--color-price)' }}
+          >
             {formatProductPrice(product.price)}
           </span>
         </div>

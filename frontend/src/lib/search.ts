@@ -47,15 +47,28 @@ const tileLabels: Record<string, string> = {
   Body: 'Body Care',
 }
 
+function buildCategoryTiles(): CategoryTile[] {
+  return categories
+    .filter(c => c !== 'All')
+    .map(category => {
+      const first = products.find(p => p.category === category && p.image)
+      return first ? { category, label: tileLabels[category] ?? category, image: first.image } : null
+    })
+    .filter(t => t !== null)
+}
+
 /**
  * One tile per category that actually has stock, each illustrated with a real
  * product shot from inside it. Derived from the catalogue so a new category —
  * or a product photo swap — carries through without touching the navbar.
  */
-export const categoryTiles: CategoryTile[] = categories
-  .filter(c => c !== 'All')
-  .map(category => {
-    const first = products.find(p => p.category === category && p.image)
-    return first ? { category, label: tileLabels[category] ?? category, image: first.image } : null
-  })
-  .filter(t => t !== null)
+export let categoryTiles: CategoryTile[] = buildCategoryTiles()
+
+/**
+ * Recompute after the catalogue is replaced by the API. This is built once at
+ * import time, which happens before the fetch finishes, so it would otherwise
+ * keep describing the bundled catalogue.
+ */
+export function rebuildCategoryTiles() {
+  categoryTiles = buildCategoryTiles()
+}
