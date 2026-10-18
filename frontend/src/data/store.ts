@@ -4,11 +4,9 @@ export let store = {
   name: 'GLOWWITHRUMI',
   tagline: 'Skincare & Beauty',
 
-  // As the owner gave it. Note this is 11 digits — Ghana mobile numbers are
-  // normally 10 (0XX XXX XXXX) — so it is worth checking before launch.
-  phoneLocal: '05494469052',
+  phoneLocal: '0594469052',
   // Same number in international form for wa.me: leading 0 swapped for 233.
-  whatsappNumber: '2335494469052',
+  whatsappNumber: '233594469052',
   whatsappGreeting: 'Hello GLOWWITHRUMI! I would like to ask about a product.',
 
   address: 'Grace Nkansah Apartment, Dome, Accra',
