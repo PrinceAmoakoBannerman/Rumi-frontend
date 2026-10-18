@@ -38,3 +38,7 @@ backend/seed/dump_err.txt
 
 # collectstatic output, rebuilt on every deploy
 backend/staticfiles/
+
+# The backend is its own repository (Rumi-backend) with its own
+# .gitignore. Excluded here so the two do not track the same files.
+backend/
