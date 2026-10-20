@@ -43,6 +43,11 @@ function BrandTile({ brand, compact = false }: { brand: string; compact?: boolea
 export default function BrandShowcase() {
   const { darkMode } = useApp()
 
+  // "Others" is where the shop files a product whose maker is not stocked by
+  // name. It belongs in the admin's brand list, not in a wall headed "Our
+  // Brands" — and a tile reading "Others" would search for nothing.
+  const shown = brands.filter(brand => brand !== 'Others')
+
   return (
     <section className={`py-20 sm:py-24 ${darkMode ? 'bg-[#1C1916]' : 'bg-[#FAF7F2]'}`}>
       <div className="max-w-[1400px] mx-auto">
@@ -76,7 +81,7 @@ export default function BrandShowcase() {
             autoplay={{ delay: 0, disableOnInteraction: false, pauseOnMouseEnter: true }}
             className="md:!overflow-visible"
           >
-            {brands.map(brand => (
+            {shown.map(brand => (
               <SwiperSlide key={brand}>
                 <BrandTile brand={brand} compact />
               </SwiperSlide>
@@ -86,7 +91,7 @@ export default function BrandShowcase() {
 
         {/* Tablet and up — full grid */}
         <div className="hidden sm:grid grid-cols-3 lg:grid-cols-5 gap-4 px-6 lg:px-12">
-          {brands.map((brand, i) => (
+          {shown.map((brand, i) => (
             <motion.div
               key={brand}
               initial={{ opacity: 0, scale: 0.95 }}
