@@ -5,6 +5,7 @@ import { FiCheck, FiClock, FiAlertCircle, FiPackage, FiMail } from 'react-icons/
 import { useApp } from '../contexts/AppContext'
 import { formatPrice } from '../lib/currency'
 import { fetchOrder, type Order } from '../lib/checkout'
+import OrderProgress from '../components/OrderProgress'
 
 /**
  * Shown when the customer comes back from Paystack.
@@ -107,7 +108,7 @@ export default function OrderConfirmation() {
         </motion.div>
 
         <p className="text-[#D3839E] text-xs tracking-[0.35em] uppercase font-medium mb-3">
-          {paid ? 'Order Confirmed' : pending ? 'Awaiting Payment' : 'Payment Not Completed'}
+          {paid ? order.statusLabel : pending ? 'Awaiting Payment' : 'Payment Not Completed'}
         </p>
         <h1
           style={{ fontFamily: 'var(--font-display)' }}
@@ -117,11 +118,23 @@ export default function OrderConfirmation() {
         </h1>
         <p className={`text-sm leading-relaxed mb-7 ${darkMode ? 'text-[#FAF7F2]/70' : 'text-[#4A4A4A]'}`}>
           {paid
-            ? `We have your order and will be in touch on ${order.phone} to arrange delivery.`
+            ? order.status === 'delivered'
+              ? 'Your order has been delivered. We hope you love it.'
+              : order.status === 'shipped'
+                ? `Your order is on its way. We will call ${order.phone} to arrange handover.`
+                : `We have your order and will be in touch on ${order.phone} to arrange delivery.`
             : pending
               ? 'Your order is saved. If you have just paid, this page will update shortly — or we will contact you.'
               : 'Your payment did not go through, so you have not been charged. Your basket is still safe.'}
         </p>
+
+        {/* The path only applies once there is money; a failed payment has
+            no journey to show. */}
+        {paid && (
+          <div className="mb-8">
+            <OrderProgress journey={order.journey} darkMode={darkMode} />
+          </div>
+        )}
 
         <div className={`rounded-2xl p-5 mb-7 text-left ${darkMode ? 'bg-[#1C1916]' : 'bg-[#FAF7F2]'}`}>
           <Row label="Order number" value={order.reference} darkMode={darkMode} strong />

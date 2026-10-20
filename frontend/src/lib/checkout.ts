@@ -31,6 +31,8 @@ export interface CheckoutResult {
   detail?: string
 }
 
+import type { JourneyStep } from '../components/OrderProgress'
+
 export interface OrderLine {
   name: string
   quantity: number
@@ -41,7 +43,9 @@ export interface OrderLine {
 export interface Order {
   reference: string
   status: string
+  statusLabel: string
   isPaid: boolean
+  journey: JourneyStep[]
   customerName: string
   email: string
   phone: string

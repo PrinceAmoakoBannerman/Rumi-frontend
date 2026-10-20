@@ -28,6 +28,7 @@ export interface PastOrderLine {
 }
 
 export interface PastOrder {
+  journey: import('../components/OrderProgress').JourneyStep[]
   reference: string
   status: string
   statusLabel: string

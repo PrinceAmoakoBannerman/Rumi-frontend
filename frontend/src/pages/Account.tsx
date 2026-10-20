@@ -6,6 +6,7 @@ import { useApp } from '../contexts/AppContext'
 import { formatPrice } from '../lib/currency'
 import { myOrders, saveDetails, AuthError, type PastOrder } from '../lib/auth'
 import { Field } from '../components/AuthShell'
+import OrderProgress from '../components/OrderProgress'
 
 const regions = [
   'Greater Accra', 'Ashanti', 'Western', 'Central', 'Eastern', 'Volta',
@@ -202,6 +203,11 @@ export default function Account() {
                       </span>
                     </div>
                   ))}
+                  {order.isPaid && (
+                    <div className={`mt-4 pt-3 border-t ${darkMode ? 'border-[#3A3328]' : 'border-[#EDE4D6]'}`}>
+                      <OrderProgress journey={order.journey} darkMode={darkMode} compact />
+                    </div>
+                  )}
                   <div className={`flex justify-between mt-3 pt-3 border-t ${darkMode ? 'border-[#3A3328]' : 'border-[#EDE4D6]'}`}>
                     <span className={`text-xs ${darkMode ? 'text-[#FAF7F2]/45' : 'text-[#4A4A4A]/60'}`}>
                       {new Date(order.placedOn).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
