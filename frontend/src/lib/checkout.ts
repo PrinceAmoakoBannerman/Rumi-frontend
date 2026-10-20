@@ -6,6 +6,8 @@
  * could be edited on the way, and someone would pay 1 GH₵ for a serum.
  */
 
+import { authHeaders } from './auth'
+
 const API = import.meta.env.VITE_API_URL ?? 'http://127.0.0.1:8000'
 
 export interface CheckoutCustomer {
@@ -66,7 +68,9 @@ export async function startCheckout(
   try {
     response = await fetch(`${API}/api/checkout/`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      // Signed in? Then the order belongs to that account, and will show
+      // up under Your orders.
+      headers: { 'Content-Type': 'application/json', ...authHeaders() },
       body: JSON.stringify({ ...customer, basket }),
     })
   } catch {

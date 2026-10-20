@@ -24,7 +24,7 @@ const drawerLinks = [
 ]
 
 export default function Navbar() {
-  const { cartCount, cartTotal, wishlist, setCartOpen, searchQuery, setSearchQuery } = useApp()
+  const { cartCount, cartTotal, wishlist, setCartOpen, searchQuery, setSearchQuery, account } = useApp()
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const navigate = useNavigate()
@@ -112,12 +112,17 @@ export default function Navbar() {
 
             {/* Right — actions */}
             <div className="flex items-center justify-end gap-0.5">
-              <button
-                className="w-10 h-10 items-center justify-center rounded-full hover:bg-[#D3839E]/10 transition-colors hidden sm:flex"
-                aria-label="Account"
+              <Link
+                to={account ? '/account' : '/signin'}
+                className="w-10 h-10 items-center justify-center rounded-full hover:bg-[#D3839E]/10 transition-colors hidden sm:flex relative"
+                aria-label={account ? 'Your account' : 'Sign in'}
+                title={account ? account.name || account.email : 'Sign in'}
               >
                 <FiUser size={18} className={iconColor} />
-              </button>
+                {account && (
+                  <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[#4C9A6A]" />
+                )}
+              </Link>
               <button
                 className="w-10 h-10 items-center justify-center rounded-full hover:bg-[#D3839E]/10 transition-colors relative hidden sm:flex"
                 aria-label="Wishlist"
@@ -268,6 +273,16 @@ export default function Navbar() {
                 </nav>
 
                 <nav className="flex flex-col">
+                  {/* The account icon beside the basket is hidden on a phone,
+                      so without this there is no way in from one. */}
+                  <Link
+                    to={account ? '/account' : '/signin'}
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center gap-3 px-5 py-4 border-b border-[#EDE4D6] text-sm tracking-[0.1em] uppercase font-medium text-[#2A2A2A] active:bg-[#D3839E]/10 transition-colors"
+                  >
+                    <FiUser size={16} />
+                    {account ? (account.name?.split(' ')[0] || 'Your account') : 'Sign in'}
+                  </Link>
                   {drawerLinks.map(link => (
                     <Link
                       key={link.label}

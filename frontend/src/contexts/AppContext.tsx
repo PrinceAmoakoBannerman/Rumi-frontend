@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
 import { products } from '../data/products'
+import { whoAmI, signOut, type Account } from '../lib/auth'
 
 export interface Review {
   id: number
@@ -69,6 +70,12 @@ interface AppContextType {
   // Recently viewed
   recentlyViewed: number[]
   addRecentlyViewed: (id: number) => void
+  // Account
+  account: Account | null
+  /** False until we have asked the backend who is signed in. */
+  accountChecked: boolean
+  setAccount: (account: Account | null) => void
+  signOutNow: () => Promise<void>
 }
 
 const AppContext = createContext<AppContextType | null>(null)
@@ -200,6 +207,27 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setRecentlyViewed(prev => [id, ...prev.filter(x => x !== id)].slice(0, 6))
   }
 
+  // Ask the backend once who the stored token belongs to. A token kept from
+  // a previous visit can have been signed out elsewhere or thrown away, so
+  // it is never trusted on its own.
+  const [account, setAccount] = useState<Account | null>(null)
+  const [accountChecked, setAccountChecked] = useState(false)
+
+  useEffect(() => {
+    let active = true
+    whoAmI()
+      .then(who => active && setAccount(who))
+      .finally(() => active && setAccountChecked(true))
+    return () => {
+      active = false
+    }
+  }, [])
+
+  const signOutNow = async () => {
+    await signOut()
+    setAccount(null)
+  }
+
   return (
     <AppContext.Provider value={{
       cartItems, cartOpen, setCartOpen, addToCart, removeFromCart, updateQty, clearCart,
@@ -209,6 +237,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       searchOpen, setSearchOpen, searchQuery, setSearchQuery,
       coupon, applyCoupon, discount,
       recentlyViewed, addRecentlyViewed,
+      account, accountChecked, setAccount, signOutNow,
     }}>
       {children}
     </AppContext.Provider>

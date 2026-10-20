@@ -9,6 +9,8 @@ import ScrollToTop from './components/ScrollToTop'
 import Home from './pages/Home'
 import Products from './pages/Products'
 import ProductDetail from './pages/ProductDetail'
+import SignIn from './pages/SignIn'
+import Account from './pages/Account'
 import Checkout from './pages/Checkout'
 import OrderConfirmation from './pages/OrderConfirmation'
 import About from './pages/About'
@@ -27,6 +29,9 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id" element={<ProductDetail />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignIn joining />} />
+          <Route path="/account" element={<Account />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/order-confirmation" element={<OrderConfirmation />} />
           <Route path="/about" element={<About />} />

@@ -31,14 +31,14 @@ function Field({ label, darkMode, wrapperClassName, ...props }: FieldProps) {
   )
 }
 
-function SelectField({ label, darkMode, wrapperClassName, options, required, name }: { label: string; darkMode: boolean; wrapperClassName?: string; options: string[]; required?: boolean; name?: string }) {
+function SelectField({ label, darkMode, wrapperClassName, options, required, name, value }: { label: string; darkMode: boolean; wrapperClassName?: string; options: string[]; required?: boolean; name?: string; value?: string }) {
   return (
     <label className={`flex flex-col gap-1.5 min-w-0 ${wrapperClassName || ''}`}>
       <span className={`text-[10px] tracking-[0.15em] uppercase font-medium ${darkMode ? 'text-[#FAF7F2]/50' : 'text-[#4A4A4A]/70'}`}>{label}</span>
       <select
         name={name}
         required={required}
-        defaultValue=""
+        defaultValue={value ?? ''}
         className={`w-full min-w-0 bg-transparent border-b text-sm py-2 outline-none focus:border-[#D3839E] transition-colors ${darkMode ? 'border-[#3A3328] text-[#FAF7F2]' : 'border-[#EDE4D6] text-[#2A2A2A]'}`}
       >
         <option value="" disabled>Select…</option>
@@ -60,7 +60,7 @@ function Section({ title, darkMode, children }: { title: string; darkMode: boole
 }
 
 export default function Checkout() {
-  const { darkMode, cartItems, cartTotal, discount, clearCart } = useApp()
+  const { darkMode, cartItems, cartTotal, discount, clearCart, account } = useApp()
   const navigate = useNavigate()
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -138,21 +138,28 @@ export default function Checkout() {
           Checkout
         </h1>
 
-        <form onSubmit={handleSubmit} className="grid lg:grid-cols-[1fr_400px] gap-8 items-start [&>*]:min-w-0">
+        {/* Who is signed in is only known once the backend has answered, which
+            is after this first renders. The key rebuilds the fields when the
+            answer arrives, so the saved details actually appear. */}
+        <form
+          key={account?.email ?? 'guest'}
+          onSubmit={handleSubmit}
+          className="grid lg:grid-cols-[1fr_400px] gap-8 items-start [&>*]:min-w-0"
+        >
           <div className="flex flex-col gap-8">
             <Section title="Contact" darkMode={darkMode}>
               <div className="grid sm:grid-cols-2 gap-5">
-                <Field label="Full name" name="name" autoComplete="name" darkMode={darkMode} required />
-                <Field label="Phone number" name="phone" type="tel" autoComplete="tel" darkMode={darkMode} required />
-                <Field label="Email" name="email" type="email" autoComplete="email" darkMode={darkMode} required wrapperClassName="sm:col-span-2" />
+                <Field label="Full name" name="name" autoComplete="name" darkMode={darkMode} required defaultValue={account?.name ?? ''} />
+                <Field label="Phone number" name="phone" type="tel" autoComplete="tel" darkMode={darkMode} required defaultValue={account?.phone ?? ''} />
+                <Field label="Email" name="email" type="email" autoComplete="email" darkMode={darkMode} required wrapperClassName="sm:col-span-2" defaultValue={account?.email ?? ''} />
               </div>
             </Section>
 
             <Section title="Shipping Address" darkMode={darkMode}>
               <div className="grid sm:grid-cols-2 gap-5">
-                <Field label="Street address" name="address" autoComplete="street-address" darkMode={darkMode} required wrapperClassName="sm:col-span-2" />
-                <Field label="City / Town" name="city" autoComplete="address-level2" darkMode={darkMode} required />
-                <SelectField label="Region" name="region" darkMode={darkMode} options={regions} required />
+                <Field label="Street address" name="address" autoComplete="street-address" darkMode={darkMode} required wrapperClassName="sm:col-span-2" defaultValue={account?.address ?? ''} />
+                <Field label="City / Town" name="city" autoComplete="address-level2" darkMode={darkMode} required defaultValue={account?.city ?? ''} />
+                <SelectField label="Region" name="region" darkMode={darkMode} options={regions} required value={account?.region ?? ''} />
               </div>
             </Section>
 
