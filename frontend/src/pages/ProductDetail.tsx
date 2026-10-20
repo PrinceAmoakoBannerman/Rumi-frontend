@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FiHeart, FiShoppingBag, FiArrowLeft, FiZoomIn, FiX, FiMinus, FiPlus } from 'react-icons/fi'
+import { FiHeart, FiShoppingBag, FiArrowLeft, FiZoomIn, FiX, FiMinus, FiPlus, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import ProductCard from '../components/ProductCard'
 import { products } from '../data/products'
 import { useApp } from '../contexts/AppContext'
@@ -55,11 +55,32 @@ export default function ProductDetail() {
     )
   }
 
-  const images = product.images || [product.image]
+  // An empty array still counts as "no photos", so check the length rather
+  // than the array itself — the backend sends [] for a product with none.
+  const images = product.images?.length ? product.images : [product.image]
+  // The reset below runs after render, so the first frame of a product with
+  // fewer photos would otherwise ask for one that is not there.
+  const activeIndex = Math.min(activeImg, images.length - 1)
   const liked = wishlist.includes(product.id)
   const related = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4)
   const recentProducts = products.filter(p => recentlyViewed.includes(p.id) && p.id !== product.id).slice(0, 4)
   const allReviews = [...myReviews, ...(product.reviews || [])]
+
+  const step = (by: number) =>
+    setActiveImg(i => (Math.min(i, images.length - 1) + by + images.length) % images.length)
+
+  // A full-screen overlay with no keyboard is a trap: Escape must close it,
+  // and arrows are what people reach for once it is open.
+  useEffect(() => {
+    if (!lightbox) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLightbox(false)
+      if (e.key === 'ArrowRight') step(1)
+      if (e.key === 'ArrowLeft') step(-1)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [lightbox, images.length])
 
   const handleReviewSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -94,8 +115,8 @@ export default function ProductDetail() {
             <div className="relative rounded-3xl overflow-hidden aspect-square mb-4 group bg-white border border-[#EDE4D6]">
               <AnimatePresence mode="wait">
                 <motion.img
-                  key={activeImg}
-                  src={images[activeImg]}
+                  key={activeIndex}
+                  src={images[activeIndex]}
                   alt={product.name}
                   onError={e => { (e.currentTarget as HTMLImageElement).src = PLACEHOLDER_IMAGE }}
                   initial={{ opacity: 0 }}
@@ -119,12 +140,15 @@ export default function ProductDetail() {
             </div>
             {/* Thumbnails */}
             {images.length > 1 && (
-              <div className="flex gap-3">
+              <div className="flex gap-3 overflow-x-auto pb-1 -mx-1 px-1">
                 {images.map((img, i) => (
                   <button
                     key={i}
+                    type="button"
                     onClick={() => setActiveImg(i)}
-                    className={`w-20 h-20 rounded-2xl overflow-hidden border-2 bg-white transition-all ${activeImg === i ? 'border-[#D3839E]' : darkMode ? 'border-[#3A3328]' : 'border-[#EDE4D6]'}`}
+                    aria-label={`View photo ${i + 1} of ${images.length}`}
+                    aria-current={activeIndex === i}
+                    className={`w-20 h-20 flex-shrink-0 rounded-2xl overflow-hidden border-2 bg-white transition-all ${activeIndex === i ? 'border-[#D3839E]' : darkMode ? 'border-[#3A3328]' : 'border-[#EDE4D6]'}`}
                   >
                     <img
                       src={img}
@@ -461,8 +485,29 @@ export default function ProductDetail() {
             >
               <FiX size={18} />
             </button>
+            {images.length > 1 && (
+              <>
+                <button
+                  aria-label="Previous photo"
+                  className="absolute left-4 w-11 h-11 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+                  onClick={e => { e.stopPropagation(); step(-1) }}
+                >
+                  <FiChevronLeft size={20} />
+                </button>
+                <button
+                  aria-label="Next photo"
+                  className="absolute right-4 w-11 h-11 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+                  onClick={e => { e.stopPropagation(); step(1) }}
+                >
+                  <FiChevronRight size={20} />
+                </button>
+                <span className="absolute bottom-6 text-white/70 text-xs tracking-widest">
+                  {activeIndex + 1} / {images.length}
+                </span>
+              </>
+            )}
             <img
-              src={images[activeImg]}
+              src={images[activeIndex]}
               alt={product.name}
               className="max-w-full max-h-full object-contain rounded-2xl"
               onClick={e => e.stopPropagation()}
