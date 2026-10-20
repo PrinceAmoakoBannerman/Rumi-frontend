@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
+import { products } from '../data/products'
 
 export interface Review {
   id: number
@@ -72,8 +73,61 @@ interface AppContextType {
 
 const AppContext = createContext<AppContextType | null>(null)
 
+/**
+ * The basket, remembered between visits.
+ *
+ * It was held in React state alone, so a refresh — or being sent to Paystack
+ * and back — emptied it. Only ids and quantities are stored; the products
+ * themselves are matched against the live catalogue on the way back in, so a
+ * basket can never show a stale price or something no longer stocked.
+ */
+const CART_KEY = 'gwr.cart.v1'
+
+function loadCart(): { id: number; quantity: number }[] {
+  try {
+    const raw = localStorage.getItem(CART_KEY)
+    if (!raw) return []
+    const parsed = JSON.parse(raw)
+    if (!Array.isArray(parsed)) return []
+    return parsed
+      .filter(e => e && typeof e.id === 'number' && typeof e.quantity === 'number' && e.quantity > 0)
+      .slice(0, 50)
+  } catch {
+    // Private browsing, cleared storage, or corrupt JSON. An empty basket is
+    // the right answer; never let this stop the shop rendering.
+    return []
+  }
+}
+
+function saveCart(items: CartItem[]) {
+  try {
+    localStorage.setItem(
+      CART_KEY,
+      JSON.stringify(items.map(i => ({ id: i.product.id, quantity: i.quantity }))),
+    )
+  } catch {
+    // Storage full or blocked — not worth interrupting the customer for.
+  }
+}
+
 export function AppProvider({ children }: { children: ReactNode }) {
-  const [cartItems, setCartItems] = useState<CartItem[]>([])
+  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+    // Resolve saved ids against the catalogue, which is already loaded by the
+    // time this runs. Anything withdrawn since simply drops out.
+    const saved = loadCart()
+    if (!saved.length) return []
+    return saved
+      .map(entry => {
+        const product = products.find(p => p.id === entry.id)
+        return product ? { product, quantity: entry.quantity } : null
+      })
+      .filter((i): i is CartItem => i !== null)
+  })
+
+  useEffect(() => {
+    saveCart(cartItems)
+  }, [cartItems])
+
   const [cartOpen, setCartOpen] = useState(false)
   const [wishlist, setWishlist] = useState<number[]>([])
   const [darkMode, setDarkMode] = useState(false)

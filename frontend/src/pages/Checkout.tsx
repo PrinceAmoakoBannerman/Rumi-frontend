@@ -2,17 +2,16 @@ import { useState } from 'react'
 import type { InputHTMLAttributes, ReactNode } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { FiCreditCard, FiSmartphone, FiCheck } from 'react-icons/fi'
+import { FiCreditCard, FiSmartphone, FiCheck, FiLock } from 'react-icons/fi'
 import { useApp } from '../contexts/AppContext'
 import { formatPrice } from '../lib/currency'
+import { startCheckout, CheckoutError } from '../lib/checkout'
 
 const regions = [
   'Greater Accra', 'Ashanti', 'Western', 'Central', 'Eastern', 'Volta',
   'Northern', 'Upper East', 'Upper West', 'Bono', 'Bono East', 'Ahafo',
   'Western North', 'Oti', 'North East', 'Savannah',
 ]
-
-const momoNetworks = ['MTN Mobile Money', 'Vodafone Cash', 'AirtelTigo Money']
 
 interface FieldProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string
@@ -32,11 +31,12 @@ function Field({ label, darkMode, wrapperClassName, ...props }: FieldProps) {
   )
 }
 
-function SelectField({ label, darkMode, wrapperClassName, options, required }: { label: string; darkMode: boolean; wrapperClassName?: string; options: string[]; required?: boolean }) {
+function SelectField({ label, darkMode, wrapperClassName, options, required, name }: { label: string; darkMode: boolean; wrapperClassName?: string; options: string[]; required?: boolean; name?: string }) {
   return (
     <label className={`flex flex-col gap-1.5 min-w-0 ${wrapperClassName || ''}`}>
       <span className={`text-[10px] tracking-[0.15em] uppercase font-medium ${darkMode ? 'text-[#FAF7F2]/50' : 'text-[#4A4A4A]/70'}`}>{label}</span>
       <select
+        name={name}
         required={required}
         defaultValue=""
         className={`w-full min-w-0 bg-transparent border-b text-sm py-2 outline-none focus:border-[#D3839E] transition-colors ${darkMode ? 'border-[#3A3328] text-[#FAF7F2]' : 'border-[#EDE4D6] text-[#2A2A2A]'}`}
@@ -62,7 +62,8 @@ function Section({ title, darkMode, children }: { title: string; darkMode: boole
 export default function Checkout() {
   const { darkMode, cartItems, cartTotal, discount, clearCart } = useApp()
   const navigate = useNavigate()
-  const [paymentMethod, setPaymentMethod] = useState<'momo' | 'card'>('momo')
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const discountAmount = discount ? (cartTotal * discount) / 100 : 0
   const finalTotal = cartTotal - discountAmount
@@ -79,12 +80,51 @@ export default function Checkout() {
     )
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const orderNumber = `GWR-${Math.floor(100000 + Math.random() * 900000)}`
-    const total = finalTotal
-    clearCart()
-    navigate('/order-confirmation', { state: { orderNumber, total } })
+    if (submitting) return
+
+    setError(null)
+    setSubmitting(true)
+
+    const form = new FormData(e.currentTarget)
+    const customer = {
+      name: String(form.get('name') ?? ''),
+      email: String(form.get('email') ?? ''),
+      phone: String(form.get('phone') ?? ''),
+      address: String(form.get('address') ?? ''),
+      city: String(form.get('city') ?? ''),
+      region: String(form.get('region') ?? ''),
+    }
+
+    // Only what is being bought, never what it costs — the backend prices it.
+    const basket = cartItems.map(item => ({
+      product: item.product.id,
+      quantity: item.quantity,
+    }))
+
+    try {
+      const result = await startCheckout(customer, basket)
+
+      if (result.authorizationUrl) {
+        // Card and mobile money details are entered on Paystack's own page,
+        // so they never touch this site.
+        clearCart()
+        window.location.href = result.authorizationUrl
+        return
+      }
+
+      // Payments are not configured yet; the order was still recorded.
+      clearCart()
+      navigate(`/order-confirmation?reference=${encodeURIComponent(result.reference)}`)
+    } catch (err) {
+      setError(
+        err instanceof CheckoutError
+          ? err.message
+          : 'Something went wrong placing your order. Please try again.',
+      )
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -102,58 +142,34 @@ export default function Checkout() {
           <div className="flex flex-col gap-8">
             <Section title="Contact" darkMode={darkMode}>
               <div className="grid sm:grid-cols-2 gap-5">
-                <Field label="Full name" darkMode={darkMode} required />
-                <Field label="Phone number" type="tel" darkMode={darkMode} required />
-                <Field label="Email" type="email" darkMode={darkMode} required wrapperClassName="sm:col-span-2" />
+                <Field label="Full name" name="name" autoComplete="name" darkMode={darkMode} required />
+                <Field label="Phone number" name="phone" type="tel" autoComplete="tel" darkMode={darkMode} required />
+                <Field label="Email" name="email" type="email" autoComplete="email" darkMode={darkMode} required wrapperClassName="sm:col-span-2" />
               </div>
             </Section>
 
             <Section title="Shipping Address" darkMode={darkMode}>
               <div className="grid sm:grid-cols-2 gap-5">
-                <Field label="Street address" darkMode={darkMode} required wrapperClassName="sm:col-span-2" />
-                <Field label="City / Town" darkMode={darkMode} required />
-                <SelectField label="Region" darkMode={darkMode} options={regions} required />
+                <Field label="Street address" name="address" autoComplete="street-address" darkMode={darkMode} required wrapperClassName="sm:col-span-2" />
+                <Field label="City / Town" name="city" autoComplete="address-level2" darkMode={darkMode} required />
+                <SelectField label="Region" name="region" darkMode={darkMode} options={regions} required />
               </div>
             </Section>
 
-            <Section title="Payment Method" darkMode={darkMode}>
-              <div className="flex gap-3 mb-6">
-                <button
-                  type="button"
-                  onClick={() => setPaymentMethod('momo')}
-                  className={`flex-1 min-w-0 flex items-center justify-center gap-2 py-3 rounded-xl border text-[11px] sm:text-xs tracking-[0.1em] uppercase font-medium transition-colors ${
-                    paymentMethod === 'momo'
-                      ? 'bg-[#D3839E] border-[#D3839E] text-white'
-                      : darkMode ? 'border-[#3A3328] text-[#FAF7F2]/70' : 'border-[#EDE4D6] text-[#4A4A4A]'
-                  }`}
-                >
-                  <FiSmartphone size={14} /> Mobile Money
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPaymentMethod('card')}
-                  className={`flex-1 min-w-0 flex items-center justify-center gap-2 py-3 rounded-xl border text-[11px] sm:text-xs tracking-[0.1em] uppercase font-medium transition-colors ${
-                    paymentMethod === 'card'
-                      ? 'bg-[#D3839E] border-[#D3839E] text-white'
-                      : darkMode ? 'border-[#3A3328] text-[#FAF7F2]/70' : 'border-[#EDE4D6] text-[#4A4A4A]'
-                  }`}
-                >
-                  <FiCreditCard size={14} /> Card
-                </button>
+            {/* Paystack collects the payment itself, on its own page. Asking
+                for a card number here would be both pointless and reckless:
+                it would put this site in scope for card-data rules it is in
+                no position to satisfy. */}
+            <Section title="Payment" darkMode={darkMode}>
+              <p className={`text-sm leading-relaxed mb-5 ${darkMode ? 'text-[#FAF7F2]/70' : 'text-[#4A4A4A]'}`}>
+                You will be taken to Paystack to pay. Choose mobile money or card there —
+                your details are entered on their secure page and never reach this site.
+              </p>
+              <div className={`flex flex-wrap items-center gap-x-6 gap-y-2 text-xs ${darkMode ? 'text-[#FAF7F2]/55' : 'text-[#4A4A4A]/75'}`}>
+                <span className="flex items-center gap-2"><FiSmartphone size={14} /> MTN, Telecel &amp; AirtelTigo</span>
+                <span className="flex items-center gap-2"><FiCreditCard size={14} /> Visa &amp; Mastercard</span>
+                <span className="flex items-center gap-2"><FiLock size={14} /> Secured by Paystack</span>
               </div>
-
-              {paymentMethod === 'momo' ? (
-                <div className="grid sm:grid-cols-2 gap-5">
-                  <SelectField label="Network" darkMode={darkMode} options={momoNetworks} required />
-                  <Field label="Mobile money number" type="tel" placeholder="024 XXX XXXX" darkMode={darkMode} required />
-                </div>
-              ) : (
-                <div className="grid sm:grid-cols-2 gap-5">
-                  <Field label="Card number" placeholder="1234 5678 9012 3456" darkMode={darkMode} required wrapperClassName="sm:col-span-2" />
-                  <Field label="Expiry" placeholder="MM/YY" darkMode={darkMode} required />
-                  <Field label="CVV" placeholder="123" darkMode={darkMode} required />
-                </div>
-              )}
             </Section>
           </div>
 
@@ -198,15 +214,25 @@ export default function Checkout() {
               </div>
             </div>
 
+            {error && (
+              <p
+                role="alert"
+                className="mt-5 text-sm leading-relaxed text-[#C0392B] bg-[#C0392B]/8 border border-[#C0392B]/25 rounded-xl px-4 py-3"
+              >
+                {error}
+              </p>
+            )}
+
             <motion.button
               type="submit"
-              whileTap={{ scale: 0.98 }}
-              className="w-full mt-6 bg-[#D3839E] hover:bg-[#B85E75] text-white text-xs tracking-[0.2em] uppercase font-semibold py-4 rounded-full transition-colors flex items-center justify-center gap-2"
+              disabled={submitting}
+              whileTap={submitting ? undefined : { scale: 0.98 }}
+              className="w-full mt-6 bg-[#D3839E] hover:bg-[#B85E75] disabled:bg-[#D3839E]/55 disabled:cursor-not-allowed text-white text-xs tracking-[0.2em] uppercase font-semibold py-4 rounded-full transition-colors flex items-center justify-center gap-2"
             >
-              <FiCheck size={14} /> Place Order
+              {submitting ? 'Taking you to payment…' : <><FiCheck size={14} /> Pay {formatPrice(finalTotal)}</>}
             </motion.button>
             <p className={`text-[10px] text-center mt-3 ${darkMode ? 'text-[#FAF7F2]/30' : 'text-[#4A4A4A]/40'}`}>
-              Demo checkout — no real payment will be processed.
+              You will be taken to Paystack to pay. Your card details never reach this site.
             </p>
           </aside>
         </form>
