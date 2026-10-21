@@ -22,6 +22,9 @@ export default function OrderConfirmation() {
   // Paystack appends ?reference=..., and we add it ourselves when payments
   // are not configured.
   const reference = params.get('reference') ?? params.get('trxref')
+  // The order's own secret, put there by the checkout callback or by the
+  // link in the customer's email.
+  const token = params.get('t')
 
   const [order, setOrder] = useState<Order | null>(null)
   const [failed, setFailed] = useState(false)
@@ -32,13 +35,13 @@ export default function OrderConfirmation() {
       return
     }
     let active = true
-    fetchOrder(reference)
+    fetchOrder(reference, token)
       .then(result => active && setOrder(result))
       .catch(() => active && setFailed(true))
     return () => {
       active = false
     }
-  }, [reference, navigate])
+  }, [reference, token, navigate])
 
   const card = `w-full max-w-lg rounded-3xl border p-10 text-center ${
     darkMode ? 'bg-[#252018] border-[#3A3328]' : 'bg-white border-[#F5EFE6]'
@@ -58,7 +61,8 @@ export default function OrderConfirmation() {
             We could not find that order
           </h1>
           <p className={`text-sm mb-7 ${darkMode ? 'text-[#FAF7F2]/60' : 'text-[#4A4A4A]'}`}>
-            If you were charged, keep the reference <b>{reference}</b> and contact us — we will sort it out.
+            If you were charged, keep the order number <b>{reference}</b> and contact us — we will sort it out.
+            Order links expire from your browser history, so open the one in your email.
           </p>
           <Link to="/contact" className="text-[#D3839E] text-xs tracking-widest uppercase font-medium hover:underline">
             Contact us

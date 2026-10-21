@@ -26,6 +26,8 @@ export interface BasketLine {
 
 export interface CheckoutResult {
   reference: string
+  /** The order's own secret. Needed to open it again without signing in. */
+  token: string
   total: string
   authorizationUrl: string | null
   detail?: string
@@ -91,9 +93,18 @@ export async function startCheckout(
   return body as CheckoutResult
 }
 
-/** Read an order back. The backend confirms with Paystack if still pending. */
-export async function fetchOrder(reference: string): Promise<Order> {
-  const response = await fetch(`${API}/api/orders/${encodeURIComponent(reference)}/`)
+/** Read an order back. The backend confirms with Paystack if still pending.
+ *
+ * The order number alone is not enough — it is short enough to guess, and an
+ * order holds a name, a phone number and an address. The token comes back
+ * from checkout and rides along in the link we email.
+ */
+export async function fetchOrder(reference: string, token?: string | null): Promise<Order> {
+  const query = token ? `?token=${encodeURIComponent(token)}` : ''
+  const response = await fetch(
+    `${API}/api/orders/${encodeURIComponent(reference)}/${query}`,
+    { headers: authHeaders() },
+  )
   if (!response.ok) throw new CheckoutError('We could not find that order.')
   return (await response.json()) as Order
 }

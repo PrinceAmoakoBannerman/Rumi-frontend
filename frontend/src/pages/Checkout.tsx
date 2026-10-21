@@ -116,7 +116,10 @@ export default function Checkout() {
 
       // Payments are not configured yet; the order was still recorded.
       clearCart()
-      navigate(`/order-confirmation?reference=${encodeURIComponent(result.reference)}`)
+      navigate(
+        `/order-confirmation?reference=${encodeURIComponent(result.reference)}` +
+          `&t=${encodeURIComponent(result.token)}`,
+      )
     } catch (err) {
       setError(
         err instanceof CheckoutError
