@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
 import { products } from '../data/products'
 import { whoAmI, signOut, type Account } from '../lib/auth'
+import { checkPromo } from '../lib/promo'
 
 export interface Review {
   id: number
@@ -65,9 +66,11 @@ interface AppContextType {
   setSearchOpen: (open: boolean) => void
   searchQuery: string
   setSearchQuery: (q: string) => void
-  // Coupon
+  // Coupon — validated by the backend, which is the source of truth for the
+  // money. `discount` is the amount off in cedis.
   coupon: string | null
-  applyCoupon: (code: string) => boolean
+  applyCoupon: (code: string, subtotal: number) => Promise<string | null>
+  removeCoupon: () => void
   discount: number
   // Recently viewed
   recentlyViewed: number[]
@@ -143,7 +146,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [coupon, setCoupon] = useState<string | null>(null)
-  const [discount, setDiscount] = useState(0)
+  const [discount, setDiscount] = useState(0) // cedis off, from the backend
   const [recentlyViewed, setRecentlyViewed] = useState<number[]>([])
 
   useEffect(() => {
@@ -189,20 +192,20 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const toggleDarkMode = () => setDarkMode(d => !d)
 
-  const COUPONS: Record<string, number> = {
-    GLOW10: 10,
-    GLOW20: 20,
-    WELCOME15: 15,
+  // Checks the code with the backend and stores the real saving. Returns an
+  // error message, or null when the code was applied. The amount is only ever
+  // what the server says; the browser never decides the discount.
+  const applyCoupon = async (code: string, subtotal: number): Promise<string | null> => {
+    const result = await checkPromo(code.trim(), subtotal)
+    if (!result.ok) return result.error ?? 'That code could not be applied.'
+    setCoupon(result.code)
+    setDiscount(result.discount)
+    return null
   }
 
-  const applyCoupon = (code: string): boolean => {
-    const pct = COUPONS[code.toUpperCase()]
-    if (pct) {
-      setCoupon(code.toUpperCase())
-      setDiscount(pct)
-      return true
-    }
-    return false
+  const removeCoupon = () => {
+    setCoupon(null)
+    setDiscount(0)
   }
 
   const addRecentlyViewed = (id: number) => {
@@ -237,7 +240,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       wishlist, toggleWishlist,
       darkMode, toggleDarkMode,
       searchOpen, setSearchOpen, searchQuery, setSearchQuery,
-      coupon, applyCoupon, discount,
+      coupon, applyCoupon, removeCoupon, discount,
       recentlyViewed, addRecentlyViewed,
       account, accountChecked, setAccount, signOutNow,
     }}>

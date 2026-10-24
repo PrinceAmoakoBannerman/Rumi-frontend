@@ -60,12 +60,12 @@ function Section({ title, darkMode, children }: { title: string; darkMode: boole
 }
 
 export default function Checkout() {
-  const { darkMode, cartItems, cartTotal, discount, clearCart, account } = useApp()
+  const { darkMode, cartItems, cartTotal, discount, coupon, clearCart, account } = useApp()
   const navigate = useNavigate()
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const discountAmount = discount ? (cartTotal * discount) / 100 : 0
+  const discountAmount = Math.min(discount, cartTotal)
   const finalTotal = cartTotal - discountAmount
 
   if (cartItems.length === 0) {
@@ -104,7 +104,7 @@ export default function Checkout() {
     }))
 
     try {
-      const result = await startCheckout(customer, basket)
+      const result = await startCheckout(customer, basket, coupon ?? undefined)
 
       if (result.authorizationUrl) {
         // Card and mobile money details are entered on Paystack's own page,
@@ -210,7 +210,7 @@ export default function Checkout() {
               </div>
               {discount > 0 && (
                 <div className="flex justify-between text-[#D3839E]">
-                  <span>Discount ({discount}%)</span>
+                  <span>Discount{coupon ? ` (${coupon})` : ''}</span>
                   <span>-{formatPrice(discountAmount)}</span>
                 </div>
               )}

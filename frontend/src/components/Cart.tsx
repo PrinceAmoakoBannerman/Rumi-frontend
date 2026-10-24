@@ -6,17 +6,22 @@ import { useApp } from '../contexts/AppContext'
 import { formatPrice } from '../lib/currency'
 
 export default function Cart() {
-  const { cartItems, cartOpen, setCartOpen, removeFromCart, updateQty, cartTotal, cartCount, coupon, applyCoupon, discount, darkMode } = useApp()
+  const { cartItems, cartOpen, setCartOpen, removeFromCart, updateQty, cartTotal, cartCount, coupon, applyCoupon, removeCoupon, discount, darkMode } = useApp()
   const [couponInput, setCouponInput] = useState('')
-  const [couponError, setCouponError] = useState(false)
+  const [couponError, setCouponError] = useState<string | null>(null)
+  const [applying, setApplying] = useState(false)
 
-  const handleCoupon = () => {
-    const ok = applyCoupon(couponInput)
-    if (!ok) setCouponError(true)
-    else setCouponError(false)
+  const handleCoupon = async () => {
+    if (!couponInput.trim() || applying) return
+    setApplying(true)
+    const error = await applyCoupon(couponInput, cartTotal)
+    setCouponError(error)
+    if (!error) setCouponInput('')
+    setApplying(false)
   }
 
-  const discountAmount = discount ? (cartTotal * discount) / 100 : 0
+  // The backend gives the saving in cedis; never more than the basket.
+  const discountAmount = Math.min(discount, cartTotal)
   const finalTotal = cartTotal - discountAmount
 
   return (
@@ -142,22 +147,30 @@ export default function Cart() {
                     <FiTag size={13} className="text-[#D3839E]" />
                     <input
                       value={couponInput}
-                      onChange={e => { setCouponInput(e.target.value); setCouponError(false) }}
+                      onChange={e => { setCouponInput(e.target.value); setCouponError(null) }}
                       placeholder={coupon ? `Applied: ${coupon}` : 'Coupon code'}
                       disabled={!!coupon}
                       className={`flex-1 bg-transparent text-xs py-2.5 outline-none ${darkMode ? 'text-[#FAF7F2] placeholder-[#FAF7F2]/30' : 'text-[#2A2A2A] placeholder-[#4A4A4A]/40'}`}
                     />
                   </div>
-                  {!coupon && (
+                  {coupon ? (
+                    <button
+                      onClick={removeCoupon}
+                      className="text-[#D3839E] text-xs px-4 py-2.5 rounded-full hover:underline"
+                    >
+                      Remove
+                    </button>
+                  ) : (
                     <button
                       onClick={handleCoupon}
-                      className="bg-[#2A2A2A] text-white text-xs px-4 py-2.5 rounded-full hover:bg-[#D3839E] transition-colors"
+                      disabled={applying}
+                      className="bg-[#2A2A2A] text-white text-xs px-4 py-2.5 rounded-full hover:bg-[#D3839E] disabled:opacity-60 transition-colors"
                     >
-                      Apply
+                      {applying ? '…' : 'Apply'}
                     </button>
                   )}
                 </div>
-                {couponError && <p className="text-red-400 text-xs px-1">Invalid coupon code. Try GLOW10 or WELCOME15.</p>}
+                {couponError && <p className="text-red-400 text-xs px-1">{couponError}</p>}
 
                 {/* Totals */}
                 <div className={`space-y-2 text-sm ${darkMode ? 'text-[#FAF7F2]/70' : 'text-[#4A4A4A]'}`}>
@@ -165,9 +178,9 @@ export default function Cart() {
                     <span>Subtotal</span>
                     <span>{formatPrice(cartTotal)}</span>
                   </div>
-                  {discount > 0 && (
+                  {discountAmount > 0 && (
                     <div className="flex justify-between text-[#D3839E]">
-                      <span>Discount ({discount}%)</span>
+                      <span>Discount{coupon ? ` (${coupon})` : ''}</span>
                       <span>-{formatPrice(discountAmount)}</span>
                     </div>
                   )}

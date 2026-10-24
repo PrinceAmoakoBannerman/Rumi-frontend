@@ -69,6 +69,7 @@ export class CheckoutError extends Error {}
 export async function startCheckout(
   customer: CheckoutCustomer,
   basket: BasketLine[],
+  code?: string,
 ): Promise<CheckoutResult> {
   let response: Response
   try {
@@ -77,7 +78,7 @@ export async function startCheckout(
       // Signed in? Then the order belongs to that account, and will show
       // up under Your orders.
       headers: { 'Content-Type': 'application/json', ...authHeaders() },
-      body: JSON.stringify({ ...customer, basket }),
+      body: JSON.stringify({ ...customer, basket, code: code ?? '' }),
     })
   } catch {
     throw new CheckoutError(

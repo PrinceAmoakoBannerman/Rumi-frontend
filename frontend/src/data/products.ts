@@ -1221,6 +1221,15 @@ export interface FeaturedReview {
 // than showing invented praise.
 export let featuredReviews: FeaturedReview[] = []
 
+export interface ActivePromo {
+  code: string
+  label: string
+  endsAt: string | null
+}
+
+// The shop-wide banner code, if the owner has one running. Null when none.
+export let activePromo: ActivePromo | null = null
+
 export interface BlogPost {
   id: number
   title: string
@@ -1278,10 +1287,12 @@ export function applyCatalogue(next: {
   categories: string[]
   blogPosts: BlogPost[]
   featuredReviews?: FeaturedReview[]
+  activePromo?: ActivePromo | null
 }) {
   products = next.products
   categories = next.categories
   blogPosts = next.blogPosts
   featuredReviews = next.featuredReviews ?? []
+  activePromo = next.activePromo ?? null
   brandList = [...new Set(products.map(p => p.brand))].sort()
 }
