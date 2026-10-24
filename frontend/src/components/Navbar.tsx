@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FiUser, FiHeart, FiShoppingBag, FiMenu, FiX, FiHome, FiGrid, FiSearch, FiMail } from 'react-icons/fi'
+import { FiUser, FiHeart, FiShoppingBag, FiMenu, FiX, FiHome, FiGrid, FiSearch, FiMail, FiLogOut } from 'react-icons/fi'
 import { useApp } from '../contexts/AppContext'
 import { formatPrice, formatProductPrice, PLACEHOLDER_IMAGE } from '../lib/currency'
 import { searchProducts, categoryTiles } from '../lib/search'
@@ -24,7 +24,7 @@ const drawerLinks = [
 ]
 
 export default function Navbar() {
-  const { cartCount, cartTotal, wishlist, setCartOpen, searchQuery, setSearchQuery, account } = useApp()
+  const { cartCount, cartTotal, wishlist, setCartOpen, searchQuery, setSearchQuery, account, signOutNow } = useApp()
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const navigate = useNavigate()
@@ -283,6 +283,20 @@ export default function Navbar() {
                     <FiUser size={16} />
                     {account ? (account.name?.split(' ')[0] || 'Your account') : 'Sign in'}
                   </Link>
+                  {account && (
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        setMobileOpen(false)
+                        await signOutNow()
+                        navigate('/', { replace: true })
+                      }}
+                      className="flex items-center gap-3 px-5 py-4 border-b border-[#EDE4D6] text-sm tracking-[0.1em] uppercase font-medium text-[#B85E75] active:bg-[#D3839E]/10 transition-colors w-full text-left"
+                    >
+                      <FiLogOut size={16} />
+                      Sign out
+                    </button>
+                  )}
                   {drawerLinks.map(link => (
                     <Link
                       key={link.label}
