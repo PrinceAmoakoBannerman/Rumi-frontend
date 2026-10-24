@@ -1,0 +1,13 @@
+# GLOWWITHRUMI — open to search engines.
+User-agent: *
+Allow: /
+
+# The checkout, account and order pages hold nothing worth indexing and
+# some of it is private, so keep them out of search results.
+Disallow: /checkout
+Disallow: /account
+Disallow: /order-confirmation
+Disallow: /signin
+Disallow: /signup
+
+Sitemap: https://glowwithrumi.com/sitemap.xml

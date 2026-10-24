@@ -1,8 +1,8 @@
 {
-  "title": "GLOWWITHRUMI",
+  "title": "GLOWWITHRUMI \u2014 Korean & International Skincare in Ghana",
   "description": "GLOWWITHRUMI is Ghana's skincare and beauty destination, offering signature Rumi skincare products alongside curated Korean and international beauty essentials, with nationwide delivery and personalised recommendations.",
   "robots": {
-    "index": false
+    "index": true
   },
   "icons": {
     "icon": "/favicon.png"
