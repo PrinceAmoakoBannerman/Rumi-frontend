@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FiHeart, FiShoppingBag, FiArrowLeft, FiZoomIn, FiX, FiMinus, FiPlus, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
+import { FiHeart, FiShoppingBag, FiArrowLeft, FiZoomIn, FiX, FiMinus, FiPlus, FiChevronLeft, FiChevronRight, FiCamera } from 'react-icons/fi'
 import ProductCard from '../components/ProductCard'
 import { products } from '../data/products'
 import { useApp } from '../contexts/AppContext'
 import type { Review } from '../contexts/AppContext'
 import { formatPrice, formatProductPrice, PLACEHOLDER_IMAGE } from '../lib/currency'
+import { submitReview, ReviewError } from '../lib/reviews'
 
 const tabs = ['Description', 'Ingredients', 'Usage', 'Reviews']
 
@@ -26,22 +27,27 @@ function StarRating({ rating, count }: { rating: number; count: number }) {
 
 export default function ProductDetail() {
   const { id } = useParams()
-  const { darkMode, addToCart, toggleWishlist, wishlist, addRecentlyViewed, recentlyViewed } = useApp()
+  const { darkMode, addToCart, toggleWishlist, wishlist, addRecentlyViewed, recentlyViewed, account } = useApp()
   const product = products.find(p => p.id === Number(id))
   const [activeImg, setActiveImg] = useState(0)
   const [qty, setQty] = useState(1)
   const [activeTab, setActiveTab] = useState('Description')
   const [lightbox, setLightbox] = useState(false)
-  const [myReviews, setMyReviews] = useState<Review[]>([])
   const [reviewForm, setReviewForm] = useState({ name: '', rating: 5, text: '' })
+  const [reviewPhoto, setReviewPhoto] = useState<File | null>(null)
   const [showReviewForm, setShowReviewForm] = useState(false)
+  const [reviewBusy, setReviewBusy] = useState(false)
+  const [reviewMsg, setReviewMsg] = useState<string | null>(null)
+  const [reviewErr, setReviewErr] = useState<string | null>(null)
 
   useEffect(() => {
     if (product) addRecentlyViewed(product.id)
     setActiveImg(0)
-    setMyReviews([])
     setShowReviewForm(false)
-    setReviewForm({ name: '', rating: 5, text: '' })
+    setReviewForm({ name: account?.name ?? '', rating: 5, text: '' })
+    setReviewPhoto(null)
+    setReviewMsg(null)
+    setReviewErr(null)
   }, [id])
 
   if (!product) {
@@ -64,7 +70,7 @@ export default function ProductDetail() {
   const liked = wishlist.includes(product.id)
   const related = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4)
   const recentProducts = products.filter(p => recentlyViewed.includes(p.id) && p.id !== product.id).slice(0, 4)
-  const allReviews = [...myReviews, ...(product.reviews || [])]
+  const allReviews = product.reviews || []
 
   const step = (by: number) =>
     setActiveImg(i => (Math.min(i, images.length - 1) + by + images.length) % images.length)
@@ -82,15 +88,28 @@ export default function ProductDetail() {
     return () => window.removeEventListener('keydown', onKey)
   }, [lightbox, images.length])
 
-  const handleReviewSubmit = (e: React.FormEvent) => {
+  const handleReviewSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (reviewBusy || !product) return
     if (!reviewForm.name.trim() || !reviewForm.text.trim()) return
-    setMyReviews(prev => [
-      { id: Date.now(), name: reviewForm.name.trim(), rating: reviewForm.rating, text: reviewForm.text.trim(), date: 'Just now' },
-      ...prev,
-    ])
-    setReviewForm({ name: '', rating: 5, text: '' })
-    setShowReviewForm(false)
+    setReviewErr(null)
+    setReviewBusy(true)
+    try {
+      const message = await submitReview(product.id, {
+        name: reviewForm.name.trim(),
+        rating: reviewForm.rating,
+        text: reviewForm.text.trim(),
+        photo: reviewPhoto,
+      })
+      setReviewMsg(message)
+      setShowReviewForm(false)
+      setReviewForm({ name: account?.name ?? '', rating: 5, text: '' })
+      setReviewPhoto(null)
+    } catch (err) {
+      setReviewErr(err instanceof ReviewError ? err.message : 'Your review could not be sent.')
+    } finally {
+      setReviewBusy(false)
+    }
   }
 
   return (
@@ -369,6 +388,12 @@ export default function ProductDetail() {
                         </button>
                       </div>
 
+                      {reviewMsg && (
+                        <div className="rounded-2xl px-4 py-3 text-sm text-[#2F6F4E] bg-[#4C9A6A]/10 border border-[#4C9A6A]/25">
+                          {reviewMsg}
+                        </div>
+                      )}
+
                       <AnimatePresence>
                         {showReviewForm && (
                           <motion.form
@@ -408,11 +433,25 @@ export default function ProductDetail() {
                               onChange={e => setReviewForm(f => ({ ...f, text: e.target.value }))}
                               className={`bg-transparent border-b text-sm py-2 outline-none focus:border-[#D3839E] resize-none ${darkMode ? 'border-[#3A3328] text-[#FAF7F2] placeholder-[#FAF7F2]/30' : 'border-[#EDE4D6] text-[#2A2A2A] placeholder-[#4A4A4A]/40'}`}
                             />
+                            <label className={`flex items-center gap-2 text-xs cursor-pointer ${darkMode ? 'text-[#FAF7F2]/60' : 'text-[#4A4A4A]/70'}`}>
+                              <FiCamera size={14} />
+                              {reviewPhoto ? reviewPhoto.name.slice(0, 30) : 'Add a photo (optional)'}
+                              <input
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={e => setReviewPhoto(e.target.files?.[0] ?? null)}
+                              />
+                            </label>
+                            {reviewErr && (
+                              <p role="alert" className="text-xs text-[#C0392B]">{reviewErr}</p>
+                            )}
                             <button
                               type="submit"
-                              className="self-start bg-[#D3839E] hover:bg-[#B85E75] text-white text-xs tracking-[0.15em] uppercase font-semibold px-6 py-2.5 rounded-full transition-colors"
+                              disabled={reviewBusy}
+                              className="self-start bg-[#D3839E] hover:bg-[#B85E75] disabled:opacity-60 text-white text-xs tracking-[0.15em] uppercase font-semibold px-6 py-2.5 rounded-full transition-colors"
                             >
-                              Submit Review
+                              {reviewBusy ? 'Sending…' : 'Submit Review'}
                             </button>
                           </motion.form>
                         )}
@@ -433,6 +472,14 @@ export default function ProductDetail() {
                               {[...Array(r.rating)].map((_, s) => <span key={s} className="text-[#D3839E] text-sm">★</span>)}
                             </div>
                             <p className={`text-sm ${darkMode ? 'text-[#FAF7F2]/60' : 'text-[#4A4A4A]'}`}>{r.text}</p>
+                            {r.photo && (
+                              <img
+                                src={r.photo}
+                                alt={`Photo from ${r.name}`}
+                                loading="lazy"
+                                className="mt-3 rounded-xl max-h-56 object-cover border border-[#EDE4D6]"
+                              />
+                            )}
                           </div>
                         ))
                       )}

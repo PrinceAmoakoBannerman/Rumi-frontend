@@ -8,6 +8,8 @@ export interface Review {
   rating: number
   text: string
   date: string
+  /** A customer's photo of the product, if they added one. */
+  photo?: string | null
 }
 
 export interface Product {
