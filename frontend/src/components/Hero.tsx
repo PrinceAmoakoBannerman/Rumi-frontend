@@ -75,7 +75,7 @@ export default function Hero() {
                   </Link>
                 </div>
 
-                <div className="order-1 lg:order-2 flex justify-center">
+                <div className="order-1 lg:order-2 flex justify-center -mx-6 sm:mx-0 lg:mx-0">
                   {/* Both shots share one square frame and fill it, so the
                       carousel keeps a steady size as it swipes. */}
                   <motion.div
@@ -83,7 +83,7 @@ export default function Hero() {
                     initial={{ opacity: 0, scale: 0.97 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.6 }}
-                    className="rounded-[2rem] overflow-hidden bg-white w-full max-w-[300px] sm:max-w-[420px] lg:max-w-[540px] aspect-square"
+                    className="overflow-hidden bg-white w-full aspect-square rounded-none max-w-none sm:rounded-[2rem] sm:max-w-[420px] lg:max-w-[540px]"
                     style={{ boxShadow: '0 30px 80px rgba(184,94,117,0.18)' }}
                   >
                     <img
