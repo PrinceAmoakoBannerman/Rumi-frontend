@@ -1205,17 +1205,21 @@ export let categories: string[] = ['All', 'Serums', 'Toners', 'Cleansers', 'Suns
 
 export let brandList: string[] = [...new Set(products.map(p => p.brand))].sort()
 
-// TODO — replace with real customer reviews before launch. These are placeholders
-// so the section renders; publishing invented testimonials would mislead shoppers.
-export const testimonials: {
+export interface FeaturedReview {
   id: number
   name: string
-  location: string
   rating: number
   text: string
-  image: string
+  photo: string | null
   product: string
-}[] = []
+  productId: number
+  date: string
+}
+
+// Real approved reviews from the admin, filled in by applyCatalogue. Empty
+// until the first review is approved, so the section hides itself rather
+// than showing invented praise.
+export let featuredReviews: FeaturedReview[] = []
 
 export interface BlogPost {
   id: number
@@ -1273,9 +1277,11 @@ export function applyCatalogue(next: {
   products: Product[]
   categories: string[]
   blogPosts: BlogPost[]
+  featuredReviews?: FeaturedReview[]
 }) {
   products = next.products
   categories = next.categories
   blogPosts = next.blogPosts
+  featuredReviews = next.featuredReviews ?? []
   brandList = [...new Set(products.map(p => p.brand))].sort()
 }

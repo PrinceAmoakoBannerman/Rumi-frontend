@@ -11,7 +11,7 @@
  */
 
 import type { Product } from '../contexts/AppContext'
-import { applyCatalogue, type BlogPost } from '../data/products'
+import { applyCatalogue, type BlogPost, type FeaturedReview } from '../data/products'
 import { applyStore } from '../data/store'
 import { rebuildCategoryTiles } from './search'
 
@@ -34,6 +34,7 @@ interface ApiPayload {
   categories: ApiCategory[]
   brands: ApiBrand[]
   journal: (BlogPost & { date: string | null })[]
+  featuredReviews?: FeaturedReview[]
   settings: Record<string, unknown>
 }
 
@@ -58,6 +59,7 @@ export async function loadCatalogue(): Promise<'api' | 'bundled'> {
       // 'All' is the storefront's own filter chip, not a stored category.
       categories: ['All', ...data.categories.map(c => c.name)],
       blogPosts: data.journal.map(post => ({ ...post, date: post.date ?? '' })),
+      featuredReviews: data.featuredReviews ?? [],
     })
 
     applyStore({
