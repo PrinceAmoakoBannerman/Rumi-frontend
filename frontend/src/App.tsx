@@ -15,10 +15,13 @@ import Checkout from './pages/Checkout'
 import OrderConfirmation from './pages/OrderConfirmation'
 import About from './pages/About'
 import Contact from './pages/Contact'
+import NotFound from './pages/NotFound'
+import ErrorBoundary from './components/ErrorBoundary'
 
 export default function App() {
   return (
-    <AppProvider>
+    <ErrorBoundary>
+      <AppProvider>
       <BrowserRouter>
         <ScrollToTop />
         <AnnouncementBar />
@@ -36,9 +39,12 @@ export default function App() {
           <Route path="/order-confirmation" element={<OrderConfirmation />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          {/* Anything else is a real 404 page, not a blank screen. */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
       </BrowserRouter>
-    </AppProvider>
+      </AppProvider>
+    </ErrorBoundary>
   )
 }
