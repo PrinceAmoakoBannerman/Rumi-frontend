@@ -48,7 +48,7 @@ export default function Hero() {
       />
       <div className="absolute bottom-24 right-[5%] w-24 h-24 rounded-full bg-[#D3839E]/10 pointer-events-none hidden lg:block" />
 
-      <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 pt-[184px] pb-8">
+      <div className="relative max-w-[1400px] mx-auto px-0 sm:px-6 lg:px-12 pt-[184px] pb-8">
         <Swiper
           modules={[Pagination, Autoplay]}
           pagination={{ el: '.hero-pagination', clickable: true }}
@@ -60,7 +60,7 @@ export default function Hero() {
               {/* Copy sits beside the photo, so the line-up is shown whole
                   instead of being cropped to a letterbox. */}
               <div className="grid lg:grid-cols-[0.85fr_1.3fr] gap-8 lg:gap-12 items-center [&>*]:min-w-0">
-                <div className="order-2 lg:order-1 text-center lg:text-left">
+                <div className="order-2 lg:order-1 text-center lg:text-left px-6 sm:px-0">
                   <h1 className="text-[#D3839E] text-xs tracking-[0.35em] uppercase font-medium mb-4">
                     {slide.eyebrow}
                   </h1>
@@ -75,7 +75,7 @@ export default function Hero() {
                   </Link>
                 </div>
 
-                <div className="order-1 lg:order-2 flex justify-center -mx-6 sm:mx-0 lg:mx-0">
+                <div className="order-1 lg:order-2 flex justify-center">
                   {/* Both shots share one square frame and fill it, so the
                       carousel keeps a steady size as it swipes. */}
                   <motion.div
