@@ -9,20 +9,20 @@ import { useApp } from '../contexts/AppContext'
 
 const slides = [
   {
-    eyebrow: 'Now In Stock',
-    alt: 'The Anua skincare range — toners, serums, cleansers and sunscreens',
+    eyebrow: 'Our Signature Line',
+    alt: 'GLOWWITHRUMI signature range — Rumi Soap, Glow Oil and Body Scrub',
     focus: 'center',
-    desc: 'The full Anua range — toners, serums, cleansers and sunscreens — ready to ship anywhere in Ghana.',
-    image: '/hero/anua-range.jpg',
-    cta: 'Shop Anua',
-    to: '/products?q=Anua',
+    desc: 'Rumi Soap, Glow Oil and Body Scrub — our own face and body range, made to deep cleanse, brighten and smooth.',
+    image: '/hero/rumi-signature.jpg',
+    cta: 'Shop The Range',
+    to: '/products',
   },
   {
-    eyebrow: 'Build Your Routine',
-    alt: 'Anua cleansing oil, cleansing foam, toner, lotion and serum lined up',
-    focus: 'top',
-    desc: 'From first cleanse to final sunscreen, find the pieces that fit the routine you already have.',
-    image: '/hero/anua-routine.jpg',
+    eyebrow: 'Rumi Soap',
+    alt: 'GLOWWITHRUMI Rumi Soap for face and body, front and back of the jar',
+    focus: 'center',
+    desc: 'A deep-cleansing face and body soap for clear, smooth and radiant skin. Gentle enough for every day.',
+    image: '/hero/rumi-soap.jpg',
     cta: 'Shop All Products',
     to: '/products',
   },
@@ -83,13 +83,13 @@ export default function Hero() {
                     initial={{ opacity: 0, scale: 0.97 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.6 }}
-                    className="overflow-hidden bg-white w-full aspect-square rounded-none max-w-none sm:rounded-[2rem] sm:max-w-[420px] lg:max-w-[540px]"
+                    className="overflow-hidden bg-[#F2EADF] w-full aspect-[4/3] rounded-none max-w-none sm:rounded-[2rem] sm:max-w-[480px] lg:max-w-[600px]"
                     style={{ boxShadow: '0 30px 80px rgba(184,94,117,0.18)' }}
                   >
                     <img
                       src={slide.image}
                       alt={slide.alt}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                       style={{ objectPosition: slide.focus }}
                     />
                   </motion.div>
