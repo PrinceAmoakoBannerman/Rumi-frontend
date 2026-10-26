@@ -9,21 +9,30 @@ import { useApp } from '../contexts/AppContext'
 
 const slides = [
   {
-    eyebrow: 'Our Signature Line',
-    alt: 'GLOWWITHRUMI signature range — Rumi Soap, Glow Oil and Body Scrub',
+    eyebrow: 'Rumi Soap',
+    alt: 'GLOWWITHRUMI Rumi Soap — a deep-cleansing face and body soap',
     focus: 'center',
-    desc: 'Rumi Soap, Glow Oil and Body Scrub — our own face and body range, made to deep cleanse, brighten and smooth.',
-    image: '/hero/rumi-signature.jpg',
+    desc: 'Our deep-cleansing face and body soap, for clear, smooth and radiant skin. Gentle enough for every day.',
+    image: '/hero/rumi-soap.jpg',
     cta: 'Shop The Range',
     to: '/products',
   },
   {
-    eyebrow: 'Rumi Soap',
-    alt: 'GLOWWITHRUMI Rumi Soap for face and body, front and back of the jar',
+    eyebrow: 'Glow Oil',
+    alt: 'GLOWWITHRUMI Glow Oil — a brightening face and body oil',
     focus: 'center',
-    desc: 'A deep-cleansing face and body soap for clear, smooth and radiant skin. Gentle enough for every day.',
-    image: '/hero/rumi-soap.jpg',
-    cta: 'Shop All Products',
+    desc: 'A lightweight oil that hydrates, brightens and gives your skin a healthy glow. For face and body.',
+    image: '/hero/rumi-glow.jpg',
+    cta: 'Shop The Range',
+    to: '/products',
+  },
+  {
+    eyebrow: 'Body Scrub',
+    alt: 'GLOWWITHRUMI Body Scrub — a brightening turmeric body scrub',
+    focus: 'center',
+    desc: 'Exfoliate, brighten and smooth with our turmeric body scrub, made for radiant skin head to toe.',
+    image: '/hero/rumi-body.jpg',
+    cta: 'Shop The Range',
     to: '/products',
   },
 ]
@@ -83,13 +92,13 @@ export default function Hero() {
                     initial={{ opacity: 0, scale: 0.97 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.6 }}
-                    className="overflow-hidden bg-[#F2EADF] w-full aspect-[4/3] rounded-none max-w-none sm:rounded-[2rem] sm:max-w-[480px] lg:max-w-[600px]"
+                    className="overflow-hidden bg-[#F2EADF] w-full aspect-square rounded-none max-w-none sm:rounded-[2rem] sm:max-w-[440px] lg:max-w-[560px]"
                     style={{ boxShadow: '0 30px 80px rgba(184,94,117,0.18)' }}
                   >
                     <img
                       src={slide.image}
                       alt={slide.alt}
-                      className="w-full h-full object-contain"
+                      className="w-full h-full object-cover"
                       style={{ objectPosition: slide.focus }}
                     />
                   </motion.div>
