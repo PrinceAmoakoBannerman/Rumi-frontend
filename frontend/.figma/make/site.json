@@ -5,7 +5,7 @@
     "index": true
   },
   "icons": {
-    "icon": "/favicon.png"
+    "icon": "/favicon.ico"
   },
   "accessibility": {
     "addBypassLinks": false,
