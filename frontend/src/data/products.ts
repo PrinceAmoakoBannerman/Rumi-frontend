@@ -1230,6 +1230,19 @@ export interface ActivePromo {
 // The shop-wide banner code, if the owner has one running. Null when none.
 export let activePromo: ActivePromo | null = null
 
+export interface HeroSlide {
+  image: string
+  eyebrow: string
+  desc: string
+  cta: string
+  to: string
+  alt: string
+}
+
+// Hero slides the owner set in the admin. Empty until they add one, so the
+// component falls back to its bundled slides and the hero is never blank.
+export let heroSlides: HeroSlide[] = []
+
 export interface BlogPost {
   id: number
   title: string
@@ -1288,11 +1301,13 @@ export function applyCatalogue(next: {
   blogPosts: BlogPost[]
   featuredReviews?: FeaturedReview[]
   activePromo?: ActivePromo | null
+  heroSlides?: HeroSlide[]
 }) {
   products = next.products
   categories = next.categories
   blogPosts = next.blogPosts
   featuredReviews = next.featuredReviews ?? []
   activePromo = next.activePromo ?? null
+  heroSlides = next.heroSlides ?? []
   brandList = [...new Set(products.map(p => p.brand))].sort()
 }

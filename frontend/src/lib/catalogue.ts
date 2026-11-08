@@ -11,7 +11,7 @@
  */
 
 import type { Product } from '../contexts/AppContext'
-import { applyCatalogue, type BlogPost, type FeaturedReview, type ActivePromo } from '../data/products'
+import { applyCatalogue, type BlogPost, type FeaturedReview, type ActivePromo, type HeroSlide } from '../data/products'
 import { applyStore } from '../data/store'
 import { rebuildCategoryTiles } from './search'
 
@@ -36,6 +36,7 @@ interface ApiPayload {
   journal: (BlogPost & { date: string | null })[]
   featuredReviews?: FeaturedReview[]
   promo?: ActivePromo | null
+  hero?: HeroSlide[]
   settings: Record<string, unknown>
 }
 
@@ -62,6 +63,7 @@ export async function loadCatalogue(): Promise<'api' | 'bundled'> {
       blogPosts: data.journal.map(post => ({ ...post, date: post.date ?? '' })),
       featuredReviews: data.featuredReviews ?? [],
       activePromo: data.promo ?? null,
+      heroSlides: data.hero ?? [],
     })
 
     applyStore({

@@ -6,8 +6,9 @@ import { Pagination, Autoplay } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import { useApp } from '../contexts/AppContext'
+import { heroSlides } from '../data/products'
 
-const slides = [
+const fallbackSlides = [
   {
     eyebrow: 'Rumi Soap',
     alt: 'GLOWWITHRUMI Rumi Soap — a deep-cleansing face and body soap',
@@ -39,6 +40,12 @@ const slides = [
 
 export default function Hero() {
   const { darkMode } = useApp()
+
+  // The owner's slides when they have set any, otherwise the ones shipped
+  // with the shop — so the hero is never blank.
+  const slides = heroSlides.length
+    ? heroSlides.map(h => ({ ...h, focus: 'center' }))
+    : fallbackSlides
   return (
     <section className={`relative overflow-hidden ${darkMode ? 'bg-[#1C1916]' : ''}`}>
       {/* Soft blush backdrop — kept light so the product shots stay the focus */}
