@@ -1,8 +1,6 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import type { IconType } from 'react-icons'
-import { FiArrowRight, FiAward, FiFeather, FiTruck } from 'react-icons/fi'
-import { LuRabbit } from 'react-icons/lu'
+import { FiArrowRight } from 'react-icons/fi'
 import { useApp, type Product } from '../contexts/AppContext'
 import { products } from '../data/products'
 
@@ -10,32 +8,6 @@ import { products } from '../data/products'
 // stay correct if a product is renamed or removed.
 const shelfIds = [1, 7, 10, 41]
 const shelf = shelfIds.map(id => products.find(p => p.id === id)).filter(p => p !== undefined)
-
-// What we stand for. Each value carries a line icon in the same weight as the
-// rest of the shop — no emoji, which render differently on every device and
-// cheapen an otherwise considered page.
-const values: { Icon: IconType; title: string; text: string }[] = [
-  {
-    Icon: LuRabbit,
-    title: 'Cruelty-Free',
-    text: 'Never tested on animals — not by us, not by the brands we carry. Kindness is not a feature; it is the baseline.',
-  },
-  {
-    Icon: FiAward,
-    title: 'Chosen for Results',
-    text: 'We stock what genuinely works. Every formula earns its place on real skin and in honest reviews, not in marketing claims.',
-  },
-  {
-    Icon: FiFeather,
-    title: 'Carefully Curated',
-    text: 'From our own Rumi line to trusted Korean and global favourites, each product is hand-picked — so you never have to guess.',
-  },
-  {
-    Icon: FiTruck,
-    title: 'Nationwide Delivery',
-    text: 'From our shelves to your door, anywhere in Ghana — tracked, dependable and covering all sixteen regions.',
-  },
-]
 
 // Our own range, shown with the studio shots. The hero images are shipped with
 // the shop, so these always load even before the catalogue does.
@@ -189,62 +161,8 @@ export default function About() {
         </div>
       </section>
 
-      {/* Values */}
-      <section className={`py-24 px-6 lg:px-12 ${darkMode ? 'bg-[#252018]' : 'bg-white'}`}>
-        <div className="max-w-[1200px] mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-14"
-          >
-            <p className="text-[#D3839E] text-xs tracking-[0.35em] uppercase font-medium mb-4">What We Stand For</p>
-            <h2
-              style={{ fontFamily: 'var(--font-display)' }}
-              className={`text-3xl md:text-4xl font-medium ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`}
-            >
-              Our Values
-            </h2>
-          </motion.div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {values.map((v, i) => (
-              <motion.div
-                key={v.title}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
-                className={`group p-8 rounded-[1.75rem] border text-center transition-all duration-300 hover:-translate-y-1 ${
-                  darkMode
-                    ? 'bg-[#1C1916] border-[#3A3328] hover:border-[#D3839E]/40'
-                    : 'bg-[#FAF7F2] border-[#EFE6DA] hover:border-[#D3839E]/40 hover:shadow-[0_24px_60px_rgba(184,94,117,0.12)]'
-                }`}
-              >
-                <span
-                  className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6 transition-colors duration-300 ${
-                    darkMode
-                      ? 'bg-[#2A241C] text-[#E8A9BD] group-hover:bg-[#332a20]'
-                      : 'bg-[#F6DFE6] text-[#B85E75] group-hover:bg-[#F1CDDC]'
-                  }`}
-                >
-                  <v.Icon size={26} />
-                </span>
-                <h3
-                  style={{ fontFamily: 'var(--font-display)' }}
-                  className={`text-lg font-medium mb-2.5 ${darkMode ? 'text-[#FAF7F2]' : 'text-[#2A2A2A]'}`}
-                >
-                  {v.title}
-                </h3>
-                <p className={`text-[13px] leading-relaxed ${darkMode ? 'text-[#FAF7F2]/60' : 'text-[#5A5A5A]'}`}>{v.text}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Signature line — our own products, shown with their studio shots so
-          the values above are anchored to something real on the shelf. */}
+          the story above is anchored to something real on the shelf. */}
       <section className="py-24 px-6 lg:px-12">
         <div className="max-w-[1200px] mx-auto">
           <motion.div
