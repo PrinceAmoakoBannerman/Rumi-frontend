@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type { InputHTMLAttributes, ReactNode } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FiCreditCard, FiSmartphone, FiCheck, FiLock } from 'react-icons/fi'
 import { useApp, type Product } from '../contexts/AppContext'
 import { formatPrice } from '../lib/currency'
+import { deliveryFeeFor } from '../data/store'
 import { startCheckout, CheckoutError } from '../lib/checkout'
 
 const regions = [
@@ -31,14 +32,17 @@ function Field({ label, darkMode, wrapperClassName, ...props }: FieldProps) {
   )
 }
 
-function SelectField({ label, darkMode, wrapperClassName, options, required, name, value }: { label: string; darkMode: boolean; wrapperClassName?: string; options: string[]; required?: boolean; name?: string; value?: string }) {
+function SelectField({ label, darkMode, wrapperClassName, options, required, name, value, onChange }: { label: string; darkMode: boolean; wrapperClassName?: string; options: string[]; required?: boolean; name?: string; value?: string; onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void }) {
+  // Controlled when an onChange is given (so the page can react to it), an
+  // uncontrolled default otherwise.
+  const binding = onChange ? { value: value ?? '', onChange } : { defaultValue: value ?? '' }
   return (
     <label className={`flex flex-col gap-1.5 min-w-0 ${wrapperClassName || ''}`}>
       <span className={`text-[10px] tracking-[0.15em] uppercase font-medium ${darkMode ? 'text-[#FAF7F2]/50' : 'text-[#4A4A4A]/70'}`}>{label}</span>
       <select
         name={name}
         required={required}
-        defaultValue={value ?? ''}
+        {...binding}
         className={`w-full min-w-0 bg-transparent border-b text-sm py-2 outline-none focus:border-[#D3839E] transition-colors ${darkMode ? 'border-[#3A3328] text-[#FAF7F2]' : 'border-[#EDE4D6] text-[#2A2A2A]'}`}
       >
         <option value="" disabled>Select…</option>
@@ -75,8 +79,17 @@ export default function Checkout() {
   const activeCoupon = buyNow ? undefined : coupon
   const activeDiscount = buyNow ? 0 : discount
 
+  // Delivery is charged by region. We seed it from a signed-in customer's saved
+  // region, then follow whatever they pick — the summary updates live, and the
+  // backend charges the same amount from the same rule.
+  const [region, setRegion] = useState('')
+  useEffect(() => {
+    if (account?.region) setRegion(account.region)
+  }, [account?.region])
+
   const discountAmount = Math.min(activeDiscount, subtotal)
-  const finalTotal = subtotal - discountAmount
+  const deliveryFee = deliveryFeeFor(region, subtotal)
+  const finalTotal = subtotal - discountAmount + deliveryFee
 
   if (items.length === 0) {
     return (
@@ -172,7 +185,7 @@ export default function Checkout() {
               <div className="grid sm:grid-cols-2 gap-5">
                 <Field label="Street address" name="address" autoComplete="street-address" darkMode={darkMode} required wrapperClassName="sm:col-span-2" defaultValue={account?.address ?? ''} />
                 <Field label="City / Town" name="city" autoComplete="address-level2" darkMode={darkMode} required defaultValue={account?.city ?? ''} />
-                <SelectField label="Region" name="region" darkMode={darkMode} options={regions} required value={account?.region ?? ''} />
+                <SelectField label="Region" name="region" darkMode={darkMode} options={regions} required value={region} onChange={e => setRegion(e.target.value)} />
               </div>
             </Section>
 
@@ -225,8 +238,12 @@ export default function Checkout() {
                 </div>
               )}
               <div className="flex justify-between">
-                <span>Shipping</span>
-                <span className="text-green-500 text-xs font-medium">Free</span>
+                <span>Delivery{region ? ` · ${region}` : ''}</span>
+                {deliveryFee === 0 ? (
+                  <span className="text-green-500 text-xs font-medium self-center">Free</span>
+                ) : (
+                  <span>{formatPrice(deliveryFee)}</span>
+                )}
               </div>
               <div className={`flex justify-between font-semibold text-base pt-2 border-t ${darkMode ? 'border-[#3A3328] text-[#FAF7F2]' : 'border-[#EDE4D6] text-[#2A2A2A]'}`}>
                 <span>Total</span>

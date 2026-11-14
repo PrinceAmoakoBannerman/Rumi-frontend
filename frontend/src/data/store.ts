@@ -20,9 +20,33 @@ export let store = {
     'Free delivery on orders over 500 GH₵',
     'Personalised skincare recommendations',
   ],
+
+  // Delivery charges, by region. The real amounts come from the admin through
+  // the API; these bundled defaults are 0 on purpose, so that if an older
+  // backend (which does not send them) is live, the checkout shows no fee —
+  // matching what that backend would charge — rather than a figure it would
+  // not. Once the backend sends real amounts, they take over. Numbers here,
+  // though the API sends them as strings.
+  deliveryAccra: 0 as number | string,
+  deliveryOther: 0 as number | string,
+  freeDeliveryFrom: 0 as number | string,
 }
 
 export let whatsappLink = `https://wa.me/${store.whatsappNumber}?text=${encodeURIComponent(store.whatsappGreeting)}`
+
+/**
+ * What delivery costs for a region and basket size — the same rule the backend
+ * applies, so the estimate on the checkout page matches the amount charged.
+ * Free once the basket reaches the free-delivery amount (when one is set).
+ */
+export function deliveryFeeFor(region: string, subtotal: number): number {
+  const accra = Number(store.deliveryAccra) || 0
+  const other = Number(store.deliveryOther) || 0
+  const freeFrom = Number(store.freeDeliveryFrom) || 0
+  if (freeFrom > 0 && subtotal >= freeFrom) return 0
+  const inAccra = ['greater accra', 'accra'].includes((region || '').trim().toLowerCase())
+  return inAccra ? accra : other
+}
 
 // Brands are derived from the catalogue itself — add a product with a new
 // brand in data/products.ts and it appears here automatically.
