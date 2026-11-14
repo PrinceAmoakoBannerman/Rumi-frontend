@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import type { InputHTMLAttributes, ReactNode } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FiCreditCard, FiSmartphone, FiCheck, FiLock } from 'react-icons/fi'
-import { useApp } from '../contexts/AppContext'
+import { useApp, type Product } from '../contexts/AppContext'
 import { formatPrice } from '../lib/currency'
 import { startCheckout, CheckoutError } from '../lib/checkout'
 
@@ -62,13 +62,23 @@ function Section({ title, darkMode, children }: { title: string; darkMode: boole
 export default function Checkout() {
   const { darkMode, cartItems, cartTotal, discount, coupon, clearCart, account } = useApp()
   const navigate = useNavigate()
+  const location = useLocation()
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const discountAmount = Math.min(discount, cartTotal)
-  const finalTotal = cartTotal - discountAmount
+  // "Buy now" from a product page checks out that one item on its own — it does
+  // not touch, and does not need, anything already in the cart. Any cart coupon
+  // belongs to the cart, so a direct buy does not borrow it.
+  const buyNow = (location.state as { buyNow?: { product: Product; quantity: number } } | null)?.buyNow
+  const items = buyNow ? [{ product: buyNow.product, quantity: buyNow.quantity }] : cartItems
+  const subtotal = buyNow ? buyNow.product.price * buyNow.quantity : cartTotal
+  const activeCoupon = buyNow ? undefined : coupon
+  const activeDiscount = buyNow ? 0 : discount
 
-  if (cartItems.length === 0) {
+  const discountAmount = Math.min(activeDiscount, subtotal)
+  const finalTotal = subtotal - discountAmount
+
+  if (items.length === 0) {
     return (
       <div className={`min-h-screen pt-[244px] pb-24 px-6 text-center flex flex-col items-center gap-4 ${darkMode ? 'bg-[#1C1916]' : 'bg-[#FAF7F2]'}`}>
         <span className="text-5xl opacity-30">🛍️</span>
@@ -98,24 +108,24 @@ export default function Checkout() {
     }
 
     // Only what is being bought, never what it costs — the backend prices it.
-    const basket = cartItems.map(item => ({
+    const basket = items.map(item => ({
       product: item.product.id,
       quantity: item.quantity,
     }))
 
     try {
-      const result = await startCheckout(customer, basket, coupon ?? undefined)
+      const result = await startCheckout(customer, basket, activeCoupon ?? undefined)
 
       if (result.authorizationUrl) {
         // Card and mobile money details are entered on Paystack's own page,
-        // so they never touch this site.
-        clearCart()
+        // so they never touch this site. A direct buy leaves the cart alone.
+        if (!buyNow) clearCart()
         window.location.href = result.authorizationUrl
         return
       }
 
       // Payments are not configured yet; the order was still recorded.
-      clearCart()
+      if (!buyNow) clearCart()
       navigate(
         `/order-confirmation?reference=${encodeURIComponent(result.reference)}` +
           `&t=${encodeURIComponent(result.token)}`,
@@ -189,7 +199,7 @@ export default function Checkout() {
               Order Summary
             </h2>
             <div className="flex flex-col gap-4 max-h-72 overflow-y-auto pr-1">
-              {cartItems.map(item => (
+              {items.map(item => (
                 <div key={item.product.id} className="flex gap-3 items-center">
                   <img src={item.product.image} alt={item.product.name} className="w-14 h-14 rounded-xl object-cover flex-shrink-0" />
                   <div className="flex-1 min-w-0">
@@ -206,11 +216,11 @@ export default function Checkout() {
             <div className={`mt-6 pt-5 border-t space-y-2 text-sm ${darkMode ? 'border-[#3A3328] text-[#FAF7F2]/70' : 'border-[#EDE4D6] text-[#4A4A4A]'}`}>
               <div className="flex justify-between">
                 <span>Subtotal</span>
-                <span>{formatPrice(cartTotal)}</span>
+                <span>{formatPrice(subtotal)}</span>
               </div>
-              {discount > 0 && (
+              {activeDiscount > 0 && (
                 <div className="flex justify-between text-[#D3839E]">
-                  <span>Discount{coupon ? ` (${coupon})` : ''}</span>
+                  <span>Discount{activeCoupon ? ` (${activeCoupon})` : ''}</span>
                   <span>-{formatPrice(discountAmount)}</span>
                 </div>
               )}

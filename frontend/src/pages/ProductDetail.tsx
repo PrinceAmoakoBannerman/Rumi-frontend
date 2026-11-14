@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiHeart, FiShoppingBag, FiArrowLeft, FiZoomIn, FiX, FiMinus, FiPlus, FiChevronLeft, FiChevronRight, FiCamera } from 'react-icons/fi'
 import ProductCard from '../components/ProductCard'
@@ -28,6 +28,7 @@ function StarRating({ rating, count }: { rating: number; count: number }) {
 
 export default function ProductDetail() {
   const { id } = useParams()
+  const navigate = useNavigate()
   const { darkMode, addToCart, toggleWishlist, wishlist, addRecentlyViewed, recentlyViewed, account } = useApp()
   const product = products.find(p => p.id === Number(id))
   const [activeImg, setActiveImg] = useState(0)
@@ -272,6 +273,7 @@ export default function ProductDetail() {
               </motion.button>
               <motion.button
                 whileTap={{ scale: 0.97 }}
+                onClick={() => navigate('/checkout', { state: { buyNow: { product, quantity: qty } } })}
                 className="flex-1 bg-[#D3839E] hover:bg-[#B85E75] text-white text-xs tracking-[0.2em] uppercase font-semibold py-4 rounded-full transition-all duration-300"
               >
                 Buy Now
