@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -19,6 +20,9 @@ import { useApp } from '../contexts/AppContext'
 export default function Testimonials() {
   const { darkMode } = useApp()
   const reviews = featuredReviews
+  // A photo that fails to load (a since-deleted upload, say) is dropped so the
+  // card shows cleanly instead of a broken-image icon.
+  const [broken, setBroken] = useState<Record<number, boolean>>({})
 
   if (reviews.length === 0) return null
 
@@ -87,12 +91,13 @@ export default function Testimonials() {
                 }`}
                 style={{ boxShadow: '0 18px 50px rgba(42,42,42,0.08)' }}
               >
-                {r.photo && (
+                {r.photo && !broken[r.id] && (
                   <Link to={`/products/${r.productId}`} className="block">
                     <img
                       src={r.photo}
                       alt={`${r.name}'s photo of ${r.product}`}
                       loading="lazy"
+                      onError={() => setBroken(b => ({ ...b, [r.id]: true }))}
                       className="w-full h-56 object-cover"
                     />
                   </Link>

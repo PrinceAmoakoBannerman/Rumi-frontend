@@ -101,11 +101,16 @@ export default function EarlyAccess() {
               darkMode ? 'bg-[#211C17]' : 'bg-[#FBF6EF]'
             }`}
           >
-            <img
-              src="/hero/glow-soap.jpg"
-              alt="GLOWWITHRUMI Rumi Soap"
-              className="h-full w-full object-cover"
-            />
+            {/* The product shot is on a white backdrop, so the strip is white
+                too and the bottle is shown whole with object-contain — the way
+                products appear everywhere else in the shop. */}
+            <div className="flex items-center justify-center bg-white p-3">
+              <img
+                src="/products/anua-niacinamide-dark-spot-serum.png"
+                alt="Anua Niacinamide Dark Spot Serum"
+                className="max-h-56 w-full object-contain"
+              />
+            </div>
 
             <div className="relative p-6 sm:p-8">
               <button

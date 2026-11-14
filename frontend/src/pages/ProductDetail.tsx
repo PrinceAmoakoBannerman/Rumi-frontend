@@ -39,6 +39,9 @@ export default function ProductDetail() {
   const [reviewBusy, setReviewBusy] = useState(false)
   const [reviewMsg, setReviewMsg] = useState<string | null>(null)
   const [reviewErr, setReviewErr] = useState<string | null>(null)
+  // Review photos that fail to load are dropped, so a dead upload never shows
+  // a broken-image icon on the page.
+  const [brokenPhotos, setBrokenPhotos] = useState<Record<number, boolean>>({})
 
   useEffect(() => {
     if (product) addRecentlyViewed(product.id)
@@ -472,11 +475,12 @@ export default function ProductDetail() {
                               {[...Array(r.rating)].map((_, s) => <span key={s} className="text-[#D3839E] text-sm">★</span>)}
                             </div>
                             <p className={`text-sm ${darkMode ? 'text-[#FAF7F2]/60' : 'text-[#4A4A4A]'}`}>{r.text}</p>
-                            {r.photo && (
+                            {r.photo && !brokenPhotos[r.id] && (
                               <img
                                 src={r.photo}
                                 alt={`Photo from ${r.name}`}
                                 loading="lazy"
+                                onError={() => setBrokenPhotos(b => ({ ...b, [r.id]: true }))}
                                 className="mt-3 rounded-xl max-h-56 object-cover border border-[#EDE4D6]"
                               />
                             )}
