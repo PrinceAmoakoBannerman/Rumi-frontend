@@ -8,6 +8,7 @@ import { useApp } from '../contexts/AppContext'
 import type { Review } from '../contexts/AppContext'
 import { formatPrice, formatProductPrice, PLACEHOLDER_IMAGE } from '../lib/currency'
 import { submitReview, ReviewError } from '../lib/reviews'
+import { prepareImage } from '../lib/image'
 
 const tabs = ['Description', 'Ingredients', 'Usage', 'Reviews']
 
@@ -98,11 +99,14 @@ export default function ProductDetail() {
     setReviewErr(null)
     setReviewBusy(true)
     try {
+      // Shrink and convert the photo first — a big iPhone HEIC is both too
+      // large and a format the server rejects; this hands it a tidy JPEG.
+      const photo = reviewPhoto ? await prepareImage(reviewPhoto) : null
       const message = await submitReview(product.id, {
         name: reviewForm.name.trim(),
         rating: reviewForm.rating,
         text: reviewForm.text.trim(),
-        photo: reviewPhoto,
+        photo,
       })
       setReviewMsg(message)
       setShowReviewForm(false)

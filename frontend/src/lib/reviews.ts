@@ -37,7 +37,21 @@ export async function submitReview(
 
   const body = await response.json().catch(() => null)
   if (!response.ok) {
-    throw new ReviewError(readError(body) ?? 'Your review could not be sent.')
+    // A JSON error (a field validation message) is the clearest, so prefer it.
+    const fromBody = readError(body)
+    if (fromBody) throw new ReviewError(fromBody)
+    // Otherwise the body is not JSON — a size or server error. Say which, so a
+    // shopper is not left with a blank "could not be sent".
+    if (response.status === 413) {
+      throw new ReviewError('That photo is too large. Please choose a smaller one and try again.')
+    }
+    if (response.status === 429) {
+      throw new ReviewError('You have sent a few reviews just now — please try again a little later.')
+    }
+    if (response.status >= 500) {
+      throw new ReviewError('The shop had a problem saving your review. Please try again in a moment.')
+    }
+    throw new ReviewError('Your review could not be sent.')
   }
   return (body?.detail as string) ?? 'Thank you! Your review will appear once it has been checked.'
 }
