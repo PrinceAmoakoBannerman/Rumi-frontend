@@ -1,4 +1,5 @@
 import Hero from '../components/Hero'
+import TrustMarquee from '../components/TrustMarquee'
 import Welcome from '../components/Welcome'
 import NewArrivals from '../components/NewArrivals'
 import SaleClearance from '../components/SaleClearance'
@@ -13,6 +14,7 @@ export default function Home() {
   return (
     <main>
       <Hero />
+      <TrustMarquee />
       <Welcome />
       <NewArrivals />
       <SaleClearance />

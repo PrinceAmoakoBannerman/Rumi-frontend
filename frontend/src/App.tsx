@@ -4,6 +4,7 @@ import Navbar from './components/Navbar'
 import AnnouncementBar from './components/AnnouncementBar'
 import SearchBar from './components/SearchBar'
 import Cart from './components/Cart'
+import EarlyAccess from './components/EarlyAccess'
 import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
 import Home from './pages/Home'
@@ -28,6 +29,7 @@ export default function App() {
         <Navbar />
         <SearchBar />
         <Cart />
+        <EarlyAccess />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
